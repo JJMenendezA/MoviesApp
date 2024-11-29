@@ -1,0 +1,58 @@
+# General
+.DS_Store
+*.swp
+*.lock
+*~
+
+# Xcode
+DerivedData/
+*.xcuserdatad
+*.xcuserdata/
+*.xccheckout
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+!default.xcworkspace/contents.xcworkspacedata
+!*.xcodeproj/project.pbxproj
+!*.xcworkspace/contents.xcworkspacedata
+
+# Swift Package Manager
+.swiftpm/
+.build/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output/**/*.log
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Archives
+*.xcarchive
+
+# Bundler
+/.bundle/
+
+# Simulator Logs
+*.simlog
+
+# Others
+*.orig
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+.idea/
+
+# Firebase (if using GoogleServices-Info.plist, keep it!)
+*.plist*
+!GoogleService-Info.plist

@@ -1,0 +1,74 @@
+//
+//  NetworkManager.swift
+//  MoviesApp
+//
+//  Created by Juan José Menéndez Alarcón on 18/11/24.
+//  Copyright © 2024 Juan José Menéndez Alarcón. All rights reserved.
+//
+
+import Foundation
+
+
+class NetworkManager {
+    static let shared = NetworkManager()
+    
+    func getRequest<T: Decodable>(
+        endpoint: String,
+        response: T.Type,
+        completion: @escaping (Result<T, Error>) -> Void
+    ){
+        let url = baseURL.appendingPathComponent(endpoint)
+        
+        print("-------------URL-------------------")
+        print(url.absoluteString)
+        
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
+        
+        let queryItems: [URLQueryItem] = [
+            URLQueryItem(name: "language", value: "en-US"),
+            URLQueryItem(name: "page", value: "1"),
+        ]
+        components!.queryItems = components?.queryItems.map { $0 + queryItems } ?? queryItems
+        
+        var request = URLRequest(url: components!.url!)
+        request.httpMethod = "GET"
+        request.timeoutInterval = 10
+        request.allHTTPHeaderFields = [
+            "accept": "application/json",
+            "Authorization": "Bearer \(API_Key)"  
+        ]
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
+                completion(.failure(AppError.invalidResponse(statusCode: statusCode)))
+                return
+            }
+            print("-------------HTTP Response-------------------")
+            print(httpResponse)
+            
+            guard let data = data else {
+                completion(.failure(AppError.noData))
+                return
+                }
+            
+            print("---------------Data-----------------")
+            print(data)
+            
+            do {
+                let decodedObject = try JSONDecoder().decode(T.self, from: data)
+                print("--------------Decoded Object------------------")
+                print(decodedObject)
+                completion(.success(decodedObject))
+            } catch {
+                completion(.failure(error))
+            }
+        }.resume()
+    }
+}
