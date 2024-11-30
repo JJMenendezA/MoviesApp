@@ -78,7 +78,11 @@ class MainScreenViewModel: ObservableObject {
             languageSet.formUnion(movie.value.originalLanguagesSet)
         })
         
-        return Array(languageSet).sorted()
+        var sortedLanguageList = Array(languageSet).sorted()
+        
+        sortedLanguageList.insert("All languages", at: 0)
+        
+        return sortedLanguageList
     }
     
     private func createDateListAndSetVariables() -> [Date] {

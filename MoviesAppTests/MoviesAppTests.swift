@@ -28,9 +28,9 @@ final class MoviesAppTests: XCTestCase {
         // Act
         sut.fetchAllMovies(completion: { result in
             switch result {
-            case .success(let loadingState):
+            case .success(let fetchedMovies):
                 // Assert
-                //XCTAssertFalse(loadingState, "Loading state should be false after fetching completes")
+                XCTAssertFalse(fetchedMovies.isEmpty, "Loading state should be false after fetching completes")
                 expectation.fulfill()
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -56,7 +56,7 @@ final class MoviesAppTests: XCTestCase {
                 // Assert
                 XCTFail("Test should be failing!")
             case .failure(let error):
-                //XCTAssertEqual(error.localizedDescription, AppError.failedToFetchMovies.localizedDescription)
+                XCTAssertEqual(error.localizedDescription, AppError.noData.localizedDescription)
                 expectation.fulfill()
             }
         })
@@ -105,7 +105,7 @@ final class MoviesAppTests: XCTestCase {
                 XCTFail("Test should be failing!")
                 
             case .failure(let error):
-                //XCTAssertEqual(error.localizedDescription, AppError.failedToFetchMovies.localizedDescription)
+                XCTAssertEqual(error.localizedDescription, AppError.noData.localizedDescription)
                 expectation.fulfill()
             }
         })

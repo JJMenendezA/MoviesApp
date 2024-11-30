@@ -105,14 +105,13 @@ struct FiltersView: View {
                         
                     }
                     
-                    ButtonComponent(text: "Ready", colorGradient: customLinearGradient(colors: mainScreenViewModel.isFilterSelected ? [.gray700, .gray900] : [.purple700, .purple900] ), shape: .capsule, fontWeight: .bold) {
+                    ButtonComponent(text: "Ready", colorGradient: customLinearGradient(colors: [.purple700, .purple900] ), shape: .capsule, fontWeight: .bold) {
                         withAnimation {
                             isSheetActive = false
                             mainScreenViewModel.areFiltersApplied = true
                         }
                     }
                     .padding(.horizontal, 5)
-                    .disabled(mainScreenViewModel.isFilterSelected)
                     
                 } // :HStack
                 .padding(.horizontal)

@@ -100,9 +100,7 @@ struct MainScreenView: View {
                     }
                     .onChange(of: isSearchBarActive) {
                         if isSearchBarActive {
-                            withAnimation {
-                                reader.scrollTo("SearchView", anchor: .top)
-                            }
+                            reader.scrollTo("SearchView", anchor: .top)
                         }
                     }
                 } // :ScrollViewReader

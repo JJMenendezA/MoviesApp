@@ -12,8 +12,13 @@ import Foundation
 class MockMoviesService: MoviesServiceProtocol {
     func fetchAllMovies(completion: @escaping (Result<[String : Movies], any Error>) -> Void) {
          if shouldFail {
-            
-        }
+             completion(.failure(AppError.noData))
+         } else {
+             var moviesList: [String : Movies] = [:]
+             moviesList["popular"] = Movies(dates: nil, page: 1, results: [dummyMovieInfo], total_pages: 5, total_results: 100)
+             
+             completion(.success(moviesList))
+         }
     }
     
     var shouldFail: Bool = false
