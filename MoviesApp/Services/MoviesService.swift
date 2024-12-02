@@ -22,49 +22,18 @@ class MoviesService: MoviesServiceProtocol {
         
         let dispatchGroup = DispatchGroup()
         
-        dispatchGroup.enter()
-        fetchMovies(endpoint: EndpointsMovies.popular, completion: { result in
-            switch result {
-            case .success(let fetchedMovies):
-                moviesList[MovieTypes.popular] = fetchedMovies
-            case .failure(let error):
-                moviesError = error
-            }
-            dispatchGroup.leave()
-        })
-        
-        dispatchGroup.enter()
-        fetchMovies(endpoint: EndpointsMovies.nowPlaying, completion: { result in
-            switch result {
-            case .success(let fetchedMovies):
-                moviesList[MovieTypes.nowPlaying] = fetchedMovies
-            case .failure(let error):
-                moviesError = error
-            }
-            dispatchGroup.leave()
-        })
-        
-        dispatchGroup.enter()
-        fetchMovies(endpoint: EndpointsMovies.upcoming, completion: { result in
-            switch result {
-            case .success(let fetchedMovies):
-                moviesList[MovieTypes.upcoming] = fetchedMovies
-            case .failure(let error):
-                moviesError = error
-            }
-            dispatchGroup.leave()
-        })
-        
-        dispatchGroup.enter()
-        fetchMovies(endpoint: EndpointsMovies.topRated, completion: { result in
-            switch result {
-            case .success(let fetchedMovies):
-                moviesList[MovieTypes.topRated] = fetchedMovies
-            case .failure(let error):
-                moviesError = error
-            }
-            dispatchGroup.leave()
-        })
+        for type in MovieTypes.allCases {
+            dispatchGroup.enter()
+            fetchMovies(endpoint: type.endpoint, completion: { result in
+                switch result {
+                case .success(let fetchedMovies):
+                    moviesList[type.title] = fetchedMovies
+                case .failure(let error):
+                    moviesError = error
+                }
+                dispatchGroup.leave()
+            })
+        }
         
         dispatchGroup.notify(queue: .main) {
             if moviesError == nil {

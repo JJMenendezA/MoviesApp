@@ -8,9 +8,27 @@
 
 import Foundation
 
-enum MovieTypes {
-    static let nowPlaying: String = "nowPlaying"
-    static let popular: String = "popular"
-    static let topRated: String = "topRated"
-    static let upcoming: String = "upcoming"
+enum MovieTypes: CaseIterable {
+    case nowPlaying
+    case popular
+    case topRated
+    case upcoming
+    
+    var title: String {
+        switch self {
+        case .nowPlaying: return "NowPlaying"
+        case .popular: return "Popular"
+        case .topRated: return "TopRated"
+        case .upcoming: return "Upcoming"
+        }
+    }
+    
+    var endpoint: String {
+        switch self {
+        case .nowPlaying: return "movie/now_playing"
+        case .popular: return "movie/popular"
+        case .topRated: return "movie/top_rated"
+        case .upcoming: return "movie/upcoming"
+        }
+    }
 }

@@ -16,6 +16,8 @@ DerivedData/
 !*.xcodeproj/project.pbxproj
 !*.xcworkspace/contents.xcworkspacedata
 *.xcschememanagement.plist
+*.xcscheme
+!xcshareddata/xcschemes/
 
 # Ignore API key file
 APIKey.swift

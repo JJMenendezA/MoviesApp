@@ -56,11 +56,11 @@ class MainScreenViewModel: ObservableObject {
     private func setLists() {
         moviesDictionary.forEach({ movie in
             switch movie.key {
-            case MovieTypes.popular, MovieTypes.topRated:
+            case MovieTypes.popular.title, MovieTypes.topRated.title:
                 mutableMoviesLists[movie.key] = movie.value.results
-            case MovieTypes.nowPlaying:
+            case MovieTypes.nowPlaying.title:
                 mutableMoviesLists[movie.key] = movie.value.results.filter({ $0.release_date <= getTodaysDate() && $0.release_date >= getTwoWeeksAgoDate()})
-            case MovieTypes.upcoming:
+            case MovieTypes.upcoming.title:
                 mutableMoviesLists[movie.key] = movie.value.results.filter({ $0.release_date > getTodaysDate()})
             default:
                 break

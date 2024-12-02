@@ -17,7 +17,7 @@ class NetworkManager {
         response: T.Type,
         completion: @escaping (Result<T, Error>) -> Void
     ){
-        let url = baseURL.appendingPathComponent(endpoint)
+        let url = baseMoviesURL.appendingPathComponent(endpoint)
         
         print("-------------URL-------------------")
         print(url.absoluteString)

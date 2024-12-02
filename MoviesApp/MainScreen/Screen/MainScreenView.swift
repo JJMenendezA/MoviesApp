@@ -58,28 +58,28 @@ struct MainScreenView: View {
                                     .id("SearchView")
                             }
                             
-                            if !mainScreenViewModel.mutableMoviesLists["topRated"]!.isEmpty {
+                            if !mainScreenViewModel.mutableMoviesLists[MovieTypes.topRated.title]!.isEmpty {
                                 // MARK: - TOP RATED MOVIES SECTION
-                                MoviesListComponent(title: "Top Rated 🎟️", movies: mainScreenViewModel.mutableMoviesLists["topRated"]!.sorted(by: { $0.vote_average > $1.vote_average }), isPremiereSection: true)
+                                MoviesListComponent(title: "Top Rated 🎟️", movies: mainScreenViewModel.mutableMoviesLists[MovieTypes.topRated.title]!.sorted(by: { $0.vote_average > $1.vote_average }), isPremiereSection: true)
                                     .transition(.slide)
                             }
                             
-                            if !mainScreenViewModel.mutableMoviesLists["nowPlaying"]!.isEmpty {
+                            if !mainScreenViewModel.mutableMoviesLists[MovieTypes.nowPlaying.title]!.isEmpty {
                                 // MARK: - NOW PLAYING MOVIES SECTION
-                                MoviesListComponent(title: "Now playing 🍿", movies: mainScreenViewModel.mutableMoviesLists["nowPlaying"]!)
+                                MoviesListComponent(title: "Now playing 🍿", movies: mainScreenViewModel.mutableMoviesLists[MovieTypes.nowPlaying.title]!)
                                     .transition(.slide)
                             }
                             
-                            if !mainScreenViewModel.mutableMoviesLists["popular"]!.isEmpty {
+                            if !mainScreenViewModel.mutableMoviesLists[MovieTypes.popular.title]!.isEmpty {
                                 // MARK: - POPULAR MOVIES SECTION
-                                MoviesListComponent(title: "Popular movies 🎬", movies: mainScreenViewModel.mutableMoviesLists["popular"]!)
+                                MoviesListComponent(title: "Popular movies 🎬", movies: mainScreenViewModel.mutableMoviesLists[MovieTypes.popular.title]!)
                                     .transition(.slide)
                             }
                             
                             
-                            if !mainScreenViewModel.mutableMoviesLists["upcoming"]!.isEmpty {
+                            if !mainScreenViewModel.mutableMoviesLists[MovieTypes.upcoming.title]!.isEmpty {
                                 // MARK: - UPCOMING MOVIES SECTION
-                                MoviesListComponent(title: "Upcoming 🎥", movies: mainScreenViewModel.mutableMoviesLists["upcoming"]!, isUpcoming: true)
+                                MoviesListComponent(title: "Upcoming 🎥", movies: mainScreenViewModel.mutableMoviesLists[MovieTypes.upcoming.title]!, isUpcoming: true)
                                     .transition(.slide)
                             }
                             
