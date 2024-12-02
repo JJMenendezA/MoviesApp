@@ -12,7 +12,7 @@ import Foundation
 class NetworkManager {
     static let shared = NetworkManager()
     
-    func getRequest<T: Decodable>(
+    func getMoviesRequest<T: Decodable>(
         endpoint: String,
         response: T.Type,
         completion: @escaping (Result<T, Error>) -> Void

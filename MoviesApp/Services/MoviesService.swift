@@ -45,7 +45,7 @@ class MoviesService: MoviesServiceProtocol {
     }
     
     func fetchMovies(endpoint: String, completion: @escaping (Result<Movies, any Error>) -> Void) {
-        networkManager.getRequest(endpoint: endpoint, response: Movies.self) { result in
+        networkManager.getMoviesRequest(endpoint: endpoint, response: Movies.self) { result in
             switch result {
             case .success(let fetchedMovies):
                 DispatchQueue.main.async {
