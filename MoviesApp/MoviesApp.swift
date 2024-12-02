@@ -9,9 +9,19 @@ import SwiftUI
 
 @main
 struct MoviesApp: App {
+    @State private var showSplash = true
     var body: some Scene {
         WindowGroup {
-            MainScreenView()
+            if showSplash {
+                SplashScreenView()
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            showSplash = false
+                        }
+                    }
+            } else {
+                MainScreenView() // Replace with your main SwiftUI view
+            }
         }
     }
 }
