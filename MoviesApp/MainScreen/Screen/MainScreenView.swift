@@ -79,7 +79,7 @@ struct MainScreenView: View {
                             
                             if !mainScreenViewModel.mutableMoviesLists["upcoming"]!.isEmpty {
                                 // MARK: - UPCOMING MOVIES SECTION
-                                MoviesListComponent(title: "Upcoming 🎥", movies: mainScreenViewModel.mutableMoviesLists["upcoming"]!.sorted(by: { $0.release_date < $1.release_date }), isUpcoming: true)
+                                MoviesListComponent(title: "Upcoming 🎥", movies: mainScreenViewModel.mutableMoviesLists["upcoming"]!, isUpcoming: true)
                                     .transition(.slide)
                             }
                             

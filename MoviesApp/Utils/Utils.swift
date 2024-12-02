@@ -11,3 +11,16 @@ import SwiftUI
 func customLinearGradient(colors: [Color]) -> LinearGradient {
     return LinearGradient(colors: colors, startPoint: .bottomLeading, endPoint: .topTrailing)
 }
+
+func getTodaysDate() -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    return dateFormatter.string(from: Date())
+}
+
+func getTwoWeeksAgoDate() -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    let twoWeeksAgoDate = Calendar.current.date(byAdding: .weekOfYear, value: -2, to: Date())!
+    return dateFormatter.string(from: twoWeeksAgoDate)
+}

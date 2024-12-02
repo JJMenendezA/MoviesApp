@@ -26,7 +26,7 @@ class MoviesService: MoviesServiceProtocol {
         fetchMovies(endpoint: EndpointsMovies.popular, completion: { result in
             switch result {
             case .success(let fetchedMovies):
-                moviesList["popular"] = fetchedMovies
+                moviesList[MovieTypes.popular] = fetchedMovies
             case .failure(let error):
                 moviesError = error
             }
@@ -37,7 +37,7 @@ class MoviesService: MoviesServiceProtocol {
         fetchMovies(endpoint: EndpointsMovies.nowPlaying, completion: { result in
             switch result {
             case .success(let fetchedMovies):
-                moviesList["nowPlaying"] = fetchedMovies
+                moviesList[MovieTypes.nowPlaying] = fetchedMovies
             case .failure(let error):
                 moviesError = error
             }
@@ -48,7 +48,7 @@ class MoviesService: MoviesServiceProtocol {
         fetchMovies(endpoint: EndpointsMovies.upcoming, completion: { result in
             switch result {
             case .success(let fetchedMovies):
-                moviesList["upcoming"] = fetchedMovies
+                moviesList[MovieTypes.upcoming] = fetchedMovies
             case .failure(let error):
                 moviesError = error
             }
@@ -59,7 +59,7 @@ class MoviesService: MoviesServiceProtocol {
         fetchMovies(endpoint: EndpointsMovies.topRated, completion: { result in
             switch result {
             case .success(let fetchedMovies):
-                moviesList["topRated"] = fetchedMovies
+                moviesList[MovieTypes.topRated] = fetchedMovies
             case .failure(let error):
                 moviesError = error
             }

@@ -15,6 +15,10 @@ DerivedData/
 !default.xcworkspace/contents.xcworkspacedata
 !*.xcodeproj/project.pbxproj
 !*.xcworkspace/contents.xcworkspacedata
+*.xcschememanagement.plist
+
+# Ignore API key file
+APIKey.swift
 
 # Swift Package Manager
 .swiftpm/

@@ -28,18 +28,6 @@ class MainScreenViewModel: ObservableObject {
     @Published var filterEndReleaseDate: Date = Date()
     @Published var areFiltersApplied: Bool = false
     
-    var isFilterSelected: Bool {
-        if let firstElement = releaseDatesList.first, let lastElement = releaseDatesList.last {
-            if filterLanguage == "All languages" && filterStartReleaseDate == firstElement && filterEndReleaseDate == lastElement {
-                true
-            } else {
-                false
-            }
-        } else {
-            false
-        }
-    }
-    
     private let moviesService: MoviesService
     
     init(moviesService: MoviesService = MoviesService()) {
@@ -67,7 +55,17 @@ class MainScreenViewModel: ObservableObject {
     
     private func setLists() {
         moviesDictionary.forEach({ movie in
-            mutableMoviesLists[movie.key] = movie.value.results
+            switch movie.key {
+            case MovieTypes.popular, MovieTypes.topRated:
+                mutableMoviesLists[movie.key] = movie.value.results
+            case MovieTypes.nowPlaying:
+                mutableMoviesLists[movie.key] = movie.value.results.filter({ $0.release_date <= getTodaysDate() && $0.release_date >= getTwoWeeksAgoDate()})
+            case MovieTypes.upcoming:
+                mutableMoviesLists[movie.key] = movie.value.results.filter({ $0.release_date > getTodaysDate()})
+            default:
+                break
+            }
+           
         })
         
     }
