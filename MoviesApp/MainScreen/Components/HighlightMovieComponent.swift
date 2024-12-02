@@ -22,7 +22,7 @@ struct HighlightMovieComponent: View {
             VStack {
                 KFImage(URL(string: "https://image.tmdb.org/t/p/w500" + movie.poster_path))
                     .resizable()
-                    .frame(width: 200, height: 300)
+                    .frame(width: 250, height: 350)
                     .padding(.horizontal, 35)
                     .padding(.top, 45)
                 
@@ -34,29 +34,10 @@ struct HighlightMovieComponent: View {
                     Text(movie.title)
                         .frame(alignment: .center)
                         .foregroundStyle(.white)
-                        .font(.title)
+                        .font(.largeTitle)
                         .fontWeight(.bold)
                 } // :VStack
                 .padding()
-                
-                // MARK: - BUTTON SECTION
-                HStack {
-                    ButtonComponent(text: "See more info", colorGradient: customLinearGradient(colors: [.pink700, .pink900]), shape: .capsule, fontWeight: .light, font: .callout){
-                        
-                    }
-                    .padding()
-                    
-                    ButtonComponent(text: "Watch trailer", colorGradient: customLinearGradient(colors: [.clear]), shape: .capsule, fontWeight: .light, font: .callout){
-                        // TODO Button action
-                    } // :Button
-                    .overlay{
-                        Capsule()
-                            .stroke(.white)
-                    } // :Overlay
-                    .padding()
-                    
-                } // :HStack
-                .padding(.top)
             } // :VStack
         } // :ZStack
     }
