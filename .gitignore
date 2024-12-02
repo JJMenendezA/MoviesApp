@@ -20,7 +20,7 @@ DerivedData/
 !xcshareddata/xcschemes/
 
 # Ignore API key file
-APIKey.swift
+*APIKey.swift
 
 # Swift Package Manager
 .swiftpm/
