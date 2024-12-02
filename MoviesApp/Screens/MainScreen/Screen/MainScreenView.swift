@@ -126,7 +126,7 @@ struct MainScreenView: View {
         .background(.gray900)
         .ignoresSafeArea()
         .sheet(isPresented: $isBottomSheetActive) {
-            FiltersView(isSheetActive: $isBottomSheetActive, mainScreenViewModel: mainScreenViewModel)
+            FiltersScreenView(isSheetActive: $isBottomSheetActive, mainScreenViewModel: mainScreenViewModel)
                 .presentationDetents([.height(400)])
         }
         .onAppear{
