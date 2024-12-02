@@ -61,7 +61,7 @@ class MainScreenViewModel: ObservableObject {
             case MovieTypes.nowPlaying.title:
                 mutableMoviesLists[movie.key] = movie.value.results.filter({ $0.release_date <= getTodaysDate() && $0.release_date >= getTwoWeeksAgoDate()})
             case MovieTypes.upcoming.title:
-                mutableMoviesLists[movie.key] = movie.value.results.filter({ $0.release_date > getTodaysDate()})
+                mutableMoviesLists[movie.key] = movie.value.results.filter({ $0.release_date > getTodaysDate()}).sorted(by: { $0.release_date < $1.release_date })
             default:
                 break
             }
