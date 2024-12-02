@@ -15,12 +15,12 @@ struct MoviesApp: App {
             if showSplash {
                 SplashScreenView()
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             showSplash = false
                         }
                     }
             } else {
-                MainScreenView() // Replace with your main SwiftUI view
+                MainScreenView()
             }
         }
     }
