@@ -12,7 +12,7 @@ struct HighlightMovieComponent: View {
     var movie: MovieInfo
     var body: some View {
         ZStack {
-            KFImage(URL(string: "https://image.tmdb.org/t/p/w500\(movie.poster_path)"))
+            KFImage(movieImageURL.appendingPathComponent(movie.poster_path))
                 .resizable()
                 .frame(height: 700)
                 .overlay{
@@ -20,7 +20,7 @@ struct HighlightMovieComponent: View {
                 }
             
             VStack {
-                KFImage(URL(string: "https://image.tmdb.org/t/p/w500" + movie.poster_path))
+                KFImage(movieImageURL.appendingPathComponent(movie.poster_path))
                     .resizable()
                     .frame(width: 250, height: 350)
                     .padding(.horizontal, 35)

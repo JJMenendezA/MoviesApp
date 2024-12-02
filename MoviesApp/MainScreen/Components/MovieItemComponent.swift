@@ -32,7 +32,7 @@ struct MovieItemComponent: View {
         // MARK: - Movie Item
         Button(action: {}){
             ZStack {
-                KFImage(URL(string: "https://image.tmdb.org/t/p/w500\(movie.poster_path)"))
+                KFImage(movieImageURL.appendingPathComponent(movie.poster_path))
                     .resizable()
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .overlay {
