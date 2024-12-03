@@ -32,4 +32,4 @@ class MockMoviesService: MoviesServiceProtocol {
     }
 }
 
-let dummyMovieInfo: MovieInfo = MovieInfo(adult: false, backdrop_path: "", genre_ids: [], id: 0, original_language: "", original_title: "", overview: "", popularity: 0.0, poster_path: "/gCI2AeMV4IHSewhJkzsur5MEp6R.jpg", release_date: "", title: "Cinema Paradiso", video: false, vote_average: 0.0, vote_count: 0)
+let dummyMovieInfo: MovieInfo = MovieInfo(adult: false, backdrop_path: "", genre_ids: [], id: 0, original_language: "", original_title: "", overview: "", popularity: 0.0, poster_path: "/gCI2AeMV4IHSewhJkzsur5MEp6R.jpg", release_date: "2020-05-30", title: "Cinema Paradiso", video: false, vote_average: 10.0, vote_count: 0)

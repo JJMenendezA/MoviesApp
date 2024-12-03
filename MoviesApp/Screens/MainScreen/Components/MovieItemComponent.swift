@@ -11,23 +11,7 @@ import Kingfisher
 struct MovieItemComponent: View {
     var movie: MovieInfo
     var isUpcoming: Bool = false
-    var isTopRated: Bool = false
     @State var date: String?
-    // Computed property
-    var iconColor: Color {
-        if movie.stars >= 4 {
-            .green
-        } else {
-            .red
-        }
-    }
-    var isIconVisible: Bool {
-        if (movie.stars <= 2 || movie.stars >= 4) && (!isUpcoming && !isTopRated) {
-            true
-        } else {
-            false
-        }
-    }
     var body: some View {
         // MARK: - Movie Item
         Button(action: {}){
@@ -38,65 +22,47 @@ struct MovieItemComponent: View {
                     .overlay {
                         // Gradient for the image
                         RoundedRectangle(cornerRadius: 10)
-                            .fill(LinearGradient(colors: [.black, .clear], startPoint: .bottom, endPoint: .top))
+                            .fill(LinearGradient(colors: [.black.opacity(0.8), .clear], startPoint: .bottom, endPoint: .top))
                     }
                 
                 VStack {
-                    if isIconVisible {
-                        HStack {
-                            Spacer()
-                            Image(systemName: "popcorn.circle.fill")
-                                .resizable()
-                                .shadow(radius: 0.75)
-                                .frame(width: 25, height: 25)
-                                .foregroundStyle(iconColor)
-                                .background(.white)
-                                .clipShape(Circle())
-                                
-                            
-                        } // :HStack
-                        .padding(.trailing, 5)
-                        .padding(.top, 5)
-                    }
-                    
                     Spacer()
                     Text(movie.title)
                         .foregroundStyle(.white)
                         .minimumScaleFactor(0.4)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2)
                         .font(.body)
                         .frame(height: 40)
                         .padding(.horizontal, 5)
-                        .padding(.bottom, isTopRated ? 35 : 20)
-                } // :VStack
-                
-                if isTopRated {
                     
                     HStack {
                         ForEach (0..<movie.stars, id: \.self) { index in
                             Image(systemName: "star.fill")
+                                .resizable()
+                                .frame(width: 10, height: 10)
                         }
                         
                         if movie.hasHalfStar {
                             Image(systemName: "star.leadinghalf.filled")
+                                .resizable()
+                                .frame(width: 10, height: 10)
                         }
-                    }
+                    } // :HStack
                     .foregroundStyle(.white)
                     .minimumScaleFactor(0.4)
-                    .frame(width: 145, height: 20)
+                    .frame(width: 75, height: 10)
                     .font(Font.system(size: 15))
-                    .padding(.vertical, 5)
-                    .padding(.horizontal, 5)
-                    .background(customLinearGradient(colors: [.purple700, .purple900]))
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                    .offset(y: 130)
-                }
+                    .padding(.bottom, 10)
+                    .padding(.horizontal, 10)
+                } // :VStack
                 
                 if isUpcoming {
                     Text(date ?? "")
                         .foregroundStyle(.white)
-                        .minimumScaleFactor(0.4)
+                        .minimumScaleFactor(0.5)
                         .frame(width: 75, height: 10)
-                        .font(Font.system(size: 15))
+                        .font(Font.system(size: 20))
                         .padding(.vertical, 5)
                         .padding(.horizontal, 5)
                         .background(customLinearGradient(colors: [.purple700, .purple900]))
@@ -107,7 +73,7 @@ struct MovieItemComponent: View {
             } // :ZStack
             
         } // :Button
-        .frame(width: isTopRated ? 175 : 115, height: isTopRated ? 250 : 165)
+        .frame(width: 115, height: 165)
         .onAppear {
             if isUpcoming {
                 let dateFormatter = DateFormatter()

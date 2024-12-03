@@ -60,7 +60,7 @@ struct MainScreenView: View {
                             
                             if !mainScreenViewModel.mutableMoviesLists[MovieTypes.topRated.title]!.isEmpty {
                                 // MARK: - TOP RATED MOVIES SECTION
-                                MoviesListComponent(title: "Top Rated 🎟️", movies: mainScreenViewModel.mutableMoviesLists[MovieTypes.topRated.title]!.sorted(by: { $0.vote_average > $1.vote_average }), isPremiereSection: true)
+                                MoviesListComponent(title: "Top Rated 🎟️", movies: mainScreenViewModel.mutableMoviesLists[MovieTypes.topRated.title]!.sorted(by: { $0.vote_average > $1.vote_average }))
                                     .transition(.slide)
                             }
                             

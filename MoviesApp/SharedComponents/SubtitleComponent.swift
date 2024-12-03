@@ -12,8 +12,8 @@ struct SubtitleComponent: View {
     var body: some View {
         HStack {
             Text(text)
-                .font(.callout)
-                .fontWeight(.light)
+                .font(.headline)
+                .fontWeight(.semibold)
                 .padding(.horizontal, 5)
                 .foregroundStyle(.white)
                 .padding(10)
