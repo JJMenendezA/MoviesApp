@@ -86,7 +86,7 @@ struct MovieItemComponent: View {
                     .font(Font.system(size: 15))
                     .padding(.vertical, 5)
                     .padding(.horizontal, 5)
-                    .background(customLinearGradient(colors: [.pink700, .pink900]))
+                    .background(customLinearGradient(colors: [.purple700, .purple900]))
                     .clipShape(RoundedRectangle(cornerRadius: 5))
                     .offset(y: 130)
                 }

@@ -115,12 +115,13 @@ struct MainScreenView: View {
                             Text("Please wait...")
                             Spacer()
                         } // :HStack
-                        .foregroundStyle(.pink700)
+                        .foregroundStyle(.white)
                     } // :ProgressView
-                    .progressViewStyle(CircularProgressViewStyle(tint: Color.pink700))
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
                     Spacer()
                 } // :VStack
                 .controlSize(.large)
+                .fontWeight(.bold)
             }
         } // :ZStack
         .background(.gray900)

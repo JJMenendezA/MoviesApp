@@ -32,6 +32,7 @@ struct HighlightMovieComponent: View {
                         .font(.caption)
                     
                     Text(movie.title)
+                        .multilineTextAlignment(.center)
                         .frame(alignment: .center)
                         .foregroundStyle(.white)
                         .font(.largeTitle)

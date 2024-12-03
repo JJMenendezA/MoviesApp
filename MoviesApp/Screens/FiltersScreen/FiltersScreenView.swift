@@ -71,7 +71,7 @@ struct FiltersScreenView: View {
                             
                             DatePicker("", selection: $mainScreenViewModel.filterStartReleaseDate, in: firstElement...mainScreenViewModel.filterEndReleaseDate, displayedComponents: .date)
                                 .labelsHidden()
-                                .tint(.pink700)
+                                .tint(.purple700)
                                 .padding(.trailing)
                                 .colorScheme(.dark)
                         } // :HStack
@@ -84,7 +84,7 @@ struct FiltersScreenView: View {
                             
                             DatePicker("", selection: $mainScreenViewModel.filterEndReleaseDate, in: mainScreenViewModel.filterStartReleaseDate...lastElement, displayedComponents: .date)
                                 .labelsHidden()
-                                .tint(.pink700)
+                                .tint(.purple700)
                                 .padding(.trailing)
                                 .colorScheme(.dark)
                         } // :HStack

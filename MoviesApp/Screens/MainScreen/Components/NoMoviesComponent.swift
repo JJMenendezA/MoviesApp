@@ -14,7 +14,7 @@ struct NoMoviesComponent: View {
                 .font(.system(size: 100))
             
             Text("I'm sorry, but no movies were found.")
-                .foregroundStyle(.red600)
+                .foregroundStyle(.pink700)
                 .fontWeight(.bold)
                 .font(.title)
                 .padding(.bottom, 10)
