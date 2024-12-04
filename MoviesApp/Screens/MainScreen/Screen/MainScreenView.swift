@@ -27,6 +27,13 @@ struct MainScreenView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
+            if !mainScreenViewModel.isLoading {
+                ProgressView()
+                    .foregroundStyle(.white)
+                    .tint(.white)
+                    .offset(y: 75)
+            }
+           
             if !mainScreenViewModel.isLoading && mainScreenViewModel.error == nil {
                 // MARK: - TOP SECTION
                 MainHeaderComponent(color: backgroundHeaderColor, filterAction: {
@@ -161,6 +168,12 @@ struct MainScreenView: View {
         .onChange(of: yOffset){
             // Header background color opacity changes depending on the y offset
             backgroundHeaderColor = .black.opacity(yOffset/750)
+            
+            if yOffset <  -100{
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    mainScreenViewModel.isLoading = true
+                }
+            }
         }
     }
 }
