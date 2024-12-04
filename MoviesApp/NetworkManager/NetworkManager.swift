@@ -40,9 +40,14 @@ class NetworkManager {
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             
+            if let error = error {
+                completion(.failure(.unknown(localizedDesciption: error.localizedDescription)))
+                return
+            }
+            
             guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                 let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
-                completion(.failure(AppError.invalidResponse(statusCode: statusCode)))
+                completion(.failure(.invalidResponse(statusCode: statusCode)))
                 return
             }
             print("-------------HTTP Response-------------------")
@@ -64,7 +69,7 @@ class NetworkManager {
                 print(decodedObject)
                 completion(.success(decodedObject))
             } catch {
-                completion(.failure(AppError.decodingError))
+                completion(.failure(.decodingError))
             }
         }.resume()
     }

@@ -12,7 +12,7 @@ import Foundation
 class MockMoviesService: MoviesServiceProtocol {
     func fetchAllMovies(completion: @escaping (Result<[String : Movies], AppError>) -> Void) {
          if shouldFail {
-             completion(.failure(AppError.noData))
+             completion(.failure(.noData))
          } else {
              var moviesList: [String : Movies] = [:]
              moviesList["popular"] = Movies(dates: nil, page: 1, results: [dummyMovieInfo], total_pages: 5, total_results: 100)
@@ -25,7 +25,7 @@ class MockMoviesService: MoviesServiceProtocol {
     
     func fetchMovies(endpoint: String, completion: @escaping (Result<Movies, AppError>) -> Void) {
         if shouldFail {
-            completion(.failure(AppError.noData))
+            completion(.failure(.noData))
         } else {
             completion(.success(Movies(dates: nil, page: 1, results: [dummyMovieInfo], total_pages: 5, total_results: 100)))
         }
