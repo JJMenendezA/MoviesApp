@@ -27,7 +27,7 @@ struct MainScreenView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            if !mainScreenViewModel.isLoading {
+            if !mainScreenViewModel.isLoading && mainScreenViewModel.error == nil {
                 // MARK: - TOP SECTION
                 MainHeaderComponent(color: backgroundHeaderColor, filterAction: {
                     isBottomSheetActive = true
@@ -40,10 +40,11 @@ struct MainScreenView: View {
                 ScrollViewReader { reader in
                     ScrollView {
                         VStack(spacing: 0) {
-                            
                             if !wasSearchMade && !mainScreenViewModel.areFiltersApplied {
                                 // MARK: - RANDOM PICK SECTION
-                                HighlightMovieComponent(movie: ((mainScreenViewModel.mutableMoviesLists.isEmpty ? dummyMovieInfo : mainScreenViewModel.randomMovie)!))
+                                if let randomMovie = mainScreenViewModel.randomMovie {
+                                    HighlightMovieComponent(movie: randomMovie)
+                                }
                                 
                                 // MARK: - ANNOUNCEMENTS SECTION
                                 SubtitleComponent(text: "Important announcements 🗣️")
@@ -51,36 +52,44 @@ struct MainScreenView: View {
                                 AnnouncementsComponent()
                             }
                             
+                            // MARK: - SEARCH BAR SECTION
                             if !mainScreenViewModel.areFiltersApplied {
-                                // MARK: - SEARCH BAR SECTION
                                 SearchBarComponent(textSearch: $mainScreenViewModel.searchTitle, isSearchBarFocused: $isSearchBarActive)
                                     .padding(.top, wasSearchMade ? 75 : 0)
                                     .id("SearchView")
                             }
                             
-                            if !mainScreenViewModel.mutableMoviesLists[MovieTypes.topRated.title]!.isEmpty {
-                                // MARK: - TOP RATED MOVIES SECTION
-                                MoviesListComponent(title: "Top Rated 🎟️", movies: mainScreenViewModel.mutableMoviesLists[MovieTypes.topRated.title]!.sorted(by: { $0.vote_average > $1.vote_average }))
-                                    .transition(.slide)
+                            // MARK: - TOP RATED MOVIES SECTION
+                            if let topRatedList = mainScreenViewModel.mutableMoviesLists[MovieTypes.topRated.title] {
+                                if !topRatedList.isEmpty {
+                                    MoviesListComponent(title: "Top Rated 🎟️", movies: topRatedList.sorted(by: { $0.vote_average > $1.vote_average }))
+                                        .transition(.slide)
+                                }
+                                
                             }
                             
-                            if !mainScreenViewModel.mutableMoviesLists[MovieTypes.nowPlaying.title]!.isEmpty {
-                                // MARK: - NOW PLAYING MOVIES SECTION
-                                MoviesListComponent(title: "Now playing 🍿", movies: mainScreenViewModel.mutableMoviesLists[MovieTypes.nowPlaying.title]!)
-                                    .transition(.slide)
+                            // MARK: - NOW PLAYING MOVIES SECTION
+                            if let nowPlayingList = mainScreenViewModel.mutableMoviesLists[MovieTypes.nowPlaying.title] {
+                                if !nowPlayingList.isEmpty {
+                                    MoviesListComponent(title: "Now playing 🍿", movies: nowPlayingList)
+                                        .transition(.slide)
+                                }
                             }
                             
-                            if !mainScreenViewModel.mutableMoviesLists[MovieTypes.popular.title]!.isEmpty {
-                                // MARK: - POPULAR MOVIES SECTION
-                                MoviesListComponent(title: "Popular movies 🎬", movies: mainScreenViewModel.mutableMoviesLists[MovieTypes.popular.title]!)
-                                    .transition(.slide)
+                            // MARK: - POPULAR MOVIES SECTION
+                            if let popularList = mainScreenViewModel.mutableMoviesLists[MovieTypes.popular.title] {
+                                if !popularList.isEmpty {
+                                    MoviesListComponent(title: "Popular movies 🎬", movies: popularList)
+                                        .transition(.slide)
+                                }
                             }
                             
-                            
-                            if !mainScreenViewModel.mutableMoviesLists[MovieTypes.upcoming.title]!.isEmpty {
-                                // MARK: - UPCOMING MOVIES SECTION
-                                MoviesListComponent(title: "Upcoming 🎥", movies: mainScreenViewModel.mutableMoviesLists[MovieTypes.upcoming.title]!, isUpcoming: true)
-                                    .transition(.slide)
+                            // MARK: - UPCOMING MOVIES SECTION
+                            if let upcomingList = mainScreenViewModel.mutableMoviesLists[MovieTypes.upcoming.title] {
+                                if !upcomingList.isEmpty {
+                                    MoviesListComponent(title: "Upcoming 🎥", movies: upcomingList, isUpcoming: true)
+                                        .transition(.slide)
+                                }
                             }
                             
                             // MARK: - EMPTY RESULTS MESSAGE
@@ -129,6 +138,9 @@ struct MainScreenView: View {
         .sheet(isPresented: $isBottomSheetActive) {
             FiltersScreenView(isSheetActive: $isBottomSheetActive, mainScreenViewModel: mainScreenViewModel)
                 .presentationDetents([.height(400)])
+        }
+        .alert(isPresented: $mainScreenViewModel.hasErrorTrigerred){
+            Alert(title: Text("Error"), message: Text(mainScreenViewModel.error!.localizedDescription), dismissButton: .default(Text("Retry"), action: { mainScreenViewModel.fetchMovies() }))
         }
         .onAppear{
             mainScreenViewModel.fetchMovies()

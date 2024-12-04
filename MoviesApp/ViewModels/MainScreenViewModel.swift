@@ -16,7 +16,8 @@ class MainScreenViewModel: ObservableObject {
     @Published var mutableMoviesLists: [String : [MovieInfo]] = [:]
     var randomMovie: MovieInfo?
     // Error and Loading States
-    @Published private var errorTriggered: Error?
+    @Published var error: AppError?
+    @Published var hasErrorTrigerred: Bool = false
     @Published var isLoading: Bool = true
     // Filter lists
     @Published var originalLanguagesList: [String] = []
@@ -46,7 +47,8 @@ class MainScreenViewModel: ObservableObject {
                 self?.releaseDatesList = (self?.createDateListAndSetVariables())!
                 self?.isLoading = false
             case .failure(let error):
-                print(error.localizedDescription)
+                self?.error = error
+                self?.hasErrorTrigerred = true
                 self?.isLoading = false
             }
             

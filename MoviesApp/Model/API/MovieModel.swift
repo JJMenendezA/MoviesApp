@@ -36,7 +36,7 @@ public struct Movies: Decodable, Hashable {
 
 struct MovieInfo: Decodable, Hashable {
     let adult: Bool
-    let backdrop_path: String
+    let backdrop_path: String?
     let genre_ids: [Int]
     let id: Int
     let original_language: String

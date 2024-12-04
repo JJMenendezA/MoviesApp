@@ -15,7 +15,7 @@ class NetworkManager {
     func getMoviesRequest<T: Decodable>(
         endpoint: String,
         response: T.Type,
-        completion: @escaping (Result<T, Error>) -> Void
+        completion: @escaping (Result<T, AppError>) -> Void
     ){
         let url = baseMoviesURL.appendingPathComponent(endpoint)
         
@@ -40,11 +40,6 @@ class NetworkManager {
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
             guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                 let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
                 completion(.failure(AppError.invalidResponse(statusCode: statusCode)))
@@ -62,12 +57,14 @@ class NetworkManager {
             print(data)
             
             do {
+                print("--------------String------------------")
+                print(String(decoding: data, as: UTF8.self))
                 let decodedObject = try JSONDecoder().decode(T.self, from: data)
                 print("--------------Decoded Object------------------")
                 print(decodedObject)
                 completion(.success(decodedObject))
             } catch {
-                completion(.failure(error))
+                completion(.failure(AppError.decodingError))
             }
         }.resume()
     }

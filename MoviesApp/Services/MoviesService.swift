@@ -16,9 +16,9 @@ class MoviesService: MoviesServiceProtocol {
         self.networkManager = networkManager
     }
         
-    func fetchAllMovies(completion: @escaping (Result<[String : Movies], Error>) -> Void) {
+    func fetchAllMovies(completion: @escaping (Result<[String : Movies], AppError>) -> Void) {
         var moviesList: [String : Movies] = [:]
-        var moviesError: Error?
+        var moviesError: AppError?
         
         let dispatchGroup = DispatchGroup()
         
@@ -44,7 +44,7 @@ class MoviesService: MoviesServiceProtocol {
         }
     }
     
-    func fetchMovies(endpoint: String, completion: @escaping (Result<Movies, any Error>) -> Void) {
+    func fetchMovies(endpoint: String, completion: @escaping (Result<Movies, AppError>) -> Void) {
         networkManager.getMoviesRequest(endpoint: endpoint, response: Movies.self) { result in
             switch result {
             case .success(let fetchedMovies):

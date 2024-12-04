@@ -10,7 +10,7 @@ import Foundation
 
 
 class MockMoviesService: MoviesServiceProtocol {
-    func fetchAllMovies(completion: @escaping (Result<[String : Movies], any Error>) -> Void) {
+    func fetchAllMovies(completion: @escaping (Result<[String : Movies], AppError>) -> Void) {
          if shouldFail {
              completion(.failure(AppError.noData))
          } else {
@@ -23,7 +23,7 @@ class MockMoviesService: MoviesServiceProtocol {
     
     var shouldFail: Bool = false
     
-    func fetchMovies(endpoint: String, completion: @escaping (Result<Movies, any Error>) -> Void) {
+    func fetchMovies(endpoint: String, completion: @escaping (Result<Movies, AppError>) -> Void) {
         if shouldFail {
             completion(.failure(AppError.noData))
         } else {

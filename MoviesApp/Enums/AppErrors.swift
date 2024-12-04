@@ -8,17 +8,20 @@
 
 import Foundation
 
-enum AppError: Error, LocalizedError {
+public enum AppError: Error, LocalizedError, Equatable {
     case invalidResponse(statusCode: Int)
     case noData
+    case decodingError
     
 
-    var errorDescription: String {
+    var localizedDescription: String {
         switch self {
         case .invalidResponse(let statusCode):
-            "Invalid Response \(statusCode)"
+            "There was an invalid response: \(statusCode)"
         case .noData:
-            "No Data"
+            "There is no data"
+        case .decodingError:
+            "The data couldn’t be read because it is missing or has invalid formatting."
         }
     }
 }
