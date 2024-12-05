@@ -13,7 +13,6 @@ struct MainScreenView: View {
     @State private var yOffset: Double = 0.0
     @State private var backgroundHeaderColor: Color = .black.opacity(0.0)
     @State private var isBottomSheetActive: Bool = false
-    @State private var isRefreshing: Bool = false
     @ObservedObject var mainScreenViewModel: MainScreenViewModel = MainScreenViewModel()
     // Computed properties
     private var wasSearchMade: Bool {
@@ -28,14 +27,14 @@ struct MainScreenView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            if !mainScreenViewModel.isLoading {
+            if mainScreenViewModel.error == nil && !mainScreenViewModel.mutableMoviesLists.isEmpty {
+                // MARK: - REFRESHER LOADER
                 ProgressView()
                     .foregroundStyle(.white)
                     .tint(.white)
                     .offset(y: 75)
-            }
-            
-            if !mainScreenViewModel.isLoading && mainScreenViewModel.error == nil && mainScreenViewModel.mutableMoviesLists.count > 0 {
+                    .controlSize(.large)
+                
                 // MARK: - TOP SECTION
                 MainHeaderComponent(color: backgroundHeaderColor, filterAction: {
                     isBottomSheetActive = true
@@ -87,7 +86,7 @@ struct MainScreenView: View {
                             // MARK: - POPULAR MOVIES SECTION
                             if let popularList = mainScreenViewModel.mutableMoviesLists[MovieTypes.popular.title] {
                                 if !popularList.isEmpty {
-                                    MoviesListComponent(title: "Popular movies 🎬", movies: popularList)
+                                    MoviesListComponent(title: "Popular 🎬", movies: popularList)
                                         .transition(.slide)
                                 }
                             }
@@ -107,6 +106,7 @@ struct MainScreenView: View {
                             }
                         } // :VStack
                         .padding(.top, mainScreenViewModel.areFiltersApplied ? 75 : 0)
+                        .background(.gray900)
                     } // :ScrollView
                     .padding(.bottom)
                     // Scroll Geometry Reader to get the value of the y offset
@@ -123,14 +123,13 @@ struct MainScreenView: View {
                 } // :ScrollViewReader
             }
             
-            if mainScreenViewModel.isLoading || isRefreshing {
+            if mainScreenViewModel.isLoading {
                 // MARK: - LOADING SCREEN
                 LoaderComponent()
                     .zIndex(1)
             }
         } // :ZStack
-        .background(.gray900)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.black)
         .ignoresSafeArea()
         .sheet(isPresented: $isBottomSheetActive) {
             FiltersScreenView(isSheetActive: $isBottomSheetActive, mainScreenViewModel: mainScreenViewModel)
@@ -159,8 +158,11 @@ struct MainScreenView: View {
             // Header background color opacity changes depending on the y offset
             backgroundHeaderColor = .black.opacity(yOffset/750)
             
-            if yOffset <  -100 && !isRefreshing {
-                isRefreshing = true
+            if yOffset <  -120 && !mainScreenViewModel.isLoading {
+                mainScreenViewModel.isLoading = true
+                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                 mainScreenViewModel.fetchMovies()
+                 }
             }
         }
     }
