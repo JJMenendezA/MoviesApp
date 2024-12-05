@@ -36,7 +36,6 @@ struct MainScreenView: View {
                         .offset(y: 75)
                         .controlSize(.large)
                 }
-               
                 
                 // MARK: - TOP SECTION
                 MainHeaderComponent(color: backgroundHeaderColor, filterAction: {
@@ -161,6 +160,7 @@ struct MainScreenView: View {
             // Header background color opacity changes depending on the y offset
             backgroundHeaderColor = .black.opacity(yOffset/750)
             
+            // Trigger to refresh the data when offset passes -120
             if yOffset <  -120 && !mainScreenViewModel.isLoading && !mainScreenViewModel.areFiltersApplied && !wasSearchMade {
                 mainScreenViewModel.isLoading = true
                  DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
