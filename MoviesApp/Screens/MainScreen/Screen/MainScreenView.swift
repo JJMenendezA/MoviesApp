@@ -27,7 +27,14 @@ struct MainScreenView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            if !mainScreenViewModel.isLoading && mainScreenViewModel.error == nil {
+            if mainScreenViewModel.error == nil && !mainScreenViewModel.mutableMoviesLists.isEmpty {
+                // MARK: - REFRESHER LOADER
+                ProgressView()
+                    .foregroundStyle(.white)
+                    .tint(.white)
+                    .offset(y: 75)
+                    .controlSize(.large)
+                
                 // MARK: - TOP SECTION
                 MainHeaderComponent(color: backgroundHeaderColor, filterAction: {
                     isBottomSheetActive = true
@@ -79,7 +86,7 @@ struct MainScreenView: View {
                             // MARK: - POPULAR MOVIES SECTION
                             if let popularList = mainScreenViewModel.mutableMoviesLists[MovieTypes.popular.title] {
                                 if !popularList.isEmpty {
-                                    MoviesListComponent(title: "Popular movies 🎬", movies: popularList)
+                                    MoviesListComponent(title: "Popular 🎬", movies: popularList)
                                         .transition(.slide)
                                 }
                             }
@@ -99,6 +106,7 @@ struct MainScreenView: View {
                             }
                         } // :VStack
                         .padding(.top, mainScreenViewModel.areFiltersApplied ? 75 : 0)
+                        .background(.gray900)
                     } // :ScrollView
                     .padding(.bottom)
                     // Scroll Geometry Reader to get the value of the y offset
@@ -113,27 +121,15 @@ struct MainScreenView: View {
                         }
                     }
                 } // :ScrollViewReader
-            } else {
+            }
+            
+            if mainScreenViewModel.isLoading {
                 // MARK: - LOADING SCREEN
-                VStack{
-                    Spacer()
-                    ProgressView {
-                        HStack{
-                            Spacer()
-                            Image(systemName: "hand.raised")
-                            Text("Please wait...")
-                            Spacer()
-                        } // :HStack
-                        .foregroundStyle(.white)
-                    } // :ProgressView
-                    .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
-                    Spacer()
-                } // :VStack
-                .controlSize(.large)
-                .fontWeight(.bold)
+                LoaderComponent()
+                    .zIndex(1)
             }
         } // :ZStack
-        .background(.gray900)
+        .background(.black)
         .ignoresSafeArea()
         .sheet(isPresented: $isBottomSheetActive) {
             FiltersScreenView(isSheetActive: $isBottomSheetActive, mainScreenViewModel: mainScreenViewModel)
@@ -161,6 +157,13 @@ struct MainScreenView: View {
         .onChange(of: yOffset){
             // Header background color opacity changes depending on the y offset
             backgroundHeaderColor = .black.opacity(yOffset/750)
+            
+            if yOffset <  -120 && !mainScreenViewModel.isLoading {
+                mainScreenViewModel.isLoading = true
+                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                 mainScreenViewModel.fetchMovies()
+                 }
+            }
         }
     }
 }
