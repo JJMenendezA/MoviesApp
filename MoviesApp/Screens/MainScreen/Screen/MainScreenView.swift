@@ -29,11 +29,14 @@ struct MainScreenView: View {
         ZStack(alignment: .top) {
             if mainScreenViewModel.error == nil && !mainScreenViewModel.mutableMoviesLists.isEmpty {
                 // MARK: - REFRESHER LOADER
-                ProgressView()
-                    .foregroundStyle(.white)
-                    .tint(.white)
-                    .offset(y: 75)
-                    .controlSize(.large)
+                if !mainScreenViewModel.areFiltersApplied && !wasSearchMade {
+                    ProgressView()
+                        .foregroundStyle(.white)
+                        .tint(.white)
+                        .offset(y: 75)
+                        .controlSize(.large)
+                }
+               
                 
                 // MARK: - TOP SECTION
                 MainHeaderComponent(color: backgroundHeaderColor, filterAction: {
@@ -129,7 +132,7 @@ struct MainScreenView: View {
                     .zIndex(1)
             }
         } // :ZStack
-        .background(.black)
+        .background(.gray900)
         .ignoresSafeArea()
         .sheet(isPresented: $isBottomSheetActive) {
             FiltersScreenView(isSheetActive: $isBottomSheetActive, mainScreenViewModel: mainScreenViewModel)
@@ -158,7 +161,7 @@ struct MainScreenView: View {
             // Header background color opacity changes depending on the y offset
             backgroundHeaderColor = .black.opacity(yOffset/750)
             
-            if yOffset <  -120 && !mainScreenViewModel.isLoading {
+            if yOffset <  -120 && !mainScreenViewModel.isLoading && !mainScreenViewModel.areFiltersApplied && !wasSearchMade {
                 mainScreenViewModel.isLoading = true
                  DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                  mainScreenViewModel.fetchMovies()

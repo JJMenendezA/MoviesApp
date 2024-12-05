@@ -9,6 +9,9 @@ import SwiftUI
 
 struct FiltersScreenView: View {
     @Binding var isSheetActive: Bool
+    @State var filterLanguage: String = "All languages"
+    @State var filterStartReleaseDate: Date = Date()
+    @State var filterEndReleaseDate: Date = Date()
     @ObservedObject var mainScreenViewModel: MainScreenViewModel
     var body: some View {
         ZStack {
@@ -42,10 +45,10 @@ struct FiltersScreenView: View {
                         
                         Spacer()
                         
-                        Menu(mainScreenViewModel.filterLanguage) {
+                        Menu(filterLanguage) {
                             ForEach (mainScreenViewModel.originalLanguagesList, id: \.self) { language in
                                 Button(action: {
-                                    mainScreenViewModel.filterLanguage = language
+                                    filterLanguage = language
                                 }){
                                     Text(language)
                                 }
@@ -69,7 +72,7 @@ struct FiltersScreenView: View {
                                 .fontWeight(.light)
                                 .font(.callout)
                             
-                            DatePicker("", selection: $mainScreenViewModel.filterStartReleaseDate, in: firstElement...mainScreenViewModel.filterEndReleaseDate, displayedComponents: .date)
+                            DatePicker("", selection: $filterStartReleaseDate, in: firstElement...filterEndReleaseDate, displayedComponents: .date)
                                 .labelsHidden()
                                 .tint(.purple700)
                                 .padding(.trailing)
@@ -82,7 +85,7 @@ struct FiltersScreenView: View {
                                 .fontWeight(.light)
                                 .font(.callout)
                             
-                            DatePicker("", selection: $mainScreenViewModel.filterEndReleaseDate, in: mainScreenViewModel.filterStartReleaseDate...lastElement, displayedComponents: .date)
+                            DatePicker("", selection: $filterEndReleaseDate, in: filterStartReleaseDate...lastElement, displayedComponents: .date)
                                 .labelsHidden()
                                 .tint(.purple700)
                                 .padding(.trailing)
@@ -107,6 +110,9 @@ struct FiltersScreenView: View {
                     
                     ButtonComponent(text: "Ready", colorGradient: customLinearGradient(colors: [.purple700, .purple900] ), shape: .capsule, fontWeight: .bold) {
                         withAnimation {
+                            mainScreenViewModel.filterLanguage = self.filterLanguage
+                            mainScreenViewModel.filterStartReleaseDate = self.filterStartReleaseDate
+                            mainScreenViewModel.filterEndReleaseDate = self.filterEndReleaseDate
                             isSheetActive = false
                             mainScreenViewModel.areFiltersApplied = true
                         }
@@ -121,6 +127,11 @@ struct FiltersScreenView: View {
             .foregroundStyle(.white.opacity(0.8))
             .background(.gray900)
         } // :ZStack
+        .onAppear {
+            filterLanguage = mainScreenViewModel.filterLanguage
+            filterEndReleaseDate = mainScreenViewModel.filterEndReleaseDate
+            filterStartReleaseDate = mainScreenViewModel.filterStartReleaseDate
+        }
     }
 }
 
