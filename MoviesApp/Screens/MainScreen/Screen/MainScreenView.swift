@@ -13,6 +13,7 @@ struct MainScreenView: View {
     @State private var yOffset: Double = 0.0
     @State private var backgroundHeaderColor: Color = .black.opacity(0.0)
     @State private var isBottomSheetActive: Bool = false
+    @State private var isRefreshing: Bool = false
     @ObservedObject var mainScreenViewModel: MainScreenViewModel = MainScreenViewModel()
     // Computed properties
     private var wasSearchMade: Bool {
@@ -33,8 +34,8 @@ struct MainScreenView: View {
                     .tint(.white)
                     .offset(y: 75)
             }
-           
-            if !mainScreenViewModel.isLoading && mainScreenViewModel.error == nil {
+            
+            if !mainScreenViewModel.isLoading && mainScreenViewModel.error == nil && mainScreenViewModel.mutableMoviesLists.count > 0 {
                 // MARK: - TOP SECTION
                 MainHeaderComponent(color: backgroundHeaderColor, filterAction: {
                     isBottomSheetActive = true
@@ -120,27 +121,16 @@ struct MainScreenView: View {
                         }
                     }
                 } // :ScrollViewReader
-            } else {
+            }
+            
+            if mainScreenViewModel.isLoading || isRefreshing {
                 // MARK: - LOADING SCREEN
-                VStack{
-                    Spacer()
-                    ProgressView {
-                        HStack{
-                            Spacer()
-                            Image(systemName: "hand.raised")
-                            Text("Please wait...")
-                            Spacer()
-                        } // :HStack
-                        .foregroundStyle(.white)
-                    } // :ProgressView
-                    .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
-                    Spacer()
-                } // :VStack
-                .controlSize(.large)
-                .fontWeight(.bold)
+                LoaderComponent()
+                    .zIndex(1)
             }
         } // :ZStack
         .background(.gray900)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea()
         .sheet(isPresented: $isBottomSheetActive) {
             FiltersScreenView(isSheetActive: $isBottomSheetActive, mainScreenViewModel: mainScreenViewModel)
@@ -169,10 +159,8 @@ struct MainScreenView: View {
             // Header background color opacity changes depending on the y offset
             backgroundHeaderColor = .black.opacity(yOffset/750)
             
-            if yOffset <  -100{
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    mainScreenViewModel.isLoading = true
-                }
+            if yOffset <  -100 && !isRefreshing {
+                isRefreshing = true
             }
         }
     }
