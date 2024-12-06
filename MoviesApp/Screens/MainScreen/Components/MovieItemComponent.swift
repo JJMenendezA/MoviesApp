@@ -11,7 +11,6 @@ import Kingfisher
 struct MovieItemComponent: View {
     var movie: MovieInfo
     var isUpcoming: Bool = false
-    @State var date: String?
     var body: some View {
         // MARK: - Movie Item
         Button(action: {}){
@@ -58,7 +57,7 @@ struct MovieItemComponent: View {
                 } // :VStack
                 
                 if isUpcoming {
-                    Text(date ?? "")
+                    Text(movie.releaseDateFormatted)
                         .foregroundStyle(.white)
                         .minimumScaleFactor(0.5)
                         .frame(width: 75, height: 10)
@@ -71,22 +70,8 @@ struct MovieItemComponent: View {
                 }
                 
             } // :ZStack
-            
         } // :Button
         .frame(width: 115, height: 165)
-        .onAppear {
-            if isUpcoming {
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd"
-                
-                let dateFormatted = dateFormatter.date(from: movie.release_date)
-                
-                let outputDate = DateFormatter()
-                outputDate.dateFormat = "dd MMM yyyy"
-                
-                date = outputDate.string(from: dateFormatted!)
-            }
-        }
     }
     
 }

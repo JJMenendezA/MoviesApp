@@ -58,6 +58,18 @@ struct MovieInfo: Decodable, Hashable {
     var hasHalfStar: Bool {
         vote_average.truncatingRemainder(dividingBy: 1) >= 0.5
     }
+    
+    var releaseDateFormatted: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        let dateFormatted = dateFormatter.date(from: release_date)
+        
+        let outputDate = DateFormatter()
+        outputDate.dateFormat = "dd MMM yyyy"
+        
+        return outputDate.string(from: dateFormatted!)
+    }
 }
 
 struct Dates: Decodable, Hashable {
