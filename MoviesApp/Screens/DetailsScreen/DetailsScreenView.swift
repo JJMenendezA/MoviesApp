@@ -25,23 +25,20 @@ struct DetailsScreenView: View {
                         .foregroundStyle(.white)
                     
                 }
-              
+                
                 Spacer()
                 
                 Text(movie.title)
                     .font(.title)
-                    .fontWeight(.bold)
+                    .fontWeight(.semibold)
                     .foregroundStyle(.white)
-                    .multilineTextAlignment(.center)
-
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                
+                
                 Spacer()
             } // :HStack
             .padding(.horizontal)
-            
-            Divider()
-                .frame(height: 0.5)
-                .overlay(.white)
-                .padding(.horizontal)
             
             ScrollView {
                 VStack {
@@ -50,23 +47,22 @@ struct DetailsScreenView: View {
                         .frame(width: 300, height: 425)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .shadow(radius: 10)
-
-                    Divider()
-                        .frame(height: 0.5)
-                        .overlay(.white)
-                        .padding(.horizontal)
-                        .padding(.top)
+                        .padding(.bottom, 20)
                     
                     HStack {
                         Spacer()
                         VStack {
-                            Text("Release date:")
-                                .font(.title3)
-                                .fontWeight(.bold)
+                            Text("Release date")
+                                .font(.headline)
+                                .fontWeight(.semibold)
+                                .padding(.horizontal, 5)
                                 .foregroundStyle(.white)
-                                .padding(7)
-                                .background(customLinearGradient(colors: [.gray900, .purple900]))
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                                .padding(10)
+                                .frame(maxWidth: 150, maxHeight: 40)
+                                .multilineTextAlignment(.center)
+                                .background(customLinearGradient(colors: [.purple900, .purple500]).opacity(0.5))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .multilineTextAlignment(.center)
                             
                             Text(movie.releaseDateFormatted)
                                 .font(.body)
@@ -75,20 +71,58 @@ struct DetailsScreenView: View {
                         
                         Spacer()
                         
-                        Divider()
-                            .frame(width: 1)
-                            .overlay(.white)
+                        VStack {
+                            Text("Vote average")
+                                .font(.headline)
+                                .fontWeight(.semibold)
+                                .padding(.horizontal, 5)
+                                .foregroundStyle(.white)
+                                .padding(10)
+                                .frame(maxWidth: 150, maxHeight: 40)
+                                .multilineTextAlignment(.center)
+                                .background(customLinearGradient(colors: [.purple900, .purple500]).opacity(0.5))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                            
+                            HStack {
+                                ForEach (0..<movie.stars, id: \.self) { index in
+                                    Image(systemName: "star.fill")
+                                        .resizable()
+                                        .frame(width: 20, height: 20)
+                                }
+                                
+                                if movie.hasHalfStar {
+                                    Image(systemName: "star.leadinghalf.filled")
+                                        .resizable()
+                                        .frame(width: 20, height: 20)
+                                }
+                            } // :HStack
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 10)
+                        } // :VStack
                         
+                        Spacer()
+                    } // :HStack
+                    .padding(.horizontal)
+                    .padding(.bottom, 20)
+                    
+                    
+                    
+                    HStack {
                         Spacer()
                         
                         VStack {
-                            Text("Original language:")
-                                .font(.title3)
-                                .fontWeight(.bold)
+                            Text("Original language")
+                                .font(.headline)
+                                .fontWeight(.semibold)
+                                .padding(.horizontal, 5)
                                 .foregroundStyle(.white)
-                                .padding(7)
-                                .background(customLinearGradient(colors: [.gray900, .purple900]))
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                                .minimumScaleFactor(0.5)
+                                .padding(10)
+                                .frame(maxWidth: 150, maxHeight: 40)
+                                .multilineTextAlignment(.center)
+                                .background(customLinearGradient(colors: [.purple900, .purple500]).opacity(0.5))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                
                             
                             Text(movie.originalLanguageComplete)
                                 .font(.body)
@@ -96,57 +130,46 @@ struct DetailsScreenView: View {
                         } // :VStack
                         
                         Spacer()
+                        
+                        VStack {
+                            Text("Original title")
+                                .font(.headline)
+                                .fontWeight(.semibold)
+                                .padding(.horizontal, 5)
+                                .foregroundStyle(.white)
+                                .padding(10)
+                                .frame(maxWidth: 150, maxHeight: 40)
+                                .multilineTextAlignment(.center)
+                                .background(customLinearGradient(colors: [.purple900, .purple500]).opacity(0.5))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                            
+                            Text(movie.original_title)
+                                .font(.body)
+                                .foregroundStyle(.white)
+                                .minimumScaleFactor(0.5)
+                                .lineLimit(1)
+                                .frame(maxWidth: 150, maxHeight: 40)
+                        } // :VStack
+                        Spacer()
                     } // :HStack
+                    .padding(.horizontal)
+                    .padding(.bottom, 20)
                     
-                    Divider()
-                        .frame(height: 0.5)
-                        .overlay(.white)
-                        .padding(.horizontal)
-                    
-                    Text("Overview:")
+                    Text("Overview")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .padding(.horizontal, 5)
                         .foregroundStyle(.white)
-                        .fontWeight(.bold)
-                        .font(.title2)
-                        .padding(7)
-                        .background(customLinearGradient(colors: [.gray900, .purple900]))
-                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                        .padding(10)
+                        .frame(maxWidth: 150, maxHeight: 40)
+                        .multilineTextAlignment(.center)
+                        .background(customLinearGradient(colors: [.purple900, .purple500]).opacity(0.5))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
                     
                     Text(movie.overview)
                         .foregroundStyle(.white)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
-                    
-                    Divider()
-                        .frame(height: 0.5)
-                        .overlay(.white)
-                        .padding(.horizontal)
-                    
-                    Text("Vote average:")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.white)
-                        .padding(7)
-                        .background(customLinearGradient(colors: [.gray900, .purple900]))
-                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                    
-                    HStack {
-                        ForEach (0..<movie.stars, id: \.self) { index in
-                            Image(systemName: "star.fill")
-                                .resizable()
-                                .frame(width: 20, height: 20)
-                        }
-                        
-                        if movie.hasHalfStar {
-                            Image(systemName: "star.leadinghalf.filled")
-                                .resizable()
-                                .frame(width: 20, height: 20)
-                        }
-                    } // :HStack
-                    .foregroundStyle(.white)
-                    .padding(.bottom, 10)
-                    .padding(.horizontal, 10)
-                    
-                    
                     
                     Spacer()
                     
