@@ -70,6 +70,10 @@ struct MovieInfo: Decodable, Hashable {
         
         return outputDate.string(from: dateFormatted!)
     }
+    
+    var originalLanguageComplete: String {
+        Locale.current.localizedString(forLanguageCode: original_language) ?? original_language
+    }
 }
 
 struct Dates: Decodable, Hashable {
