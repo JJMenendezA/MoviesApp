@@ -10,12 +10,15 @@ import SwiftUI
 import Kingfisher
 
 struct DetailsScreenView: View {
-    var movie: MovieInfo = dummyMovieInfo
+    @Environment(\.dismiss) var dismiss
+    var movie: MovieInfo
     var body: some View {
         VStack {
             
             HStack(spacing: 0) {
-                Button(action: {}) {
+                Button(action: {
+                    dismiss()
+                }) {
                     Image(systemName: "arrow.left")
                         .font(.title)
                         .fontWeight(.bold)
@@ -29,6 +32,7 @@ struct DetailsScreenView: View {
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundStyle(.white)
+                    .multilineTextAlignment(.center)
 
                 Spacer()
             } // :HStack
@@ -152,9 +156,10 @@ struct DetailsScreenView: View {
         } // :VStack
         .frame(maxWidth: .infinity)
         .background(.gray900)
+        .navigationBarBackButtonHidden(true)
     }
 }
 
 #Preview {
-    DetailsScreenView()
+    DetailsScreenView(movie: dummyMovieInfo)
 }
