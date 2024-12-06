@@ -13,32 +13,32 @@ struct DetailsScreenView: View {
     @Environment(\.dismiss) var dismiss
     var movie: MovieInfo
     var body: some View {
-        VStack {
-            
-            HStack(spacing: 0) {
+        VStack(spacing: 0) {
+            ZStack(alignment: .leading) {
                 Button(action: {
                     dismiss()
                 }) {
                     Image(systemName: "arrow.left")
-                        .font(.title)
+                        .font(.title2)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
-                    
                 }
+                .padding(.leading)
                 
-                Spacer()
-                
-                Text(movie.title)
-                    .font(.title)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.white)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
-                
-                
-                Spacer()
-            } // :HStack
-            .padding(.horizontal)
+                HStack {
+                    Spacer()
+                    Text(movie.title)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.white)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                    Spacer()
+                }
+            }
+            .padding(.bottom)
+            .background(.black)
+            .shadow(color: .black, radius: 10)
             
             ScrollView {
                 VStack {
@@ -55,12 +55,11 @@ struct DetailsScreenView: View {
                             Text("Release date")
                                 .font(.headline)
                                 .fontWeight(.semibold)
-                                .padding(.horizontal, 5)
                                 .foregroundStyle(.white)
-                                .padding(10)
+                                .padding(.vertical, 10)
                                 .frame(maxWidth: 150, maxHeight: 40)
                                 .multilineTextAlignment(.center)
-                                .background(customLinearGradient(colors: [.purple900, .purple500]).opacity(0.5))
+                                .background(customLinearGradient(colors: [.gray900, .black]).opacity(0.5))
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                                 .multilineTextAlignment(.center)
                             
@@ -75,12 +74,11 @@ struct DetailsScreenView: View {
                             Text("Vote average")
                                 .font(.headline)
                                 .fontWeight(.semibold)
-                                .padding(.horizontal, 5)
                                 .foregroundStyle(.white)
-                                .padding(10)
+                                .padding(.vertical, 10)
                                 .frame(maxWidth: 150, maxHeight: 40)
                                 .multilineTextAlignment(.center)
-                                .background(customLinearGradient(colors: [.purple900, .purple500]).opacity(0.5))
+                                .background(customLinearGradient(colors: [.gray900, .black]).opacity(0.5))
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                             
                             HStack {
@@ -102,7 +100,6 @@ struct DetailsScreenView: View {
                         
                         Spacer()
                     } // :HStack
-                    .padding(.horizontal)
                     .padding(.bottom, 20)
                     
                     
@@ -114,15 +111,14 @@ struct DetailsScreenView: View {
                             Text("Original language")
                                 .font(.headline)
                                 .fontWeight(.semibold)
-                                .padding(.horizontal, 5)
                                 .foregroundStyle(.white)
                                 .minimumScaleFactor(0.5)
-                                .padding(10)
+                                .padding(.vertical, 10)
                                 .frame(maxWidth: 150, maxHeight: 40)
                                 .multilineTextAlignment(.center)
-                                .background(customLinearGradient(colors: [.purple900, .purple500]).opacity(0.5))
+                                .background(customLinearGradient(colors: [.gray900, .black]).opacity(0.5))
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
-                                
+                            
                             
                             Text(movie.originalLanguageComplete)
                                 .font(.body)
@@ -135,12 +131,11 @@ struct DetailsScreenView: View {
                             Text("Original title")
                                 .font(.headline)
                                 .fontWeight(.semibold)
-                                .padding(.horizontal, 5)
                                 .foregroundStyle(.white)
-                                .padding(10)
+                                .padding(.vertical, 10)
                                 .frame(maxWidth: 150, maxHeight: 40)
                                 .multilineTextAlignment(.center)
-                                .background(customLinearGradient(colors: [.purple900, .purple500]).opacity(0.5))
+                                .background(customLinearGradient(colors: [.gray900, .black]).opacity(0.5))
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                             
                             Text(movie.original_title)
@@ -152,29 +147,28 @@ struct DetailsScreenView: View {
                         } // :VStack
                         Spacer()
                     } // :HStack
-                    .padding(.horizontal)
                     .padding(.bottom, 20)
                     
                     Text("Overview")
                         .font(.headline)
                         .fontWeight(.semibold)
-                        .padding(.horizontal, 5)
                         .foregroundStyle(.white)
                         .padding(10)
                         .frame(maxWidth: 150, maxHeight: 40)
                         .multilineTextAlignment(.center)
-                        .background(customLinearGradient(colors: [.purple900, .purple500]).opacity(0.5))
+                        .background(customLinearGradient(colors: [.gray900, .black]).opacity(0.5))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                     
                     Text(movie.overview)
                         .foregroundStyle(.white)
                         .multilineTextAlignment(.center)
-                        .padding(.horizontal)
+                    
                     
                     Spacer()
                     
                 } // :VStack
-                
+                .padding(.horizontal, 30)
+                .padding(.vertical)
             } // :ScrollView
         } // :VStack
         .frame(maxWidth: .infinity)
