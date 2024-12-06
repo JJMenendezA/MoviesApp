@@ -47,7 +47,7 @@ struct DetailsScreenView: View {
                 VStack {
                     KFImage(movieImageURL.appendingPathComponent(movie.poster_path))
                         .resizable()
-                        .frame(width: 300, height: 400)
+                        .frame(width: 300, height: 425)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .shadow(radius: 10)
 
