@@ -67,7 +67,7 @@ struct DetailsScreenView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                     .multilineTextAlignment(.center)
                                 
-                                Text(movie.releaseDateFormatted)
+                                Text(movie.releaseDateFormatted.isEmpty ? "No date available." : movie.releaseDateFormatted)
                                     .font(.body)
                                     .foregroundStyle(.white)
                                     .frame(height: 50)
@@ -185,6 +185,7 @@ struct DetailsScreenView: View {
                         Text(movie.overview)
                             .foregroundStyle(.white)
                             .multilineTextAlignment(.center)
+                            .padding(.bottom, 20)
                         
                         Text("Similar movies")
                             .font(.headline)

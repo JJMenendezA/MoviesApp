@@ -60,15 +60,19 @@ struct MovieInfo: Decodable, Hashable {
     }
     
     var releaseDateFormatted: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        let dateFormatted = dateFormatter.date(from: release_date)
-        
-        let outputDate = DateFormatter()
-        outputDate.dateFormat = "dd MMM yyyy"
-        
-        return outputDate.string(from: dateFormatted!)
+        if release_date == "" {
+            return release_date
+        } else {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            let dateFormatted = dateFormatter.date(from: release_date)
+            
+            let outputDate = DateFormatter()
+            outputDate.dateFormat = "dd MMM yyyy"
+            
+            return outputDate.string(from: dateFormatted!)
+        }
     }
     
     var originalLanguageComplete: String {
