@@ -58,4 +58,19 @@ class MoviesService: MoviesServiceProtocol {
             }
         }
     }
+    
+    func fetchSimilarMovies(endPoint: String, completion: @escaping (Result<Movies, AppError>) -> Void){
+        networkManager.getMoviesRequest(endpoint: endPoint, response: Movies.self) { result in
+            switch result {
+            case .success(let fetchedMovies):
+                DispatchQueue.main.async {
+                    completion(.success(fetchedMovies))
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
 }

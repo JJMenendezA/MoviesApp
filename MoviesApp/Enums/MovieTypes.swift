@@ -32,3 +32,13 @@ enum MovieTypes: CaseIterable {
         }
     }
 }
+
+enum MoviePathTypes {
+    case similar(movieId: Int)
+
+    var endpoint: String {
+        switch self {
+        case .similar(movieId: let movieId): return "movie/\(movieId)/similar"
+        }
+    }
+}
