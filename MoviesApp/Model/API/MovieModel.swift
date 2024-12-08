@@ -43,7 +43,7 @@ struct MovieInfo: Decodable, Hashable {
     let original_title: String
     let overview: String
     let popularity: CGFloat
-    let poster_path: String
+    let poster_path: String?
     let release_date: String
     let title: String
     let video: Bool

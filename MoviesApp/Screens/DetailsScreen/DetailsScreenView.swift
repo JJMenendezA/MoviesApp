@@ -46,12 +46,14 @@ struct DetailsScreenView: View {
                 
                 ScrollView {
                     VStack {
-                        KFImage(movieImageURL.appendingPathComponent(movie.poster_path))
-                            .resizable()
-                            .frame(width: 300, height: 425)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .shadow(radius: 10)
-                            .padding(.bottom, 20)
+                        if let moviePosterPath = movie.poster_path {
+                            KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
+                                .resizable()
+                                .frame(width: 300, height: 425)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .shadow(radius: 10)
+                                .padding(.bottom, 20)
+                        }
                         
                         HStack {
                             Spacer()
@@ -215,6 +217,9 @@ struct DetailsScreenView: View {
                 LoaderComponent()
             }
         } // :ZStack
+        .alert(isPresented: $detailsScreenViewModel.hasErrorTrigerred){
+            Alert(title: Text("Error"), message: Text(detailsScreenViewModel.error!.localizedDescription), dismissButton: .default(Text("Retry"), action: { detailsScreenViewModel.fetchMovieDetails(movieId: movie.id) }))
+        }
         .onAppear {
             detailsScreenViewModel.fetchMovieDetails(movieId: movie.id)
         }

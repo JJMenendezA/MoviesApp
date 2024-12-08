@@ -11,6 +11,9 @@ import Foundation
 
 class DetailsScreenViewModel: ObservableObject {
     @Published var isLoading: Bool = false
+    @Published var hasErrorTrigerred: Bool = false
+    @Published var error: AppError?
+    
     var similarMoviesList: [MovieInfo] = []
     
     private let moviesService: MoviesService
@@ -29,7 +32,8 @@ class DetailsScreenViewModel: ObservableObject {
                 self.isLoading =  false
                 
             case .failure(let error):
-                print(error)
+                self.error = error
+                self.hasErrorTrigerred = true
                 self.isLoading = false
                 
             }

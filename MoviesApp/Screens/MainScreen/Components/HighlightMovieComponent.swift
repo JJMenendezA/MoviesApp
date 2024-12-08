@@ -12,35 +12,37 @@ struct HighlightMovieComponent: View {
     var movie: MovieInfo
     var body: some View {
         ZStack {
-            KFImage(movieImageURL.appendingPathComponent(movie.poster_path))
-                .resizable()
-                .frame(height: 700)
-                .overlay{
-                    Color.black.opacity(0.6)
-                }
-            
-            VStack {
-                KFImage(movieImageURL.appendingPathComponent(movie.poster_path))
+            if let moviePosterPath = movie.poster_path {
+                KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
                     .resizable()
-                    .frame(width: 250, height: 350)
-                    .padding(.horizontal, 35)
-                    .padding(.top, 45)
+                    .frame(height: 700)
+                    .overlay{
+                        Color.black.opacity(0.6)
+                    }
                 
                 VStack {
-                    Text("Random pick of the day 👍")
-                        .foregroundStyle(.white.opacity(0.8))
-                        .font(.caption)
+                    KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
+                        .resizable()
+                        .frame(width: 250, height: 350)
+                        .padding(.horizontal, 35)
+                        .padding(.top, 45)
                     
-                    Text(movie.title)
-                        .multilineTextAlignment(.center)
-                        .frame(alignment: .center)
-                        .foregroundStyle(.white)
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
+                    VStack {
+                        Text("Random pick of the day 👍")
+                            .foregroundStyle(.white.opacity(0.8))
+                            .font(.caption)
+                        
+                        Text(movie.title)
+                            .multilineTextAlignment(.center)
+                            .frame(alignment: .center)
+                            .foregroundStyle(.white)
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                    } // :VStack
+                    .padding()
                 } // :VStack
-                .padding()
-            } // :VStack
-        } // :ZStack
+            } // :ZStack
+        }
     }
 }
 

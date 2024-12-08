@@ -59,7 +59,7 @@ class NetworkManager {
                 }
             
             print("---------------Data-----------------")
-            print(data)
+            print(String(decoding: data, as: UTF8.self))
             
             do {
                 let decodedObject = try JSONDecoder().decode(T.self, from: data)

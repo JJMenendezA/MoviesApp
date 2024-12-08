@@ -15,14 +15,17 @@ struct MovieItemComponent: View {
         // MARK: - Movie Item
         NavigationLink(destination: DetailsScreenView(movie: movie)){
                 ZStack {
-                    KFImage(movieImageURL.appendingPathComponent(movie.poster_path))
-                        .resizable()
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .overlay {
-                            // Gradient for the image
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(LinearGradient(colors: [.black.opacity(0.8), .clear], startPoint: .bottom, endPoint: .top))
-                        }
+                    if let moviePosterPath = movie.poster_path {
+                        KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
+                            .resizable()
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .overlay {
+                                // Gradient for the image
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(LinearGradient(colors: [.black.opacity(0.8), .clear], startPoint: .bottom, endPoint: .top))
+                            }
+                    }
+                   
                     
                     VStack {
                         Spacer()
