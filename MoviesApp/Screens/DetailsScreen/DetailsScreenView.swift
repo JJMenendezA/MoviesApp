@@ -14,6 +14,7 @@ struct DetailsScreenView: View {
     var movie: MovieInfo
     var body: some View {
         VStack(spacing: 0) {
+            // MARK: - HEADER SECTION
             ZStack(alignment: .leading) {
                 Button(action: {
                     dismiss()
@@ -33,9 +34,10 @@ struct DetailsScreenView: View {
                         .foregroundStyle(.white)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
+                        .frame(maxWidth: 300)
                     Spacer()
-                }
-            }
+                } // :HStack
+            } // :ZStack
             .padding(.bottom)
             .background(.black)
             .shadow(color: .black, radius: 10)
@@ -66,8 +68,9 @@ struct DetailsScreenView: View {
                             Text(movie.releaseDateFormatted)
                                 .font(.body)
                                 .foregroundStyle(.white)
+                                .frame(height: 50)
                         } // :VStack
-                        
+                        .frame(width: 150)
                         Spacer()
                         
                         VStack {
@@ -81,23 +84,37 @@ struct DetailsScreenView: View {
                                 .background(customLinearGradient(colors: [.gray900, .black]).opacity(0.5))
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                             
+                            // MARK: - STAR SECTION
                             HStack {
-                                ForEach (0..<movie.stars, id: \.self) { index in
-                                    Image(systemName: "star.fill")
-                                        .resizable()
-                                        .frame(width: 20, height: 20)
-                                }
-                                
-                                if movie.hasHalfStar {
-                                    Image(systemName: "star.leadinghalf.filled")
-                                        .resizable()
-                                        .frame(width: 20, height: 20)
+                                if movie.stars > 0 {
+                                    ForEach (0..<movie.stars, id: \.self) { index in
+                                        Image(systemName: "star.fill")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                            .frame(height: 50)
+                                    }
+                                    
+                                    if movie.hasHalfStar {
+                                        Image(systemName: "star.leadinghalf.filled")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                            .frame(height: 50)
+                                    }
+                                } else {
+                                    Text("No rating available.")
+                                        .font(.body)
+                                        .foregroundStyle(.white)
+                                        .frame(maxWidth: 150, maxHeight: 40)
+                                        .minimumScaleFactor(0.5)
+                                        .multilineTextAlignment(.center)
+                                        .lineLimit(2)
+                                        .frame(height: 50)
                                 }
                             } // :HStack
                             .foregroundStyle(.white)
                             .padding(.horizontal, 10)
                         } // :VStack
-                        
+                        .frame(width: 150)
                         Spacer()
                     } // :HStack
                     .padding(.bottom, 20)
@@ -123,7 +140,9 @@ struct DetailsScreenView: View {
                             Text(movie.originalLanguageComplete)
                                 .font(.body)
                                 .foregroundStyle(.white)
+                                .frame(height: 50)
                         } // :VStack
+                        .frame(width: 150)
                         
                         Spacer()
                         
@@ -142,9 +161,11 @@ struct DetailsScreenView: View {
                                 .font(.body)
                                 .foregroundStyle(.white)
                                 .minimumScaleFactor(0.5)
-                                .lineLimit(1)
-                                .frame(maxWidth: 150, maxHeight: 40)
+                                .lineLimit(2)
+                                .multilineTextAlignment(.center)
+                                .frame(height: 50)
                         } // :VStack
+                        .frame(width: 150)
                         Spacer()
                     } // :HStack
                     .padding(.bottom, 20)
