@@ -13,7 +13,7 @@ struct MovieItemComponent: View {
     var isUpcoming: Bool = false
     var body: some View {
         // MARK: - Movie Item
-        NavigationLink(destination: DetailsScreenView(movie: movie)){
+        NavigationLink(destination: DetailsScreenView(movieId: movie.id)){
             ZStack {
                 if let moviePosterPath = movie.poster_path {
                     KFImage(movieImageURL.appendingPathComponent(moviePosterPath))

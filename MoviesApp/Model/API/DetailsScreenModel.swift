@@ -9,9 +9,9 @@
 import Foundation
 
 struct MovieDetails: Decodable, Hashable {
-    let adult: Bool
+    let adult: Bool?
     let backdrop_path: String?
-    let belongs_to_collection: [MovieCollection]?
+    let belongs_to_collection: MovieCollection?
     let budget: Int
     let genres: [Genre]
     let homepage: String
@@ -19,6 +19,7 @@ struct MovieDetails: Decodable, Hashable {
     let imdb_id: String
     let original_language: String
     let original_title: String
+    let origin_country: [String]
     let overview: String
     let popularity: CGFloat
     let poster_path: String?
@@ -37,8 +38,35 @@ struct MovieDetails: Decodable, Hashable {
     let videos: Videos
     let similar: Movies
     
+    // Computed Properties
+    var stars: Int {
+        Int(vote_average.rounded(.down))/2
+    }
+    
+    var hasHalfStar: Bool {
+        vote_average.truncatingRemainder(dividingBy: 1) >= 0.5
+    }
+    
+    var releaseDateFormatted: String {
+        if release_date == "" {
+            return release_date
+        } else {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            let dateFormatted = dateFormatter.date(from: release_date)
+            
+            let outputDate = DateFormatter()
+            outputDate.dateFormat = "dd MMM yyyy"
+            
+            return outputDate.string(from: dateFormatted!)
+        }
+    }
+    
+    var originalLanguageComplete: String {
+        Locale.current.localizedString(forLanguageCode: original_language) ?? original_language
+    }
 }
-
 
 struct Genre: Decodable, Hashable {
     let id: Int
@@ -55,7 +83,7 @@ struct MovieCollection: Decodable, Hashable {
 
 struct ProductionCompany: Decodable, Hashable {
     let id: Int
-    let logo_path: String
+    let logo_path: String?
     let name: String
     let origin_country: String
 }
