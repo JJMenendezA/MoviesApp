@@ -45,7 +45,7 @@ class MoviesService: MoviesServiceProtocol {
     }
     
     func fetchMovies(endpoint: String, completion: @escaping (Result<Movies, AppError>) -> Void) {
-        networkManager.getMoviesRequest(endpoint: endpoint, response: Movies.self) { result in
+        networkManager.getMoviesRequest(endpoint: endpoint, queryItems: [URLQueryItem(name: "language", value: "en-US"), URLQueryItem(name: "page", value: "1")], response: Movies.self) { result in
             switch result {
             case .success(let fetchedMovies):
                 DispatchQueue.main.async {
@@ -60,7 +60,7 @@ class MoviesService: MoviesServiceProtocol {
     }
     
     func fetchSimilarMovies(endPoint: String, completion: @escaping (Result<Movies, AppError>) -> Void){
-        networkManager.getMoviesRequest(endpoint: endPoint, response: Movies.self) { result in
+        networkManager.getMoviesRequest(endpoint: endPoint, queryItems: nil, response: Movies.self) { result in
             switch result {
             case .success(let fetchedMovies):
                 DispatchQueue.main.async {
