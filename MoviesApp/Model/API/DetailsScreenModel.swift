@@ -11,7 +11,7 @@ import Foundation
 struct MovieDetails: Decodable, Hashable {
     let adult: Bool
     let backdrop_path: String?
-    let belongs_to_collection: String
+    let belongs_to_collection: [MovieCollection]?
     let budget: Int
     let genres: [Genre]
     let homepage: String
@@ -34,6 +34,8 @@ struct MovieDetails: Decodable, Hashable {
     let video: Bool
     let vote_average: CGFloat
     let vote_count: Int
+    let videos: Videos
+    let similar: Movies
     
 }
 
@@ -41,6 +43,14 @@ struct MovieDetails: Decodable, Hashable {
 struct Genre: Decodable, Hashable {
     let id: Int
     let name: String
+}
+
+struct MovieCollection: Decodable, Hashable {
+    let id: Int
+    let name: String
+    let poster_path: String
+    let backdrop_path: String
+    
 }
 
 struct ProductionCompany: Decodable, Hashable {
@@ -62,7 +72,7 @@ struct SpokenLanguage: Decodable, Hashable {
 }
 
 struct Videos: Decodable, Hashable {
-    let id: Int
+    let id: Int?
     let results: [ResultVideo]
 }
 

@@ -25,10 +25,10 @@ class DetailsScreenViewModel: ObservableObject {
     
     func fetchMovieDetails(movieId: Int) {
         isLoading = true
-        moviesService.fetchSimilarMovies(endPoint: MoviePathTypes.similar(movieId: movieId).endpoint, completion: { result in
+        moviesService.fetchMovieDetails(endPoint: MoviePathTypes.details(movieId: movieId).endpoint, completion: { result in
             switch result {
             case .success(let fetchedMovies):
-                self.similarMoviesList = fetchedMovies.results
+                self.similarMoviesList = fetchedMovies.similar.results
                 self.isLoading =  false
                 
             case .failure(let error):
