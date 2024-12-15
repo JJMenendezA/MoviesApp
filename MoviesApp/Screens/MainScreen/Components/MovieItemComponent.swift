@@ -24,6 +24,21 @@ struct MovieItemComponent: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(LinearGradient(colors: [.black.opacity(0.8), .clear], startPoint: .bottom, endPoint: .top))
                         }
+                } else {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(.clear)
+                        .overlay {
+                            VStack {
+                                Text("No poster available")
+                                    .foregroundStyle(.gray700)
+                                Spacer()
+                            }
+                            .padding()
+                            
+                            // Gradient for the image
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(LinearGradient(colors: [.black.opacity(0.8), .clear], startPoint: .bottom, endPoint: .top))
+                        }
                 }
                 
                 
