@@ -62,6 +62,19 @@ struct DetailsScreenView: View {
                                     .padding(.bottom, 20)
                             }
                             
+                            if let movie = detailsScreenViewModel.movieDetails {
+                                Text("\(movie.tagline)")
+                                    .italic()
+                                    .fontWeight(.heavy)
+                                    .foregroundStyle(.white)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.bottom, movie.tagline.isEmpty ? 0 : 20)
+                                    .lineLimit(2)
+                                    .minimumScaleFactor(0.5)
+                            }
+                          
+                            
+                            
                             HStack {
                                 Spacer()
                                 VStack {
@@ -228,9 +241,9 @@ struct DetailsScreenView: View {
                 } // :VStack
                 .frame(maxWidth: .infinity)
                 .background(.gray900)
-                .navigationBarBackButtonHidden(true)
             }
         } // :ZStack
+        .navigationBarBackButtonHidden(true)
         .alert(isPresented: $detailsScreenViewModel.hasErrorTrigerred){
             Alert(title: Text("Error"), message: Text(detailsScreenViewModel.error!.localizedDescription), dismissButton: .default(Text("Retry"), action: { detailsScreenViewModel.fetchMovieDetails(movieId: movieId) }))
         }
