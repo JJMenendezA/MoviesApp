@@ -179,6 +179,24 @@ struct DetailsScreenView: View {
                                             .foregroundStyle(.white)
                                             .frame(height: 50)
                                             .multilineTextAlignment(.center)
+                                            .lineLimit(2)
+                                            .minimumScaleFactor(0.5)
+                                    }
+                                    
+                                } // :VStack
+                                .frame(width: 150)
+                                
+                                Spacer()
+                                
+                                VStack {
+                                    DetailsScreenTitleComponent(text: "Run time")
+                                    
+                                    if let movie = detailsScreenViewModel.movieDetails {
+                                        Text(String(movie.runtime) + " minutes")
+                                            .font(.body)
+                                            .foregroundStyle(.white)
+                                            .frame(height: 50)
+                                            .multilineTextAlignment(.center)
                                     }
                                     
                                 } // :VStack
@@ -186,6 +204,7 @@ struct DetailsScreenView: View {
                                 
                                 Spacer()
                             } // :HStack
+                            .padding(.bottom, 20)
                             
                             DetailsScreenTitleComponent(text: "Overview")
                             
