@@ -192,7 +192,7 @@ struct DetailsScreenView: View {
                                     DetailsScreenTitleComponent(text: "Run time")
                                     
                                     if let movie = detailsScreenViewModel.movieDetails {
-                                        Text(String(movie.runtime) + " minutes")
+                                        Text(movie.runtime == 0 ? "No run time available." : String(movie.runtime) + " minutes")
                                             .font(.body)
                                             .foregroundStyle(.white)
                                             .frame(height: 50)
