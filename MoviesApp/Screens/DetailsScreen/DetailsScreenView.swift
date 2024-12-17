@@ -78,16 +78,7 @@ struct DetailsScreenView: View {
                             HStack {
                                 Spacer()
                                 VStack {
-                                    Text("Release date")
-                                        .font(.headline)
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(.white)
-                                        .padding(.vertical, 10)
-                                        .frame(maxWidth: 150, maxHeight: 40)
-                                        .multilineTextAlignment(.center)
-                                        .background(customLinearGradient(colors: [.gray900, .black]).opacity(0.5))
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                                        .multilineTextAlignment(.center)
+                                    DetailsScreenTitleComponent(text: "Release date")
                                     
                                     if let movie = detailsScreenViewModel.movieDetails {
                                         Text(movie.releaseDateFormatted.isEmpty ? "No date available." : movie.releaseDateFormatted)
@@ -101,15 +92,7 @@ struct DetailsScreenView: View {
                                 Spacer()
                                 
                                 VStack {
-                                    Text("Vote average")
-                                        .font(.headline)
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(.white)
-                                        .padding(.vertical, 10)
-                                        .frame(maxWidth: 150, maxHeight: 40)
-                                        .multilineTextAlignment(.center)
-                                        .background(customLinearGradient(colors: [.gray900, .black]).opacity(0.5))
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    DetailsScreenTitleComponent(text: "Vote average")
                                     
                                     // MARK: - STAR SECTION
                                     HStack {
@@ -154,16 +137,7 @@ struct DetailsScreenView: View {
                                 Spacer()
                                 
                                 VStack {
-                                    Text("Original language")
-                                        .font(.headline)
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(.white)
-                                        .minimumScaleFactor(0.5)
-                                        .padding(.vertical, 10)
-                                        .frame(maxWidth: 150, maxHeight: 40)
-                                        .multilineTextAlignment(.center)
-                                        .background(customLinearGradient(colors: [.gray900, .black]).opacity(0.5))
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    DetailsScreenTitleComponent(text: "Original language")
                                     
                                     if let movie = detailsScreenViewModel.movieDetails {
                                         Text(movie.originalLanguageComplete)
@@ -177,15 +151,7 @@ struct DetailsScreenView: View {
                                 Spacer()
                                 
                                 VStack {
-                                    Text("Original title")
-                                        .font(.headline)
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(.white)
-                                        .padding(.vertical, 10)
-                                        .frame(maxWidth: 150, maxHeight: 40)
-                                        .multilineTextAlignment(.center)
-                                        .background(customLinearGradient(colors: [.gray900, .black]).opacity(0.5))
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    DetailsScreenTitleComponent(text: "Original title")
                                     
                                     if let movie = detailsScreenViewModel.movieDetails {
                                         Text(movie.original_title)
@@ -202,15 +168,7 @@ struct DetailsScreenView: View {
                             } // :HStack
                             .padding(.bottom, 20)
                             
-                            Text("Overview")
-                                .font(.headline)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.white)
-                                .padding(10)
-                                .frame(maxWidth: 150, maxHeight: 40)
-                                .multilineTextAlignment(.center)
-                                .background(customLinearGradient(colors: [.gray900, .black]).opacity(0.5))
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                            DetailsScreenTitleComponent(text: "Overview")
                             
                             if let movie = detailsScreenViewModel.movieDetails {
                                 Text(movie.overview)
@@ -219,15 +177,7 @@ struct DetailsScreenView: View {
                                     .padding(.bottom, 20)
                             }
                             
-                            Text("Similar movies")
-                                .font(.headline)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.white)
-                                .padding(10)
-                                .frame(maxWidth: 150, maxHeight: 40)
-                                .multilineTextAlignment(.center)
-                                .background(customLinearGradient(colors: [.gray900, .black]).opacity(0.5))
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                            DetailsScreenTitleComponent(text: "Similar movies")
                             
                             MoviesListComponent(movies: detailsScreenViewModel.similarMoviesList)
                             
