@@ -53,25 +53,33 @@ struct MovieItemComponent: View {
                         .frame(height: 40)
                         .padding(.horizontal, 5)
                     
-                    HStack {
-                        ForEach (0..<movie.stars, id: \.self) { index in
-                            Image(systemName: "star.fill")
-                                .resizable()
-                                .frame(width: 10, height: 10)
-                        }
-                        
-                        if movie.hasHalfStar {
-                            Image(systemName: "star.leadinghalf.filled")
-                                .resizable()
-                                .frame(width: 10, height: 10)
-                        }
-                    } // :HStack
-                    .foregroundStyle(.white)
-                    .minimumScaleFactor(0.4)
-                    .frame(width: 75, height: 10)
-                    .font(Font.system(size: 15))
-                    .padding(.bottom, 10)
-                    .padding(.horizontal, 10)
+                    if !isUpcoming {
+                        HStack {
+                            ForEach (0..<movie.stars, id: \.self) { index in
+                                Image(systemName: "star.fill")
+                                    .resizable()
+                                    .frame(width: 10, height: 10)
+                            }
+                            
+                            if movie.hasHalfStar {
+                                Image(systemName: "star.leadinghalf.filled")
+                                    .resizable()
+                                    .frame(width: 10, height: 10)
+                            }
+                        } // :HStack
+                        .foregroundStyle(.white)
+                        .minimumScaleFactor(0.4)
+                        .frame(width: 75, height: 10)
+                        .font(Font.system(size: 15))
+                        .padding(.bottom, 10)
+                        .padding(.horizontal, 10)
+                    } else {
+                        Rectangle()
+                            .fill(.clear)
+                            .frame(width: 75, height: 10)
+                            .padding(.bottom, 10)
+                            .padding(.horizontal, 10)
+                    }
                 } // :VStack
                 
                 if isUpcoming {
