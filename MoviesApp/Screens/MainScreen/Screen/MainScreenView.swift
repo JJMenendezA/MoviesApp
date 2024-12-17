@@ -57,8 +57,10 @@ struct MainScreenView: View {
                                     }
                                     
                                     // MARK: - ANNOUNCEMENTS SECTION
-                                    MainScreenTitleComponent(text: "Important announcements")
-                                        .padding(.vertical, 10)
+                                    LeadAlignedView {
+                                        DetailsScreenTitleComponent(text: "Important announcements", maxWidth: 250)
+                                            .padding(.vertical, 10)
+                                    } // :LeadAlignedView
                                     AnnouncementsComponent()
                                 }
                                 
@@ -72,7 +74,9 @@ struct MainScreenView: View {
                                 // MARK: - TOP RATED MOVIES SECTION
                                 if let topRatedList = mainScreenViewModel.mutableMoviesLists[MovieTypes.topRated.title] {
                                     if !topRatedList.isEmpty {
-                                        MainScreenTitleComponent(text: "Top rated")
+                                        LeadAlignedView {
+                                            DetailsScreenTitleComponent(text: "Top rated")
+                                        } // :LeadAlignedView
                                         MoviesListComponent(movies: topRatedList.sorted(by: { $0.vote_average > $1.vote_average }))
                                             .transition(.slide)
                                     }
@@ -82,7 +86,9 @@ struct MainScreenView: View {
                                 // MARK: - NOW PLAYING MOVIES SECTION
                                 if let nowPlayingList = mainScreenViewModel.mutableMoviesLists[MovieTypes.nowPlaying.title] {
                                     if !nowPlayingList.isEmpty {
-                                        MainScreenTitleComponent(text: "Now playing")
+                                        LeadAlignedView {
+                                            DetailsScreenTitleComponent(text: "Now playing")
+                                        } // :LeadAlignedView
                                         MoviesListComponent(movies: nowPlayingList)
                                             .transition(.slide)
                                     }
@@ -91,7 +97,9 @@ struct MainScreenView: View {
                                 // MARK: - POPULAR MOVIES SECTION
                                 if let popularList = mainScreenViewModel.mutableMoviesLists[MovieTypes.popular.title] {
                                     if !popularList.isEmpty {
-                                        MainScreenTitleComponent(text: "Popular")
+                                        LeadAlignedView {
+                                            DetailsScreenTitleComponent(text: "Popular")
+                                        } // :LeadAlignedView
                                         MoviesListComponent(movies: popularList)
                                             .transition(.slide)
                                     }
@@ -100,7 +108,9 @@ struct MainScreenView: View {
                                 // MARK: - UPCOMING MOVIES SECTION
                                 if let upcomingList = mainScreenViewModel.mutableMoviesLists[MovieTypes.upcoming.title] {
                                     if !upcomingList.isEmpty {
-                                        MainScreenTitleComponent(text: "Upcoming")
+                                        LeadAlignedView {
+                                            DetailsScreenTitleComponent(text: "Upcoming")
+                                        } // :LeadAlignedView
                                         MoviesListComponent(movies: upcomingList, isUpcoming: true)
                                             .transition(.slide)
                                     }
@@ -170,9 +180,9 @@ struct MainScreenView: View {
             // Trigger to refresh the data when offset passes -120
             if yOffset <  -120 && !mainScreenViewModel.isLoading && !mainScreenViewModel.areFiltersApplied && !wasSearchMade {
                 mainScreenViewModel.isLoading = true
-                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                 mainScreenViewModel.fetchMovies()
-                 }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    mainScreenViewModel.fetchMovies()
+                }
             }
         }
     }
