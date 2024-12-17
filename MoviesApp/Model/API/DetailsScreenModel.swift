@@ -16,7 +16,7 @@ struct MovieDetails: Decodable, Hashable {
     let genres: [Genre]
     let homepage: String
     let id: Int
-    let imdb_id: String
+    let imdb_id: String?
     let original_language: String
     let original_title: String
     let origin_country: [String]
