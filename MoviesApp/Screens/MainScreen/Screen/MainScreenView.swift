@@ -57,7 +57,7 @@ struct MainScreenView: View {
                                     }
                                     
                                     // MARK: - ANNOUNCEMENTS SECTION
-                                    MainScreenTitleComponent(text: "Important announcements 🗣️")
+                                    MainScreenTitleComponent(text: "Important announcements")
                                         .padding(.vertical, 10)
                                     AnnouncementsComponent()
                                 }
@@ -72,7 +72,7 @@ struct MainScreenView: View {
                                 // MARK: - TOP RATED MOVIES SECTION
                                 if let topRatedList = mainScreenViewModel.mutableMoviesLists[MovieTypes.topRated.title] {
                                     if !topRatedList.isEmpty {
-                                        MainScreenTitleComponent(text: "Top Rated 🎟️")
+                                        MainScreenTitleComponent(text: "Top rated")
                                         MoviesListComponent(movies: topRatedList.sorted(by: { $0.vote_average > $1.vote_average }))
                                             .transition(.slide)
                                     }
@@ -82,7 +82,7 @@ struct MainScreenView: View {
                                 // MARK: - NOW PLAYING MOVIES SECTION
                                 if let nowPlayingList = mainScreenViewModel.mutableMoviesLists[MovieTypes.nowPlaying.title] {
                                     if !nowPlayingList.isEmpty {
-                                        MainScreenTitleComponent(text: "Now playing 🍿")
+                                        MainScreenTitleComponent(text: "Now playing")
                                         MoviesListComponent(movies: nowPlayingList)
                                             .transition(.slide)
                                     }
@@ -91,7 +91,7 @@ struct MainScreenView: View {
                                 // MARK: - POPULAR MOVIES SECTION
                                 if let popularList = mainScreenViewModel.mutableMoviesLists[MovieTypes.popular.title] {
                                     if !popularList.isEmpty {
-                                        MainScreenTitleComponent(text: "Popular 🎬")
+                                        MainScreenTitleComponent(text: "Popular")
                                         MoviesListComponent(movies: popularList)
                                             .transition(.slide)
                                     }
@@ -100,7 +100,7 @@ struct MainScreenView: View {
                                 // MARK: - UPCOMING MOVIES SECTION
                                 if let upcomingList = mainScreenViewModel.mutableMoviesLists[MovieTypes.upcoming.title] {
                                     if !upcomingList.isEmpty {
-                                        MainScreenTitleComponent(text: "Upcoming 🎥")
+                                        MainScreenTitleComponent(text: "Upcoming")
                                         MoviesListComponent(movies: upcomingList, isUpcoming: true)
                                             .transition(.slide)
                                     }
