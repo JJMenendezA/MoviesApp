@@ -66,9 +66,13 @@ struct MovieDetails: Decodable, Hashable {
     var originalLanguageComplete: String {
         Locale.current.localizedString(forLanguageCode: original_language) ?? original_language
     }
+    
+    var genresList: String {
+        genres.map(\.name).joined(separator: ", ")
+    }
 }
 
-struct Genre: Decodable, Hashable {
+struct Genre: Decodable, Hashable, Identifiable {
     let id: Int
     let name: String
 }

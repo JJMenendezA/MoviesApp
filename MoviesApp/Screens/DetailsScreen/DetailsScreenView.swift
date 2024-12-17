@@ -168,6 +168,25 @@ struct DetailsScreenView: View {
                             } // :HStack
                             .padding(.bottom, 20)
                             
+                            HStack {
+                                Spacer()
+                                VStack {
+                                    DetailsScreenTitleComponent(text: "Genres")
+                                    
+                                    if let movie = detailsScreenViewModel.movieDetails {
+                                        Text(movie.genresList)
+                                            .font(.body)
+                                            .foregroundStyle(.white)
+                                            .frame(height: 50)
+                                            .multilineTextAlignment(.center)
+                                    }
+                                    
+                                } // :VStack
+                                .frame(width: 150)
+                                
+                                Spacer()
+                            } // :HStack
+                            
                             DetailsScreenTitleComponent(text: "Overview")
                             
                             if let movie = detailsScreenViewModel.movieDetails {
