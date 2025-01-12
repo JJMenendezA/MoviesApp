@@ -42,6 +42,7 @@ struct MainHeaderComponent: View {
                     .frame(width: 20, height: 20)
             } // :Button
             .padding(.horizontal)
+            .hidden()
             
             Button(action: {
                 submenuAction()
@@ -50,6 +51,7 @@ struct MainHeaderComponent: View {
                     .resizable()
                     .frame(width: 20, height: 20)
             } // :Button
+            .hidden()
            
         } // :HStack
         .padding(.horizontal)

@@ -67,31 +67,36 @@ struct FiltersScreenView: View {
                     
                     if let firstElement = mainScreenViewModel.releaseDatesList.first,
                        let lastElement = mainScreenViewModel.releaseDatesList.last {
-                        HStack {
-                            TextAlignedLeadingComponent(text: "Starting release date:")
-                                .fontWeight(.light)
-                                .font(.callout)
-                            
-                            DatePicker("", selection: $filterStartReleaseDate, in: firstElement...filterEndReleaseDate, displayedComponents: .date)
-                                .labelsHidden()
-                                .tint(.purple700)
-                                .padding(.trailing)
-                                .colorScheme(.dark)
-                        } // :HStack
-                        .padding(.vertical)
+                      
+                        if firstElement <= filterEndReleaseDate {
+                            HStack {
+                                TextAlignedLeadingComponent(text: "Starting release date:")
+                                    .fontWeight(.light)
+                                    .font(.callout)
+                                
+                                DatePicker("", selection: $filterStartReleaseDate, in: firstElement...filterEndReleaseDate, displayedComponents: .date)
+                                    .labelsHidden()
+                                    .tint(.purple700)
+                                    .padding(.trailing)
+                                    .colorScheme(.dark)
+                            } // :HStack
+                            .padding(.vertical)
+                        }
                         
-                        HStack {
-                            TextAlignedLeadingComponent(text: "End release date:")
-                                .fontWeight(.light)
-                                .font(.callout)
-                            
-                            DatePicker("", selection: $filterEndReleaseDate, in: filterStartReleaseDate...lastElement, displayedComponents: .date)
-                                .labelsHidden()
-                                .tint(.purple700)
-                                .padding(.trailing)
-                                .colorScheme(.dark)
-                        } // :HStack
-                        .padding(.vertical)
+                        if filterStartReleaseDate <= lastElement {
+                            HStack {
+                                TextAlignedLeadingComponent(text: "End release date:")
+                                    .fontWeight(.light)
+                                    .font(.callout)
+                                
+                                DatePicker("", selection: $filterEndReleaseDate, in: filterStartReleaseDate...lastElement, displayedComponents: .date)
+                                    .labelsHidden()
+                                    .tint(.purple700)
+                                    .padding(.trailing)
+                                    .colorScheme(.dark)
+                            } // :HStack
+                            .padding(.vertical)
+                        }
                     }
                     
                 } // :ScrollView
