@@ -215,10 +215,11 @@ struct DetailsScreenView: View {
                                     .padding(.bottom, 20)
                             }
                             
-                            DetailsScreenTitleComponent(text: "Similar movies")
-                            
-                            MoviesListComponent(movies: detailsScreenViewModel.similarMoviesList)
-                            
+                            if !detailsScreenViewModel.similarMoviesList.isEmpty {
+                                DetailsScreenTitleComponent(text: "Similar movies")
+                                
+                                MoviesListComponent(movies: detailsScreenViewModel.similarMoviesList)
+                            }
                             
                             Spacer()
                             
