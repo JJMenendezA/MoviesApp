@@ -16,6 +16,7 @@ class DetailsScreenViewModel: ObservableObject {
     
     var movieDetails: MovieDetails?
     var similarMoviesList: [MovieInfo] = []
+    var movieVideo: String?
     
     private let moviesService: MoviesService
     
@@ -31,6 +32,9 @@ class DetailsScreenViewModel: ObservableObject {
             case .success(let movieDetails):
                 self.movieDetails = movieDetails
                 self.similarMoviesList = movieDetails.similar.results
+                self.movieVideo = movieDetails.videos.results.first?.key
+                print("---------------")
+                print(movieVideoURL.appendingPathComponent(self.movieVideo!))
                 self.isLoading =  false
                 
             case .failure(let error):

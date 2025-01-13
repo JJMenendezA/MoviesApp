@@ -215,6 +215,10 @@ struct DetailsScreenView: View {
                                     .padding(.bottom, 20)
                             }
                             
+                            if let movieVideo = detailsScreenViewModel.movieVideo {
+                                
+                            }
+                            
                             if !detailsScreenViewModel.similarMoviesList.isEmpty {
                                 DetailsScreenTitleComponent(text: "Similar movies")
                                 
