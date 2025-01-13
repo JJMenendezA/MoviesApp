@@ -216,7 +216,9 @@ struct DetailsScreenView: View {
                             }
                             
                             if let movieVideo = detailsScreenViewModel.movieVideo {
-                                
+                                DetailsScreenTitleComponent(text: "Video reference")
+                                VideoPlayer(videoURL: movieVideo)
+                                    .frame(height: 300)
                             }
                             
                             if !detailsScreenViewModel.similarMoviesList.isEmpty {
