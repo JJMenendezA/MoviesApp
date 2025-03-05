@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct MoviesListComponent: View {
-    var title: String = "Movies"
     var movies: [MovieInfo]
     var isUpcoming: Bool = false
     var body: some View {
-        SubtitleComponent(text: title)
         ScrollView(.horizontal) {
             HStack(spacing: 15) {
                 ForEach(movies, id: \.id){ movie in

@@ -11,19 +11,36 @@ import Kingfisher
 struct MovieItemComponent: View {
     var movie: MovieInfo
     var isUpcoming: Bool = false
-    @State var date: String?
     var body: some View {
         // MARK: - Movie Item
-        Button(action: {}){
+        NavigationLink(destination: DetailsScreenView(movieId: movie.id)){
             ZStack {
-                KFImage(movieImageURL.appendingPathComponent(movie.poster_path))
-                    .resizable()
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .overlay {
-                        // Gradient for the image
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(LinearGradient(colors: [.black.opacity(0.8), .clear], startPoint: .bottom, endPoint: .top))
-                    }
+                if let moviePosterPath = movie.poster_path {
+                    KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
+                        .resizable()
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .overlay {
+                            // Gradient for the image
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(LinearGradient(colors: [.black.opacity(0.8), .clear], startPoint: .bottom, endPoint: .top))
+                        }
+                } else {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(.clear)
+                        .overlay {
+                            VStack {
+                                Text("No poster available")
+                                    .foregroundStyle(.gray700)
+                                Spacer()
+                            }
+                            .padding()
+                            
+                            // Gradient for the image
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(LinearGradient(colors: [.black.opacity(0.8), .clear], startPoint: .bottom, endPoint: .top))
+                        }
+                }
+                
                 
                 VStack {
                     Spacer()
@@ -36,29 +53,37 @@ struct MovieItemComponent: View {
                         .frame(height: 40)
                         .padding(.horizontal, 5)
                     
-                    HStack {
-                        ForEach (0..<movie.stars, id: \.self) { index in
-                            Image(systemName: "star.fill")
-                                .resizable()
-                                .frame(width: 10, height: 10)
-                        }
-                        
-                        if movie.hasHalfStar {
-                            Image(systemName: "star.leadinghalf.filled")
-                                .resizable()
-                                .frame(width: 10, height: 10)
-                        }
-                    } // :HStack
-                    .foregroundStyle(.white)
-                    .minimumScaleFactor(0.4)
-                    .frame(width: 75, height: 10)
-                    .font(Font.system(size: 15))
-                    .padding(.bottom, 10)
-                    .padding(.horizontal, 10)
+                    if !isUpcoming {
+                        HStack {
+                            ForEach (0..<movie.stars, id: \.self) { index in
+                                Image(systemName: "star.fill")
+                                    .resizable()
+                                    .frame(width: 10, height: 10)
+                            }
+                            
+                            if movie.hasHalfStar {
+                                Image(systemName: "star.leadinghalf.filled")
+                                    .resizable()
+                                    .frame(width: 10, height: 10)
+                            }
+                        } // :HStack
+                        .foregroundStyle(.white)
+                        .minimumScaleFactor(0.4)
+                        .frame(width: 75, height: 10)
+                        .font(Font.system(size: 15))
+                        .padding(.bottom, 10)
+                        .padding(.horizontal, 10)
+                    } else {
+                        Rectangle()
+                            .fill(.clear)
+                            .frame(width: 75, height: 10)
+                            .padding(.bottom, 10)
+                            .padding(.horizontal, 10)
+                    }
                 } // :VStack
                 
                 if isUpcoming {
-                    Text(date ?? "")
+                    Text(movie.releaseDateFormatted)
                         .foregroundStyle(.white)
                         .minimumScaleFactor(0.5)
                         .frame(width: 75, height: 10)
@@ -71,22 +96,14 @@ struct MovieItemComponent: View {
                 }
                 
             } // :ZStack
-            
-        } // :Button
-        .frame(width: 115, height: 165)
-        .onAppear {
-            if isUpcoming {
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd"
-                
-                let dateFormatted = dateFormatter.date(from: movie.release_date)
-                
-                let outputDate = DateFormatter()
-                outputDate.dateFormat = "dd MMM yyyy"
-                
-                date = outputDate.string(from: dateFormatted!)
-            }
-        }
+            .frame(width: 115, height: 165)
+            .simultaneousGesture(
+                TapGesture().onEnded {
+                    let generator = UIImpactFeedbackGenerator(style: .heavy)
+                    generator.impactOccurred()
+                }
+            )
+        } // :NavigationLink
     }
     
 }

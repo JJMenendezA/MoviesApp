@@ -14,6 +14,7 @@ class NetworkManager {
     
     func getMoviesRequest<T: Decodable>(
         endpoint: String,
+        queryItems: [URLQueryItem]?,
         response: T.Type,
         completion: @escaping (Result<T, AppError>) -> Void
     ){
@@ -24,18 +25,16 @@ class NetworkManager {
         
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
         
-        let queryItems: [URLQueryItem] = [
-            URLQueryItem(name: "language", value: "en-US"),
-            URLQueryItem(name: "page", value: "1"),
-        ]
-        components!.queryItems = components?.queryItems.map { $0 + queryItems } ?? queryItems
+        if let queryItems = queryItems {
+            components!.queryItems = components?.queryItems.map { $0 + queryItems } ?? queryItems
+        }
         
         var request = URLRequest(url: components!.url!)
         request.httpMethod = "GET"
         request.timeoutInterval = 10
         request.allHTTPHeaderFields = [
             "accept": "application/json",
-            "Authorization": "Bearer \(API_Key)"  
+            "Authorization": "Bearer \(API_Key)"
         ]
         
         URLSession.shared.dataTask(with: request) { data, response, error in
@@ -56,10 +55,10 @@ class NetworkManager {
             guard let data = data else {
                 completion(.failure(AppError.noData))
                 return
-                }
+            }
             
             print("---------------Data-----------------")
-            print(data)
+            print(String(decoding: data, as: UTF8.self))
             
             do {
                 let decodedObject = try JSONDecoder().decode(T.self, from: data)

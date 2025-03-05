@@ -11,4 +11,5 @@ import Foundation
 public protocol MoviesServiceProtocol {
     func fetchAllMovies(completion: @escaping (Result<[String : Movies], AppError>) -> Void)
     func fetchMovies(endpoint: String, completion: @escaping (Result<Movies, AppError>) -> Void)
+    func fetchMovieDetails(endPoint: String, completion: @escaping (Result<MovieDetails, AppError>) -> Void)
 }

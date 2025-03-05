@@ -1,5 +1,5 @@
 //
-//  SubtitleComponent.swift
+//  MainScreenTitleComponent.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 31/10/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SubtitleComponent: View {
+struct MainScreenTitleComponent: View {
     var text: String
     var body: some View {
         HStack {
@@ -27,6 +27,6 @@ struct SubtitleComponent: View {
 }
 
 #Preview {
-    SubtitleComponent(text: "Estrenos")
+    MainScreenTitleComponent(text: "Estrenos")
         .background(.black)
 }

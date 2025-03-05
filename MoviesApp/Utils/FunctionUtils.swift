@@ -12,6 +12,7 @@ func customLinearGradient(colors: [Color]) -> LinearGradient {
     return LinearGradient(colors: colors, startPoint: .bottomLeading, endPoint: .topTrailing)
 }
 
+// Date related functions
 func getTodaysDate() -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"

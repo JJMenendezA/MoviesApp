@@ -10,3 +10,4 @@ import Foundation
 
 let baseMoviesURL: URL = URL(string: "https://api.themoviedb.org/3")!
 let movieImageURL: URL = URL(string: "https://image.tmdb.org/t/p/w500")!
+let movieVideoURL: URL = URL(string: "https:/youtube.com/embed/")!

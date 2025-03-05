@@ -43,7 +43,7 @@ struct MovieInfo: Decodable, Hashable {
     let original_title: String
     let overview: String
     let popularity: CGFloat
-    let poster_path: String
+    let poster_path: String?
     let release_date: String
     let title: String
     let video: Bool
@@ -57,6 +57,26 @@ struct MovieInfo: Decodable, Hashable {
     
     var hasHalfStar: Bool {
         vote_average.truncatingRemainder(dividingBy: 1) >= 0.5
+    }
+    
+    var releaseDateFormatted: String {
+        if release_date == "" {
+            return release_date
+        } else {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            let dateFormatted = dateFormatter.date(from: release_date)
+            
+            let outputDate = DateFormatter()
+            outputDate.dateFormat = "dd MMM yyyy"
+            
+            return outputDate.string(from: dateFormatted!)
+        }
+    }
+    
+    var originalLanguageComplete: String {
+        Locale.current.localizedString(forLanguageCode: original_language) ?? original_language
     }
 }
 
