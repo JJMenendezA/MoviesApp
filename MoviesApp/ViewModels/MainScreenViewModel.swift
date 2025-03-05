@@ -129,17 +129,11 @@ class MainScreenViewModel: ObservableObject {
     func filterMovies(){
         setLists()
         
-        guard areFiltersApplied else {
-            return
-        }
+        guard areFiltersApplied else { return }
         
-        if filterLanguage != "All languages" {
-            filterMoviesByLanguage()
-        }
+        if filterLanguage != "All languages" { filterMoviesByLanguage() }
         
-        if filterStartReleaseDate != releaseDatesList.first! || filterEndReleaseDate != releaseDatesList.last! {
-            filterMoviesByDate()
-        }
+        if filterStartReleaseDate != releaseDatesList.first! || filterEndReleaseDate != releaseDatesList.last! { filterMoviesByDate() }
     }
     
     func cleanFilters() {
