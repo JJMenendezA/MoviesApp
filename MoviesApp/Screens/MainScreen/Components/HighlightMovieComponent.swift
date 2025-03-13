@@ -21,11 +21,13 @@ struct HighlightMovieComponent: View {
                     }
                 
                 VStack {
-                    KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
-                        .resizable()
-                        .frame(width: 250, height: 350)
-                        .padding(.horizontal, 35)
-                        .padding(.top, 45)
+                    NavigationLink(destination: DetailsScreenView(movieId: movie.id)){
+                        KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
+                            .resizable()
+                            .frame(width: 250, height: 350)
+                            .padding(.horizontal, 35)
+                            .padding(.top, 45)
+                    } // :NavigationLink
                     
                     VStack {
                         Text("Random pick of the day 👍")
