@@ -39,9 +39,11 @@ struct FiltersScreenView: View {
                 
                 ScrollView {
                     HStack {
-                        TextAlignedLeadingComponent(text: "Original language:")
-                            .fontWeight(.light)
-                            .font(.callout)
+                        LeadAlignedView {
+                            Text("Original language:")
+                                .fontWeight(.light)
+                                .font(.callout)
+                        }
                         
                         Spacer()
                         
@@ -70,9 +72,11 @@ struct FiltersScreenView: View {
                       
                         if firstElement <= filterEndReleaseDate {
                             HStack {
-                                TextAlignedLeadingComponent(text: "Starting release date:")
-                                    .fontWeight(.light)
-                                    .font(.callout)
+                                LeadAlignedView {
+                                    Text("Starting release date:")
+                                        .fontWeight(.light)
+                                        .font(.callout)
+                                }
                                 
                                 DatePicker("", selection: $filterStartReleaseDate, in: firstElement...filterEndReleaseDate, displayedComponents: .date)
                                     .labelsHidden()
@@ -85,10 +89,11 @@ struct FiltersScreenView: View {
                         
                         if filterStartReleaseDate <= lastElement {
                             HStack {
-                                TextAlignedLeadingComponent(text: "End release date:")
-                                    .fontWeight(.light)
-                                    .font(.callout)
-                                
+                                LeadAlignedView {
+                                    Text("End release date:")
+                                        .fontWeight(.light)
+                                        .font(.callout)
+                                }
                                 DatePicker("", selection: $filterEndReleaseDate, in: filterStartReleaseDate...lastElement, displayedComponents: .date)
                                     .labelsHidden()
                                     .tint(.purple700)
