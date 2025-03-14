@@ -240,7 +240,7 @@ struct DetailsScreenView: View {
         } // :ZStack
         .navigationBarBackButtonHidden(true)
         .alert(isPresented: $detailsScreenViewModel.hasErrorTrigerred){
-            Alert(title: Text("Error"), message: Text(detailsScreenViewModel.error!.localizedDescription), dismissButton: .default(Text("Retry"), action: { detailsScreenViewModel.fetchMovieDetails(movieId: movieId) }))
+            Alert(title: Text("Error"), message: Text(detailsScreenViewModel.error!.localizedDescription), dismissButton: .default(Text("Accept"), action: { dismiss() }))
         }
         .onAppear {
             detailsScreenViewModel.fetchMovieDetails(movieId: movieId)
