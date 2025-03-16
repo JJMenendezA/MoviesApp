@@ -11,7 +11,7 @@ import SwiftUI
 
 class MainScreenViewModel: ObservableObject {
     // Immutable lists
-    var moviesDictionary: [String : Movies] = [:]
+    private var moviesDictionary: [String : Movies] = [:]
     // Mutable lists
     @Published var mutableMoviesLists: [String : [MovieInfo]] = [:]
     var randomMovie: MovieInfo?
