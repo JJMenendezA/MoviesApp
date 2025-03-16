@@ -85,9 +85,8 @@ class MainScreenViewModel: ObservableObject {
         moviesDictionary.forEach({ movie in
             dateSet.formUnion(movie.value.releaseDatesSet)
         })
-        
-        filterParameters.filterStartReleaseDate = Array(dateSet).sorted().first!
-        filterParameters.filterEndReleaseDate = Array(dateSet).sorted().last!
+
+        filterParameters.setDefaultValues(startDate: Array(dateSet).sorted().first!, endDate: Array(dateSet).sorted().last!)
         
         return Array(dateSet).sorted()
     }
