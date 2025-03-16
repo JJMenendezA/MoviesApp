@@ -18,8 +18,8 @@ struct FiltersScreenView: View {
             VStack {
                 HStack {
                     Button(action: {
-                        if mainScreenViewModel.filterLanguage.isEmpty {
-                            mainScreenViewModel.areFiltersApplied = false
+                        if mainScreenViewModel.filterParameters.filterLanguage.isEmpty {
+                            mainScreenViewModel.filterParameters.areFiltersApplied = false
                         }
                         isSheetActive = false
                     }) {
@@ -107,7 +107,7 @@ struct FiltersScreenView: View {
                 } // :ScrollView
                 
                 HStack {
-                    if mainScreenViewModel.areFiltersApplied {
+                    if mainScreenViewModel.filterParameters.areFiltersApplied {
                         ButtonComponent(text: "Clean Filters", colorGradient: customLinearGradient(colors: [.pink700, .pink900] ), shape: .capsule, fontWeight: .bold) {
                             withAnimation {
                                 isSheetActive = false
@@ -120,11 +120,11 @@ struct FiltersScreenView: View {
                     
                     ButtonComponent(text: "Ready", colorGradient: customLinearGradient(colors: [.purple700, .purple900] ), shape: .capsule, fontWeight: .bold) {
                         withAnimation {
-                            mainScreenViewModel.filterLanguage = self.filterLanguage
-                            mainScreenViewModel.filterStartReleaseDate = self.filterStartReleaseDate
-                            mainScreenViewModel.filterEndReleaseDate = self.filterEndReleaseDate
+                            mainScreenViewModel.filterParameters.filterLanguage = self.filterLanguage
+                            mainScreenViewModel.filterParameters.filterStartReleaseDate = self.filterStartReleaseDate
+                            mainScreenViewModel.filterParameters.filterEndReleaseDate = self.filterEndReleaseDate
                             isSheetActive = false
-                            mainScreenViewModel.areFiltersApplied = true
+                            mainScreenViewModel.filterParameters.areFiltersApplied = true
                         }
                     }
                     .padding(.horizontal, 5)
@@ -138,9 +138,9 @@ struct FiltersScreenView: View {
             .background(.gray900)
         } // :ZStack
         .onAppear {
-            filterLanguage = mainScreenViewModel.filterLanguage
-            filterEndReleaseDate = mainScreenViewModel.filterEndReleaseDate
-            filterStartReleaseDate = mainScreenViewModel.filterStartReleaseDate
+            filterLanguage = mainScreenViewModel.filterParameters.filterLanguage
+            filterEndReleaseDate = mainScreenViewModel.filterParameters.filterEndReleaseDate
+            filterStartReleaseDate = mainScreenViewModel.filterParameters.filterStartReleaseDate
         }
     }
 }

@@ -9,7 +9,8 @@
 import SwiftUI
 
 class FilterParameters: ObservableObject {
-    @Published var filterLanguage: String = ""
+    @Published var filterLanguage: String = "All languages"
+    @Published var filterStartReleaseDate: Date = Date()
+    @Published var filterEndReleaseDate: Date = Date()
     @Published var areFiltersApplied: Bool = false
-    @Published var languageList: [String] = []
 }

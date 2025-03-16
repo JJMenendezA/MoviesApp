@@ -30,7 +30,7 @@ struct MainScreenView: View {
             ZStack(alignment: .top) {
                 if mainScreenViewModel.error == nil && !mainScreenViewModel.mutableMoviesLists.isEmpty {
                     // MARK: - REFRESHER LOADER
-                    if !mainScreenViewModel.areFiltersApplied && !wasSearchMade {
+                    if !mainScreenViewModel.filterParameters.areFiltersApplied && !wasSearchMade {
                         ProgressView()
                             .foregroundStyle(.white)
                             .tint(.white)
@@ -45,12 +45,12 @@ struct MainScreenView: View {
                         
                     }, submenuAction: {
                         
-                    }, areFiltersApplied: $mainScreenViewModel.areFiltersApplied)
+                    }, areFiltersApplied: $mainScreenViewModel.filterParameters.areFiltersApplied)
                     
                     ScrollViewReader { reader in
                         ScrollView {
                             VStack(spacing: 0) {
-                                if !wasSearchMade && !mainScreenViewModel.areFiltersApplied {
+                                if !wasSearchMade && !mainScreenViewModel.filterParameters.areFiltersApplied {
                                     // MARK: - RANDOM PICK SECTION
                                     if let randomMovie = mainScreenViewModel.randomMovie {
                                         HighlightMovieComponent(movie: randomMovie)
@@ -65,7 +65,7 @@ struct MainScreenView: View {
                                 }
                                 
                                 // MARK: - SEARCH BAR SECTION
-                                if !mainScreenViewModel.areFiltersApplied {
+                                if !mainScreenViewModel.filterParameters.areFiltersApplied {
                                     SearchBarComponent(textSearch: $mainScreenViewModel.searchTitle, isSearchBarFocused: $isSearchBarActive)
                                         .padding(.top, wasSearchMade ? 75 : 0)
                                         .id("SearchView")
@@ -122,7 +122,7 @@ struct MainScreenView: View {
                                         .padding(.vertical, 50)
                                 }
                             } // :VStack
-                            .padding(.top, mainScreenViewModel.areFiltersApplied ? 75 : 0)
+                            .padding(.top, mainScreenViewModel.filterParameters.areFiltersApplied ? 75 : 0)
                             .background(.gray900)
                         } // :ScrollView
                         .padding(.bottom)
@@ -178,7 +178,7 @@ struct MainScreenView: View {
             backgroundHeaderColor = .black.opacity(yOffset/750)
             
             // Trigger to refresh the data when offset passes -120
-            if yOffset <  -120 && !mainScreenViewModel.isLoading && !mainScreenViewModel.areFiltersApplied && !wasSearchMade {
+            if yOffset <  -120 && !mainScreenViewModel.isLoading && !mainScreenViewModel.filterParameters.areFiltersApplied && !wasSearchMade {
                 mainScreenViewModel.isLoading = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                     mainScreenViewModel.fetchMovies()
