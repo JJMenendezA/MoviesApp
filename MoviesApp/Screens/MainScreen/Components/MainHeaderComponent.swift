@@ -12,7 +12,7 @@ struct MainHeaderComponent: View {
     var filterAction: () -> ()
     var switchAction: () -> ()
     var submenuAction: () -> ()
-    @Binding var areFiltersApplied: Bool
+    var areFiltersApplied: Bool
     // Computed Properties
     var titleFilter: String {
         areFiltersApplied ? "Filters Applied" : "Filters"
@@ -64,6 +64,6 @@ struct MainHeaderComponent: View {
 }
 
 #Preview {
-    MainHeaderComponent(filterAction: {}, switchAction: {}, submenuAction: {}, areFiltersApplied: .constant(false))
+    MainHeaderComponent(filterAction: {}, switchAction: {}, submenuAction: {}, areFiltersApplied: false)
         .background(.black)
 }

@@ -19,7 +19,7 @@ struct FiltersScreenView: View {
                 HStack {
                     Button(action: {
                         if mainScreenViewModel.filterParameters.filterLanguage.isEmpty {
-                            mainScreenViewModel.filterParameters.areFiltersApplied = false
+                            //mainScreenViewModel.filterParameters.areFiltersApplied = false
                         }
                         isSheetActive = false
                     }) {
@@ -124,7 +124,7 @@ struct FiltersScreenView: View {
                             mainScreenViewModel.filterParameters.filterStartReleaseDate = self.filterStartReleaseDate
                             mainScreenViewModel.filterParameters.filterEndReleaseDate = self.filterEndReleaseDate
                             isSheetActive = false
-                            mainScreenViewModel.filterParameters.areFiltersApplied = true
+                            //mainScreenViewModel.filterParameters.areFiltersApplied = true
                         }
                     }
                     .padding(.horizontal, 5)

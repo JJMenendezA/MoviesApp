@@ -136,7 +136,6 @@ class MainScreenViewModel: ObservableObject {
         filterParameters.filterStartReleaseDate = Array(releaseDatesList).sorted().first!
         filterParameters.filterEndReleaseDate = Array(releaseDatesList).sorted().last!
         filterParameters.filterLanguage = "All languages"
-        filterParameters.areFiltersApplied = false
     }
     
 }

@@ -45,7 +45,7 @@ struct MainScreenView: View {
                         
                     }, submenuAction: {
                         
-                    }, areFiltersApplied: $mainScreenViewModel.filterParameters.areFiltersApplied)
+                    }, areFiltersApplied: mainScreenViewModel.filterParameters.areFiltersApplied)
                     
                     ScrollViewReader { reader in
                         ScrollView {
