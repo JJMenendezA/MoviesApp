@@ -27,4 +27,10 @@ class FilterParameters: ObservableObject {
         filterEndReleaseDate = endDate
         filterOriginalEndReleaseDate = endDate
     }
+    
+    func cleanFilters() {
+        filterLanguage = filterOriginalLanguage
+        filterStartReleaseDate = filterOriginalStartReleaseDate
+        filterEndReleaseDate = filterOriginalEndReleaseDate
+    }
 }

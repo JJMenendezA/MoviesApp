@@ -131,13 +131,6 @@ class MainScreenViewModel: ObservableObject {
         
         if filterParameters.filterStartReleaseDate != releaseDatesList.first! || filterParameters.filterEndReleaseDate != releaseDatesList.last! { filterMoviesByDate() }
     }
-    
-    func cleanFilters() {
-        filterParameters.filterStartReleaseDate = Array(releaseDatesList).sorted().first!
-        filterParameters.filterEndReleaseDate = Array(releaseDatesList).sorted().last!
-        filterParameters.filterLanguage = "All languages"
-    }
-    
 }
 
 

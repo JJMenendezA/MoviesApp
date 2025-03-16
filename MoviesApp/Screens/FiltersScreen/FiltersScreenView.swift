@@ -111,7 +111,7 @@ struct FiltersScreenView: View {
                         ButtonComponent(text: "Clean Filters", colorGradient: customLinearGradient(colors: [.pink700, .pink900] ), shape: .capsule, fontWeight: .bold) {
                             withAnimation {
                                 isSheetActive = false
-                                mainScreenViewModel.cleanFilters()
+                                mainScreenViewModel.filterParameters.cleanFilters()
                             }
                         }
                         .padding(.horizontal, 5)
