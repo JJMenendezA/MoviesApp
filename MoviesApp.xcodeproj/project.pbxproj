@@ -108,6 +108,7 @@
 				BEE3FBA12CC74002002A0C8C /* Sources */,
 				BEE3FBA22CC74002002A0C8C /* Frameworks */,
 				BEE3FBA32CC74002002A0C8C /* Resources */,
+				BE0A655A2D89299000F50776 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -183,6 +184,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BE0A655A2D89299000F50776 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BE49FF3C2CF037D4008917B2 /* Sources */ = {
@@ -375,6 +398,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"MoviesApp/Preview Content\"";
 				DEVELOPMENT_TEAM = QVARH39C7R;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "We need access to Face ID for authentication purposes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -405,6 +429,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"MoviesApp/Preview Content\"";
 				DEVELOPMENT_TEAM = QVARH39C7R;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "We need access to Face ID for authentication purposes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
