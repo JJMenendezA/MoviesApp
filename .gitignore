@@ -22,6 +22,9 @@ DerivedData/
 # Ignore API key file
 *APIKey.swift
 
+# Ignore Mock responses file 
+*MockResponses.swift
+
 # Swift Package Manager
 .swiftpm/
 .build/
