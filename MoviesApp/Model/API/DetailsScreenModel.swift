@@ -39,14 +39,6 @@ public struct MovieDetails: Decodable, Hashable {
     let similar: Movies
     
     // Computed Properties
-    var stars: Int {
-        Int(vote_average.rounded(.down))/2
-    }
-    
-    var hasHalfStar: Bool {
-        vote_average.truncatingRemainder(dividingBy: 1) >= 0.5
-    }
-    
     var releaseDateFormatted: String {
         if release_date == "" {
             return release_date
@@ -61,14 +53,6 @@ public struct MovieDetails: Decodable, Hashable {
             
             return outputDate.string(from: dateFormatted!)
         }
-    }
-    
-    var originalLanguageComplete: String {
-        Locale.current.localizedString(forLanguageCode: original_language) ?? original_language
-    }
-    
-    var genresList: String {
-        genres.map(\.name).joined(separator: ", ")
     }
 }
 

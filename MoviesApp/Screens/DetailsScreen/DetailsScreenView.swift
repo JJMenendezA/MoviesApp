@@ -11,7 +11,7 @@ import Kingfisher
 
 struct DetailsScreenView: View {
     @Environment(\.dismiss) var dismiss
-    @ObservedObject var detailsScreenViewModel: DetailsScreenViewModel = DetailsScreenViewModel()
+    @StateObject var detailsScreenViewModel: DetailsScreenViewModel = DetailsScreenViewModel()
     var movieId: Int
     var body: some View {
         ZStack {
@@ -53,7 +53,7 @@ struct DetailsScreenView: View {
                     ScrollView {
                         VStack {
                             if  let movie = detailsScreenViewModel.movieDetails,
-                                let moviePosterPath = movie.poster_path {
+                                let moviePosterPath = movie.moviePoster {
                                 KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
                                     .resizable()
                                     .frame(width: 300, height: 425)
@@ -72,8 +72,6 @@ struct DetailsScreenView: View {
                                     .lineLimit(2)
                                     .minimumScaleFactor(0.5)
                             }
-                          
-                            
                             
                             HStack {
                                 Spacer()
@@ -81,12 +79,12 @@ struct DetailsScreenView: View {
                                     DetailsScreenTitleComponent(text: "Release date")
                                     
                                     if let movie = detailsScreenViewModel.movieDetails {
-                                        Text(movie.releaseDateFormatted.isEmpty ? "No date available." : movie.releaseDateFormatted)
+                                        Text(movie.releaseDate.isEmpty ? "No date available." : movie.releaseDate)
                                             .font(.body)
                                             .foregroundStyle(.white)
                                             .frame(height: 50)
                                     }
-                                   
+                                    
                                 } // :VStack
                                 .frame(width: 150)
                                 Spacer()
@@ -140,7 +138,7 @@ struct DetailsScreenView: View {
                                     DetailsScreenTitleComponent(text: "Original language")
                                     
                                     if let movie = detailsScreenViewModel.movieDetails {
-                                        Text(movie.originalLanguageComplete)
+                                        Text(movie.originalLanguage)
                                             .font(.body)
                                             .foregroundStyle(.white)
                                             .frame(height: 50)
@@ -154,7 +152,7 @@ struct DetailsScreenView: View {
                                     DetailsScreenTitleComponent(text: "Original title")
                                     
                                     if let movie = detailsScreenViewModel.movieDetails {
-                                        Text(movie.original_title)
+                                        Text(movie.title)
                                             .font(.body)
                                             .foregroundStyle(.white)
                                             .minimumScaleFactor(0.5)
@@ -174,7 +172,7 @@ struct DetailsScreenView: View {
                                     DetailsScreenTitleComponent(text: "Genres")
                                     
                                     if let movie = detailsScreenViewModel.movieDetails {
-                                        Text(movie.genresList)
+                                        Text(movie.genreList)
                                             .font(.body)
                                             .foregroundStyle(.white)
                                             .frame(height: 50)
@@ -215,16 +213,17 @@ struct DetailsScreenView: View {
                                     .padding(.bottom, 20)
                             }
                             
-                            if let movieVideo = detailsScreenViewModel.movieVideo {
+                            if let movieVideo = detailsScreenViewModel.movieDetails?.movieVideo {
                                 DetailsScreenTitleComponent(text: "Video reference")
                                 VideoPlayer(videoURL: movieVideo)
                                     .frame(height: 300)
                             }
                             
-                            if !detailsScreenViewModel.similarMoviesList.isEmpty {
-                                DetailsScreenTitleComponent(text: "Similar movies")
-                                
-                                MoviesListComponent(movies: detailsScreenViewModel.similarMoviesList)
+                            if let similarMoviesList = detailsScreenViewModel.movieDetails?.similarMoviesList {
+                                if !similarMoviesList.isEmpty {
+                                    DetailsScreenTitleComponent(text: "Similar movies")
+                                    MoviesListComponent(movies: detailsScreenViewModel.movieDetails!.similarMoviesList)
+                                }
                             }
                             
                             Spacer()
