@@ -5,7 +5,6 @@
 //  Created by Juan José Menéndez Alarcón on 31/10/24.
 //
 
-
 import SwiftUI
 
 struct AnnouncementsComponent: View {
@@ -14,7 +13,7 @@ struct AnnouncementsComponent: View {
     let timer = Timer.publish(every: 10.0, on: .main, in: .common).autoconnect()
     var body: some View {
         TabView(selection: $selectedIndex) {
-            ForEach(0..<announcementsList.count, id: \.self){ index in
+            ForEach(0..<announcementsList.count, id: \.self) { index in
                 AnnouncementItemComponent(image: announcementsList[index])
                     .padding(.bottom, 40)
             }
@@ -22,13 +21,13 @@ struct AnnouncementsComponent: View {
         .tabViewStyle(.page)
         .foregroundStyle(.pink700)
         .frame(height: 220)
-        .onAppear{
+        .onAppear {
             // Change the color of the dots
             UIPageControl.appearance().currentPageIndicatorTintColor = .pink700
             UIPageControl.appearance().pageIndicatorTintColor = .gray
         }
         // Autoscrolling logic
-        .onReceive(timer){ _ in
+        .onReceive(timer) { _ in
             withAnimation(.default) {
                 selectedIndex = (selectedIndex + 1) % announcementsList.count
             }

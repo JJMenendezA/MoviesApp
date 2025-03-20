@@ -11,9 +11,9 @@ import SwiftUI
 
 class MainScreenViewModel: ObservableObject {
     // Immutable lists
-    private var moviesDictionary: [String : Movies] = [:]
+    private var moviesDictionary: [String: Movies] = [:]
     // Mutable lists
-    @Published var mutableMoviesLists: [String : [MovieInfo]] = [:]
+    @Published var mutableMoviesLists: [String: [MovieInfo]] = [:]
     var randomMovie: MovieInfo?
     // Error and Loading States
     @Published var error: AppError?
@@ -109,7 +109,8 @@ class MainScreenViewModel: ObservableObject {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         mutableMoviesLists.forEach({ movie in
             mutableMoviesLists[movie.key] = movie.value.filter({ movie in
-                dateFormatter.date(from: movie.release_date)! >= filterParameters.filterStartReleaseDate && dateFormatter.date(from: movie.release_date)! <= filterParameters.filterEndReleaseDate
+                dateFormatter.date(from: movie.release_date)! >= filterParameters.filterStartReleaseDate &&
+                dateFormatter.date(from: movie.release_date)! <= filterParameters.filterEndReleaseDate
             })
         })
     }
@@ -122,16 +123,14 @@ class MainScreenViewModel: ObservableObject {
         })
     }
     
-    func filterMovies(){
+    func filterMovies() {
         setLists()
         
         guard filterParameters.areFiltersApplied else { return }
         
         if filterParameters.filterLanguage != "All languages" { filterMoviesByLanguage() }
         
-        if filterParameters.filterStartReleaseDate != releaseDatesList.first! || filterParameters.filterEndReleaseDate != releaseDatesList.last! { filterMoviesByDate() }
+        if filterParameters.filterStartReleaseDate != releaseDatesList.first! ||
+            filterParameters.filterEndReleaseDate != releaseDatesList.last! { filterMoviesByDate() }
     }
 }
-
-
-

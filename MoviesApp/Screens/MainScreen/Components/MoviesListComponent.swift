@@ -13,7 +13,7 @@ struct MoviesListComponent: View {
     var body: some View {
         ScrollView(.horizontal) {
             HStack(spacing: 15) {
-                ForEach(movies, id: \.id){ movie in
+                ForEach(movies, id: \.id) { movie in
                     MovieItemComponent(movie: movie, isUpcoming: isUpcoming)
                 }
             } // :HStack

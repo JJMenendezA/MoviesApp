@@ -13,7 +13,7 @@ struct MovieItemComponent: View {
     var isUpcoming: Bool = false
     var body: some View {
         // MARK: - Movie Item
-        NavigationLink(destination: DetailsScreenView(movieId: movie.id)){
+        NavigationLink(destination: DetailsScreenView(movieId: movie.id)) {
             ZStack {
                 if let moviePosterPath = movie.poster_path {
                     KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
@@ -41,7 +41,6 @@ struct MovieItemComponent: View {
                         }
                 }
                 
-                
                 VStack {
                     Spacer()
                     Text(movie.title)
@@ -55,7 +54,7 @@ struct MovieItemComponent: View {
                     
                     if !isUpcoming {
                         HStack {
-                            ForEach (0..<movie.stars, id: \.self) { index in
+                            ForEach(0..<movie.stars, id: \.self) { _ in
                                 Image(systemName: "star.fill")
                                     .resizable()
                                     .frame(width: 10, height: 10)

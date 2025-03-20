@@ -13,12 +13,10 @@ struct ButtonComponent<ShapeType: Shape>: View {
     var shape: ShapeType
     var fontWeight: Font.Weight = .regular
     var font: Font = .body
-    var action: () -> ()
+    var action: () -> Void
     // Computed property
     var body: some View {
-        Button(action:{
-            action()
-        }){
+        Button(action: ({ action() })) {
             HStack {
                 Spacer()
                 Text(text)
@@ -35,7 +33,9 @@ struct ButtonComponent<ShapeType: Shape>: View {
 }
 
 #Preview {
-    ButtonComponent(text: "Listo", colorGradient: LinearGradient(colors: [.pink700, .pink900], startPoint: .bottomLeading, endPoint: .topTrailing), shape: .capsule){
-        
-    }
+    ButtonComponent(text: "Listo",
+                    colorGradient: LinearGradient(colors: [.pink700, .pink900],
+                                                  startPoint: .bottomLeading,
+                                                  endPoint: .topTrailing),
+                    shape: .capsule) { }
 }

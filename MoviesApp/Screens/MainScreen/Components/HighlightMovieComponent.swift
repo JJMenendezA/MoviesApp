@@ -16,12 +16,12 @@ struct HighlightMovieComponent: View {
                 KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
                     .resizable()
                     .frame(height: 700)
-                    .overlay{
+                    .overlay {
                         Color.black.opacity(0.6)
                     }
                 
                 VStack {
-                    NavigationLink(destination: DetailsScreenView(movieId: movie.id)){
+                    NavigationLink(destination: DetailsScreenView(movieId: movie.id)) {
                         KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
                             .resizable()
                             .frame(width: 250, height: 350)

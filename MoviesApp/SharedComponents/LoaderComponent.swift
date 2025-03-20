@@ -12,7 +12,7 @@ struct LoaderComponent: View {
     var body: some View {
         ZStack {
             ProgressView {
-                HStack{
+                HStack {
                     Spacer()
                     Image(systemName: "hand.raised")
                     Text("Please wait...")

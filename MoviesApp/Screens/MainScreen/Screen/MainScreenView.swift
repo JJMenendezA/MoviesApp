@@ -129,7 +129,7 @@ struct MainScreenView: View {
                         // Scroll Geometry Reader to get the value of the y offset
                         .onScrollGeometryChange(for: Double.self) { geo in
                             geo.contentOffset.y
-                        } action: { oldValue, newValue in
+                        } action: { _, newValue in
                             yOffset = newValue
                         }
                         .onChange(of: isSearchBarActive) {
@@ -154,26 +154,28 @@ struct MainScreenView: View {
             FiltersScreenView(isSheetActive: $isBottomSheetActive, mainScreenViewModel: mainScreenViewModel)
                 .presentationDetents([.height(400)])
         }
-        .alert(isPresented: $mainScreenViewModel.hasErrorTrigerred){
-            Alert(title: Text("Error"), message: Text(mainScreenViewModel.error!.localizedDescription), dismissButton: .default(Text("Retry"), action: { mainScreenViewModel.fetchMovies() }))
+        .alert(isPresented: $mainScreenViewModel.hasErrorTrigerred) {
+            Alert(title: Text("Error"),
+                  message: Text(mainScreenViewModel.error!.localizedDescription),
+                  dismissButton: .default(Text("Retry"), action: { mainScreenViewModel.fetchMovies() }))
         }
-        .onAppear{
+        .onAppear {
             mainScreenViewModel.fetchMovies()
         }
-        .onChange(of: isBottomSheetActive){
-            if !isBottomSheetActive{
+        .onChange(of: isBottomSheetActive) {
+            if !isBottomSheetActive {
                 withAnimation {
                     mainScreenViewModel.filterMovies()
                 }
             }
         }
-        .onChange(of: mainScreenViewModel.searchTitle){
+        .onChange(of: mainScreenViewModel.searchTitle) {
             // Filtering the lists according to the search value
             withAnimation {
                 mainScreenViewModel.searchMoviesByTitle()
             }
         }
-        .onChange(of: yOffset){
+        .onChange(of: yOffset) {
             // Header background color opacity changes depending on the y offset
             backgroundHeaderColor = .black.opacity(yOffset/750)
             

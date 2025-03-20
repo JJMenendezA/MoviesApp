@@ -17,12 +17,7 @@ struct FiltersScreenView: View {
         ZStack {
             VStack {
                 HStack {
-                    Button(action: {
-                        if mainScreenViewModel.filterParameters.filterLanguage.isEmpty {
-                            //mainScreenViewModel.filterParameters.areFiltersApplied = false
-                        }
-                        isSheetActive = false
-                    }) {
+                    Button(action: ({ isSheetActive = false })) {
                         Image(systemName: "xmark")
                             .fontWeight(.bold)
                     } // :Button
@@ -48,10 +43,8 @@ struct FiltersScreenView: View {
                         Spacer()
                         
                         Menu(filterLanguage) {
-                            ForEach (mainScreenViewModel.originalLanguagesList, id: \.self) { language in
-                                Button(action: {
-                                    filterLanguage = language
-                                }){
+                            ForEach(mainScreenViewModel.originalLanguagesList, id: \.self) { language in
+                                Button(action: ({ filterLanguage = language })) {
                                     Text(language)
                                 }
                             }
@@ -69,7 +62,7 @@ struct FiltersScreenView: View {
                     
                     if let firstElement = mainScreenViewModel.releaseDatesList.first,
                        let lastElement = mainScreenViewModel.releaseDatesList.last {
-                      
+                        
                         if firstElement <= filterEndReleaseDate {
                             HStack {
                                 LeadAlignedView {
@@ -78,11 +71,14 @@ struct FiltersScreenView: View {
                                         .font(.callout)
                                 }
                                 
-                                DatePicker("", selection: $filterStartReleaseDate, in: firstElement...filterEndReleaseDate, displayedComponents: .date)
-                                    .labelsHidden()
-                                    .tint(.purple700)
-                                    .padding(.trailing)
-                                    .colorScheme(.dark)
+                                DatePicker("",
+                                           selection: $filterStartReleaseDate,
+                                           in: firstElement...filterEndReleaseDate,
+                                           displayedComponents: .date)
+                                .labelsHidden()
+                                .tint(.purple700)
+                                .padding(.trailing)
+                                .colorScheme(.dark)
                             } // :HStack
                             .padding(.vertical)
                         }
@@ -108,7 +104,10 @@ struct FiltersScreenView: View {
                 
                 HStack {
                     if mainScreenViewModel.filterParameters.areFiltersApplied {
-                        ButtonComponent(text: "Clean Filters", colorGradient: customLinearGradient(colors: [.pink700, .pink900] ), shape: .capsule, fontWeight: .bold) {
+                        ButtonComponent(text: "Clean Filters",
+                                        colorGradient: customLinearGradient(colors: [.pink700, .pink900]),
+                                        shape: .capsule,
+                                        fontWeight: .bold) {
                             withAnimation {
                                 isSheetActive = false
                                 mainScreenViewModel.filterParameters.cleanFilters()
@@ -118,13 +117,15 @@ struct FiltersScreenView: View {
                         
                     }
                     
-                    ButtonComponent(text: "Ready", colorGradient: customLinearGradient(colors: [.purple700, .purple900] ), shape: .capsule, fontWeight: .bold) {
+                    ButtonComponent(text: "Ready",
+                                    colorGradient: customLinearGradient(colors: [.purple700, .purple900]),
+                                    shape: .capsule,
+                                    fontWeight: .bold) {
                         withAnimation {
                             mainScreenViewModel.filterParameters.filterLanguage = self.filterLanguage
                             mainScreenViewModel.filterParameters.filterStartReleaseDate = self.filterStartReleaseDate
                             mainScreenViewModel.filterParameters.filterEndReleaseDate = self.filterEndReleaseDate
                             isSheetActive = false
-                            //mainScreenViewModel.filterParameters.areFiltersApplied = true
                         }
                     }
                     .padding(.horizontal, 5)

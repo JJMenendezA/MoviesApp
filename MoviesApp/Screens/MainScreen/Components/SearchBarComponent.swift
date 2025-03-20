@@ -13,7 +13,7 @@ struct SearchBarComponent: View {
     @Binding var isSearchBarFocused: Bool
     var body: some View {
         HStack {
-            HStack{
+            HStack {
                 Image(systemName: "magnifyingglass")
                 
                 TextField("",
@@ -25,9 +25,7 @@ struct SearchBarComponent: View {
                 .tint(.white)
                 
                 if !textSearch.isEmpty {
-                    Button(action: {
-                        textSearch = ""
-                    }){
+                    Button(action: ({ textSearch = "" })) {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(.white.opacity(0.5))
                     } // :Button
@@ -38,17 +36,17 @@ struct SearchBarComponent: View {
             .clipShape(RoundedRectangle(cornerRadius: 10))
             
             if isFocused {
-                Button(action: {
+                Button(action: ({
                     textSearch = ""
                     isFocused = false
-                }) {
+                })) {
                     Text("Cancel")
                 } // :Button
             }
         } // :HStack
         .foregroundStyle(.white)
         .padding()
-        .onChange(of: isFocused){
+        .onChange(of: isFocused) {
             withAnimation {
                 isSearchBarFocused = isFocused
             }
