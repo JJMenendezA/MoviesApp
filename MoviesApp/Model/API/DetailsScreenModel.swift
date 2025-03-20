@@ -40,7 +40,7 @@ public struct MovieDetails: Decodable, Hashable {
     
     // Computed Properties
     var releaseDateFormatted: String {
-        if release_date == "" {
+        if release_date.isEmpty {
             return release_date
         } else {
             let dateFormatter = DateFormatter()
