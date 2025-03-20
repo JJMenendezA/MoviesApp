@@ -34,7 +34,7 @@ class NetworkManager {
         request.timeoutInterval = 10
         request.allHTTPHeaderFields = [
             "accept": "application/json",
-            "Authorization": "Bearer \(API_Key)"
+            "Authorization": "Bearer \(APIKey)"
         ]
         
         URLSession.shared.dataTask(with: request) { data, response, error in
