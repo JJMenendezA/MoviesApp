@@ -24,12 +24,12 @@ struct DetailsScreenView: View {
                         ZStack(alignment: .leading) {
                             Button(action: {
                                 dismiss()
-                            }) {
+                            }, label: {
                                 Image(systemName: "arrow.left")
                                     .font(.title2)
                                     .fontWeight(.bold)
                                     .foregroundStyle(.white)
-                            }
+                            })
                             .padding(.leading)
                             
                             HStack {
@@ -87,7 +87,7 @@ struct DetailsScreenView: View {
                                         // MARK: - STAR SECTION
                                         HStack {
                                             if movie.stars > 0 {
-                                                ForEach (0..<movie.stars, id: \.self) { index in
+                                                ForEach(0..<movie.stars, id: \.self) { _ in
                                                     Image(systemName: "star.fill")
                                                         .resizable()
                                                         .frame(width: 20, height: 20)
@@ -118,8 +118,6 @@ struct DetailsScreenView: View {
                                     Spacer()
                                 } // :HStack
                                 .padding(.bottom, 20)
-                                
-                                
                                 
                                 HStack {
                                     Spacer()
@@ -214,8 +212,10 @@ struct DetailsScreenView: View {
             }
         } // :ZStack
         .navigationBarBackButtonHidden(true)
-        .alert(isPresented: $detailsScreenViewModel.hasErrorTrigerred){
-            Alert(title: Text("Error"), message: Text(detailsScreenViewModel.error!.localizedDescription), dismissButton: .default(Text("Accept"), action: { dismiss() }))
+        .alert(isPresented: $detailsScreenViewModel.hasErrorTrigerred) {
+            Alert(title: Text("Error"),
+                  message: Text(detailsScreenViewModel.error!.localizedDescription),
+                  dismissButton: .default(Text("Accept"), action: { dismiss() }))
         }
         .onAppear {
             detailsScreenViewModel.fetchMovieDetails(movieId: movieId)

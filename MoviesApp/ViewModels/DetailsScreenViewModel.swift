@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class DetailsScreenViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var hasErrorTrigerred: Bool = false
@@ -21,7 +20,6 @@ class DetailsScreenViewModel: ObservableObject {
     init(moviesService: MoviesService = MoviesService()) {
         self.moviesService = moviesService
     }
-    
     
     func fetchMovieDetails(movieId: Int) {
         isLoading = true

@@ -18,7 +18,9 @@ class FilterParameters: ObservableObject {
     @Published var filterEndReleaseDate: Date = Date()
     
     var areFiltersApplied: Bool {
-        filterLanguage != filterOriginalLanguage || filterStartReleaseDate != filterOriginalStartReleaseDate || filterEndReleaseDate != filterOriginalEndReleaseDate
+        filterLanguage != filterOriginalLanguage ||
+        filterStartReleaseDate != filterOriginalStartReleaseDate ||
+        filterEndReleaseDate != filterOriginalEndReleaseDate
         }
     
     func setDefaultValues(startDate: Date, endDate: Date) {
