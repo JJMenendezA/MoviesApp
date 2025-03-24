@@ -34,7 +34,7 @@ public struct MoviesResponse: Decodable, Hashable {
     }
 }
 
-struct Movie: Decodable, Hashable {
+public struct Movie: Decodable, Hashable {
     let adult: Bool
     let backdrop_path: String?
     let genre_ids: [Int]
