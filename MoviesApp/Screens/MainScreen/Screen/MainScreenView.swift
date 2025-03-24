@@ -13,7 +13,7 @@ struct MainScreenView: View {
     @State private var yOffset: Double = 0.0
     @State private var backgroundHeaderColor: Color = .black.opacity(0.0)
     @State private var isBottomSheetActive: Bool = false
-    @ObservedObject var mainScreenViewModel: MainScreenViewModel = MainScreenViewModel()
+    @StateObject var mainScreenViewModel: MainScreenViewModel = MainScreenViewModel()
     // Computed properties
     private var wasSearchMade: Bool {
         if isSearchBarActive {
