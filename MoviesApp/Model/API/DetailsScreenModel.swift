@@ -64,8 +64,8 @@ struct Genre: Decodable, Hashable, Identifiable {
 struct MovieCollection: Decodable, Hashable {
     let id: Int
     let name: String
-    let poster_path: String
-    let backdrop_path: String
+    let poster_path: String?
+    let backdrop_path: String?
     
 }
 
