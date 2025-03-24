@@ -15,8 +15,8 @@ class MoviesService: MoviesServiceProtocol {
         self.networkManager = networkManager
     }
         
-    func fetchAllMovies(completion: @escaping (Result<[String: Movies], AppError>) -> Void) {
-        var moviesList: [String: Movies] = [:]
+    func fetchAllMovies(completion: @escaping (Result<[String: MoviesResponse], AppError>) -> Void) {
+        var moviesList: [String: MoviesResponse] = [:]
         var moviesError: AppError?
         
         let dispatchGroup = DispatchGroup()
@@ -44,13 +44,13 @@ class MoviesService: MoviesServiceProtocol {
     }
     
     func fetchMovies(endpoint: String,
-                     completion: @escaping (Result<Movies, AppError>) -> Void) {
+                     completion: @escaping (Result<MoviesResponse, AppError>) -> Void) {
         networkManager.getMoviesRequest(endpoint: endpoint,
                                         queryItems: [URLQueryItem(name: "language",
                                                                   value: "en-US"),
                                                      URLQueryItem(name: "page",
                                                                   value: "1")],
-                                        response: Movies.self) { result in
+                                        response: MoviesResponse.self) { result in
             switch result {
             case .success(let fetchedMovies):
                 DispatchQueue.main.async {
@@ -65,13 +65,13 @@ class MoviesService: MoviesServiceProtocol {
     }
     
     func fetchMovieDetails(endPoint: String,
-                           completion: @escaping (Result<MovieDetails, AppError>) -> Void) {
+                           completion: @escaping (Result<MovieDetailsResponse, AppError>) -> Void) {
         networkManager.getMoviesRequest(endpoint: endPoint,
                                         queryItems: [URLQueryItem(name: "append_to_response",
                                                                   value: "videos,similar"),
                                                      URLQueryItem(name: "language",
                                                                   value: "en-US")],
-                                        response: MovieDetails.self) { result in
+                                        response: MovieDetailsResponse.self) { result in
             switch result {
             case .success(let fetchedMovies):
                 DispatchQueue.main.async {

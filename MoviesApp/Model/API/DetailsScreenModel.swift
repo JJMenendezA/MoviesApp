@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct MovieDetails: Decodable, Hashable {
+public struct MovieDetailsResponse: Decodable, Hashable {
     let adult: Bool?
     let backdrop_path: String?
     let belongs_to_collection: MovieCollection?
@@ -36,7 +36,7 @@ public struct MovieDetails: Decodable, Hashable {
     let vote_average: CGFloat
     let vote_count: Int
     let videos: Videos
-    let similar: Movies
+    let similar: MoviesResponse
     
     // Computed Properties
     var releaseDateFormatted: String {

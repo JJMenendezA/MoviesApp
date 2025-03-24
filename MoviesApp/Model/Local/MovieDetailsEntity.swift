@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct MovieDetailsInfo: Decodable {
+public struct MovieDetailsEntity: Decodable {
     let title: String
     let moviePoster: String?
     let tagline: String
@@ -19,10 +19,10 @@ public struct MovieDetailsInfo: Decodable {
     let genreList: String
     let runtime: Int
     let overview: String
-    let similarMoviesList: [MovieInfo]
+    let similarMoviesList: [Movie]
     let movieVideo: URL?
     
-    public init(from movie: MovieDetails) {
+    public init(from movie: MovieDetailsResponse) {
         self.title = movie.title
         self.moviePoster = movie.poster_path
         self.tagline = movie.tagline

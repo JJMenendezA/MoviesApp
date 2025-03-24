@@ -11,12 +11,12 @@ import Foundation
 class MockMoviesService: MoviesServiceProtocol {
     var shouldFail: Bool = false
 
-    func fetchAllMovies(completion: @escaping (Result<[String: Movies], AppError>) -> Void) {
+    func fetchAllMovies(completion: @escaping (Result<[String: MoviesResponse], AppError>) -> Void) {
         if shouldFail {
             completion(.failure(.noData))
         } else {
-            var moviesList: [String: Movies] = [:]
-            moviesList["popular"] = Movies(dates: nil,
+            var moviesList: [String: MoviesResponse] = [:]
+            moviesList["popular"] = MoviesResponse(dates: nil,
                                            page: 1,
                                            results: [dummyMovieInfo],
                                            total_pages: 5,
@@ -25,11 +25,11 @@ class MockMoviesService: MoviesServiceProtocol {
         }
     }
 
-    func fetchMovies(endpoint: String, completion: @escaping (Result<Movies, AppError>) -> Void) {
+    func fetchMovies(endpoint: String, completion: @escaping (Result<MoviesResponse, AppError>) -> Void) {
         if shouldFail {
             completion(.failure(.noData))
         } else {
-            completion(.success(Movies(dates: nil,
+            completion(.success(MoviesResponse(dates: nil,
                                        page: 1,
                                        results: [dummyMovieInfo],
                                        total_pages: 5,
@@ -37,7 +37,7 @@ class MockMoviesService: MoviesServiceProtocol {
         }
     }
 
-    func fetchMovieDetails(endPoint: String, completion: @escaping (Result<MovieDetails, AppError>) -> Void) {
+    func fetchMovieDetails(endPoint: String, completion: @escaping (Result<MovieDetailsResponse, AppError>) -> Void) {
         if shouldFail {
             completion(.failure(.noData))
         } else {

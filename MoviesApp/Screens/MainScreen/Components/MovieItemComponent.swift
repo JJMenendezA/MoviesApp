@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct MovieItemComponent: View {
-    var movie: MovieInfo
+    var movie: Movie
     var isUpcoming: Bool = false
     var body: some View {
         // MARK: - Movie Item

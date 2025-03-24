@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MoviesListComponent: View {
-    var movies: [MovieInfo]
+    var movies: [Movie]
     var isUpcoming: Bool = false
     var body: some View {
         ScrollView(.horizontal) {

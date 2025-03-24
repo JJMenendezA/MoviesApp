@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct HighlightMovieComponent: View {
-    var movie: MovieInfo
+    var movie: Movie
     var body: some View {
         ZStack {
             if let moviePosterPath = movie.poster_path {

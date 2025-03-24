@@ -13,7 +13,7 @@ class DetailsScreenViewModel: ObservableObject {
     @Published var hasErrorTrigerred: Bool = false
     @Published var error: AppError?
     
-    var movieDetails: MovieDetailsInfo?
+    var movieDetails: MovieDetailsEntity?
     
     private let moviesService: MoviesService
     
@@ -26,7 +26,7 @@ class DetailsScreenViewModel: ObservableObject {
         moviesService.fetchMovieDetails(endPoint: MoviePathTypes.details(movieId: movieId).endpoint, completion: { [weak self] result in
             switch result {
             case .success(let movieDetails):
-                self?.movieDetails = MovieDetailsInfo(from: movieDetails)
+                self?.movieDetails = MovieDetailsEntity(from: movieDetails)
                 self?.isLoading =  false
                 
             case .failure(let error):

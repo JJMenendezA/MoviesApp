@@ -11,10 +11,10 @@ import SwiftUI
 
 class MainScreenViewModel: ObservableObject {
     // Immutable lists
-    private var moviesDictionary: [String: Movies] = [:]
+    private var moviesDictionary: [String: MoviesResponse] = [:]
     // Mutable lists
-    @Published var mutableMoviesLists: [String: [MovieInfo]] = [:]
-    var randomMovie: MovieInfo?
+    @Published var mutableMoviesLists: [String: [Movie]] = [:]
+    var randomMovie: Movie?
     // Error and Loading States
     @Published var error: AppError?
     @Published var hasErrorTrigerred: Bool = false
