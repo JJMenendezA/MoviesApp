@@ -61,8 +61,15 @@ class MainScreenViewModel: ObservableObject {
                 mutableMoviesLists[movie.key] = movie.value.results.map({ movie in
                     MovieEntity(from: movie)
                 })
-            case MovieTypes.nowPlaying.title, MovieTypes.upcoming.title:
+            case MovieTypes.nowPlaying.title:
                 mutableMoviesLists[movie.key] = movie.value.results.sorted(by: { $0.release_date < $1.release_date }).map({ movie in
+                    MovieEntity(from: movie)
+                })
+            case MovieTypes.upcoming.title:
+                mutableMoviesLists[movie.key] = movie.value.results
+                    .filter({ $0.release_date > getTwoWeeksAgoDate()})
+                    .sorted(by: { $0.release_date < $1.release_date })
+                    .map({ movie in
                     MovieEntity(from: movie)
                 })
             default:
