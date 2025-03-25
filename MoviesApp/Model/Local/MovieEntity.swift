@@ -13,15 +13,24 @@ public struct MovieEntity: Decodable {
     let posterPath: String?
     let releaseDate: String
     let title: String
-    let stars: Int
-    let hasHalfStar: Bool
+    let originalLanguage: String
+    let voteAverage: Double
     
     public init (from movie: Movie) {
         self.id = movie.id
         self.posterPath = movie.poster_path
         self.releaseDate = movie.releaseDateFormatted
         self.title = movie.title
-        self.stars = Int(movie.vote_average.rounded(.down))/2
-        self.hasHalfStar =  movie.vote_average.truncatingRemainder(dividingBy: 1) >= 0.5
+        self.originalLanguage = movie.original_language
+        self.voteAverage = movie.vote_average
+    }
+    
+    // Computed properties
+    var stars: Int {
+        Int(voteAverage.rounded(.down))/2
+    }
+    
+    var hasHalfStar: Bool {
+        voteAverage.truncatingRemainder(dividingBy: 1) >= 0.5
     }
 }

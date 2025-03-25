@@ -18,7 +18,7 @@ class MockMoviesService: MoviesServiceProtocol {
             var moviesList: [String: MoviesResponse] = [:]
             moviesList["popular"] = MoviesResponse(dates: nil,
                                            page: 1,
-                                           results: [dummyMovieInfo],
+                                                   results: [dummyMovieResponse],
                                            total_pages: 5,
                                            total_results: 100)
             completion(.success(moviesList))
@@ -31,7 +31,7 @@ class MockMoviesService: MoviesServiceProtocol {
         } else {
             completion(.success(MoviesResponse(dates: nil,
                                        page: 1,
-                                       results: [dummyMovieInfo],
+                                               results: [dummyMovieResponse],
                                        total_pages: 5,
                                        total_results: 100)))
         }

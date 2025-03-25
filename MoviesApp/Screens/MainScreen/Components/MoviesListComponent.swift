@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MoviesListComponent: View {
-    var movies: [Movie]
+    var movies: [MovieEntity]
     var isUpcoming: Bool = false
     var body: some View {
         ScrollView(.horizontal) {
@@ -27,5 +27,5 @@ struct MoviesListComponent: View {
 }
 
 #Preview {
-    MoviesListComponent(movies: [dummyMovieInfo, dummyMovieInfo])
+    MoviesListComponent(movies: [dummyMovieEntity, dummyMovieEntity])
 }

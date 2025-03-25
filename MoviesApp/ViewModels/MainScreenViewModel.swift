@@ -13,8 +13,8 @@ class MainScreenViewModel: ObservableObject {
     // Immutable lists
     private var moviesDictionary: [String: MoviesResponse] = [:]
     // Mutable lists
-    @Published var mutableMoviesLists: [String: [Movie]] = [:]
-    var randomMovie: Movie?
+    @Published var mutableMoviesLists: [String: [MovieEntity]] = [:]
+    var randomMovie: MovieEntity?
     // Error and Loading States
     @Published var error: AppError?
     @Published var hasErrorTrigerred: Bool = false
@@ -38,7 +38,9 @@ class MainScreenViewModel: ObservableObject {
             switch result {
             case .success(let fetchedMovies):
                 self?.moviesDictionary = fetchedMovies
-                self?.randomMovie = self?.moviesDictionary.values.randomElement()?.results.randomElement()
+                if let randomMovie = self?.moviesDictionary.values.randomElement()?.results.randomElement() {
+                    self?.randomMovie = MovieEntity(from: randomMovie)
+                }
                 self?.setLists()
                 self?.originalLanguagesList = (self?.createLanguageList())!
                 self?.releaseDatesList = (self?.createDateListAndSetVariables())!
@@ -56,15 +58,17 @@ class MainScreenViewModel: ObservableObject {
         moviesDictionary.forEach({ movie in
             switch movie.key {
             case MovieTypes.popular.title, MovieTypes.topRated.title:
-                mutableMoviesLists[movie.key] = movie.value.results
+                mutableMoviesLists[movie.key] = movie.value.results.map({ movie in
+                    MovieEntity(from: movie)
+                })
             case MovieTypes.nowPlaying.title, MovieTypes.upcoming.title:
-                mutableMoviesLists[movie.key] = movie.value.results.sorted(by: { $0.release_date < $1.release_date })
+                mutableMoviesLists[movie.key] = movie.value.results.sorted(by: { $0.release_date < $1.release_date }).map({ movie in
+                    MovieEntity(from: movie)
+                })
             default:
                 break
             }
-           
-        })
-        
+        })        
     }
     
     private func createLanguageList() -> [String] {
@@ -100,6 +104,8 @@ class MainScreenViewModel: ObservableObject {
         moviesDictionary.forEach({ movie in
             mutableMoviesLists[movie.key] = movie.value.results.filter({ movie in
                 movie.title.localizedCaseInsensitiveContains(searchTitle)
+            }).map({ movie in
+                MovieEntity(from: movie)
             })
         })
     }
@@ -109,8 +115,8 @@ class MainScreenViewModel: ObservableObject {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         mutableMoviesLists.forEach({ movie in
             mutableMoviesLists[movie.key] = movie.value.filter({ movie in
-                dateFormatter.date(from: movie.release_date)! >= filterParameters.filterStartReleaseDate &&
-                dateFormatter.date(from: movie.release_date)! <= filterParameters.filterEndReleaseDate
+                dateFormatter.date(from: movie.releaseDate)! >= filterParameters.filterStartReleaseDate &&
+                dateFormatter.date(from: movie.releaseDate)! <= filterParameters.filterEndReleaseDate
             })
         })
     }
@@ -118,7 +124,7 @@ class MainScreenViewModel: ObservableObject {
     private func filterMoviesByLanguage() {
         mutableMoviesLists.forEach({ movie in
             mutableMoviesLists[movie.key] = movie.value.filter({ movie in
-                Locale.current.localizedString(forLanguageCode: movie.original_language) == filterParameters.filterLanguage
+                Locale.current.localizedString(forLanguageCode: movie.originalLanguage) == filterParameters.filterLanguage
             })
         })
     }

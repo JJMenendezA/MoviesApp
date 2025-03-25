@@ -19,7 +19,7 @@ public struct MovieDetailsEntity: Decodable {
     let genreList: String
     let runtime: Int
     let overview: String
-    let similarMoviesList: [Movie]
+    let similarMoviesList: [MovieEntity]
     let movieVideo: URL?
     
     public init(from movie: MovieDetailsResponse) {
@@ -33,7 +33,9 @@ public struct MovieDetailsEntity: Decodable {
         self.genreList = movie.genres.map(\.name).joined(separator: ", ")
         self.runtime = movie.runtime
         self.overview = movie.overview
-        self.similarMoviesList = movie.similar.results
+        self.similarMoviesList = movie.similar.results.map({ movie in
+            MovieEntity(from: movie)
+        })
         self.movieVideo = movie.videos.results.first?.key != nil ? movieVideoURL.appendingPathComponent(movie.videos.results.first!.key) : nil
     }
 }

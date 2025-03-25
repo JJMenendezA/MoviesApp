@@ -9,10 +9,10 @@ import SwiftUI
 import Kingfisher
 
 struct HighlightMovieComponent: View {
-    var movie: Movie
+    var movie: MovieEntity
     var body: some View {
         ZStack {
-            if let moviePosterPath = movie.poster_path {
+            if let moviePosterPath = movie.posterPath {
                 KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
                     .resizable()
                     .frame(height: 700)
@@ -46,8 +46,4 @@ struct HighlightMovieComponent: View {
             } // :ZStack
         }
     }
-}
-
-#Preview {
-    HighlightMovieComponent(movie: dummyMovieInfo)
 }

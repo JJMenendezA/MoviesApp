@@ -77,7 +77,7 @@ struct MainScreenView: View {
                                         LeadAlignedView {
                                             DetailsScreenTitleComponent(text: "Top rated")
                                         } // :LeadAlignedView
-                                        MoviesListComponent(movies: topRatedList.sorted(by: { $0.vote_average > $1.vote_average }))
+                                        MoviesListComponent(movies: topRatedList.sorted(by: { $0.voteAverage > $1.voteAverage }))
                                             .transition(.slide)
                                     }
                                     
