@@ -17,12 +17,7 @@ struct FiltersScreenView: View {
         ZStack {
             VStack {
                 HStack {
-                    Button(action: {
-                        if mainScreenViewModel.filterLanguage.isEmpty {
-                            mainScreenViewModel.areFiltersApplied = false
-                        }
-                        isSheetActive = false
-                    }) {
+                    Button(action: ({ isSheetActive = false })) {
                         Image(systemName: "xmark")
                             .fontWeight(.bold)
                     } // :Button
@@ -39,17 +34,17 @@ struct FiltersScreenView: View {
                 
                 ScrollView {
                     HStack {
-                        TextAlignedLeadingComponent(text: "Original language:")
-                            .fontWeight(.light)
-                            .font(.callout)
+                        LeadAlignedView {
+                            Text("Original language:")
+                                .fontWeight(.light)
+                                .font(.callout)
+                        }
                         
                         Spacer()
                         
                         Menu(filterLanguage) {
-                            ForEach (mainScreenViewModel.originalLanguagesList, id: \.self) { language in
-                                Button(action: {
-                                    filterLanguage = language
-                                }){
+                            ForEach(mainScreenViewModel.originalLanguagesList, id: \.self) { language in
+                                Button(action: ({ filterLanguage = language })) {
                                     Text(language)
                                 }
                             }
@@ -67,28 +62,34 @@ struct FiltersScreenView: View {
                     
                     if let firstElement = mainScreenViewModel.releaseDatesList.first,
                        let lastElement = mainScreenViewModel.releaseDatesList.last {
-                      
+                        
                         if firstElement <= filterEndReleaseDate {
                             HStack {
-                                TextAlignedLeadingComponent(text: "Starting release date:")
-                                    .fontWeight(.light)
-                                    .font(.callout)
+                                LeadAlignedView {
+                                    Text("Starting release date:")
+                                        .fontWeight(.light)
+                                        .font(.callout)
+                                }
                                 
-                                DatePicker("", selection: $filterStartReleaseDate, in: firstElement...filterEndReleaseDate, displayedComponents: .date)
-                                    .labelsHidden()
-                                    .tint(.purple700)
-                                    .padding(.trailing)
-                                    .colorScheme(.dark)
+                                DatePicker("",
+                                           selection: $filterStartReleaseDate,
+                                           in: firstElement...filterEndReleaseDate,
+                                           displayedComponents: .date)
+                                .labelsHidden()
+                                .tint(.purple700)
+                                .padding(.trailing)
+                                .colorScheme(.dark)
                             } // :HStack
                             .padding(.vertical)
                         }
                         
                         if filterStartReleaseDate <= lastElement {
                             HStack {
-                                TextAlignedLeadingComponent(text: "End release date:")
-                                    .fontWeight(.light)
-                                    .font(.callout)
-                                
+                                LeadAlignedView {
+                                    Text("End release date:")
+                                        .fontWeight(.light)
+                                        .font(.callout)
+                                }
                                 DatePicker("", selection: $filterEndReleaseDate, in: filterStartReleaseDate...lastElement, displayedComponents: .date)
                                     .labelsHidden()
                                     .tint(.purple700)
@@ -102,24 +103,29 @@ struct FiltersScreenView: View {
                 } // :ScrollView
                 
                 HStack {
-                    if mainScreenViewModel.areFiltersApplied {
-                        ButtonComponent(text: "Clean Filters", colorGradient: customLinearGradient(colors: [.pink700, .pink900] ), shape: .capsule, fontWeight: .bold) {
+                    if mainScreenViewModel.filterParameters.areFiltersApplied {
+                        ButtonComponent(text: "Clean Filters",
+                                        colorGradient: customLinearGradient(colors: [.pink700, .pink900]),
+                                        shape: .capsule,
+                                        fontWeight: .bold) {
                             withAnimation {
                                 isSheetActive = false
-                                mainScreenViewModel.cleanFilters()
+                                mainScreenViewModel.filterParameters.cleanFilters()
                             }
                         }
                         .padding(.horizontal, 5)
                         
                     }
                     
-                    ButtonComponent(text: "Ready", colorGradient: customLinearGradient(colors: [.purple700, .purple900] ), shape: .capsule, fontWeight: .bold) {
+                    ButtonComponent(text: "Ready",
+                                    colorGradient: customLinearGradient(colors: [.purple700, .purple900]),
+                                    shape: .capsule,
+                                    fontWeight: .bold) {
                         withAnimation {
-                            mainScreenViewModel.filterLanguage = self.filterLanguage
-                            mainScreenViewModel.filterStartReleaseDate = self.filterStartReleaseDate
-                            mainScreenViewModel.filterEndReleaseDate = self.filterEndReleaseDate
+                            mainScreenViewModel.filterParameters.filterLanguage = self.filterLanguage
+                            mainScreenViewModel.filterParameters.filterStartReleaseDate = self.filterStartReleaseDate
+                            mainScreenViewModel.filterParameters.filterEndReleaseDate = self.filterEndReleaseDate
                             isSheetActive = false
-                            mainScreenViewModel.areFiltersApplied = true
                         }
                     }
                     .padding(.horizontal, 5)
@@ -133,9 +139,9 @@ struct FiltersScreenView: View {
             .background(.gray900)
         } // :ZStack
         .onAppear {
-            filterLanguage = mainScreenViewModel.filterLanguage
-            filterEndReleaseDate = mainScreenViewModel.filterEndReleaseDate
-            filterStartReleaseDate = mainScreenViewModel.filterStartReleaseDate
+            filterLanguage = mainScreenViewModel.filterParameters.filterLanguage
+            filterEndReleaseDate = mainScreenViewModel.filterParameters.filterEndReleaseDate
+            filterStartReleaseDate = mainScreenViewModel.filterParameters.filterStartReleaseDate
         }
     }
 }

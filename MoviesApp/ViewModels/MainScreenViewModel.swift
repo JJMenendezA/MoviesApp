@@ -11,10 +11,10 @@ import SwiftUI
 
 class MainScreenViewModel: ObservableObject {
     // Immutable lists
-    var moviesDictionary: [String : Movies] = [:]
+    private var moviesDictionary: [String: MoviesResponse] = [:]
     // Mutable lists
-    @Published var mutableMoviesLists: [String : [MovieInfo]] = [:]
-    var randomMovie: MovieInfo?
+    @Published var mutableMoviesLists: [String: [MovieEntity]] = [:]
+    var randomMovie: MovieEntity?
     // Error and Loading States
     @Published var error: AppError?
     @Published var hasErrorTrigerred: Bool = false
@@ -24,10 +24,7 @@ class MainScreenViewModel: ObservableObject {
     @Published var releaseDatesList: [Date] = []
     // Search and filter variables
     @Published var searchTitle: String = ""
-    @Published var filterLanguage: String = "All languages"
-    @Published var filterStartReleaseDate: Date = Date()
-    @Published var filterEndReleaseDate: Date = Date()
-    @Published var areFiltersApplied: Bool = false
+    @Published var filterParameters: FilterParameters = FilterParameters()
     
     private let moviesService: MoviesService
     
@@ -41,7 +38,9 @@ class MainScreenViewModel: ObservableObject {
             switch result {
             case .success(let fetchedMovies):
                 self?.moviesDictionary = fetchedMovies
-                self?.randomMovie = self?.moviesDictionary.values.randomElement()?.results.randomElement()
+                if let randomMovie = self?.moviesDictionary.values.randomElement()?.results.randomElement() {
+                    self?.randomMovie = MovieEntity(from: randomMovie)
+                }
                 self?.setLists()
                 self?.originalLanguagesList = (self?.createLanguageList())!
                 self?.releaseDatesList = (self?.createDateListAndSetVariables())!
@@ -59,15 +58,24 @@ class MainScreenViewModel: ObservableObject {
         moviesDictionary.forEach({ movie in
             switch movie.key {
             case MovieTypes.popular.title, MovieTypes.topRated.title:
+                mutableMoviesLists[movie.key] = movie.value.results.map({ movie in
+                    MovieEntity(from: movie)
+                })
+            case MovieTypes.nowPlaying.title:
+                mutableMoviesLists[movie.key] = movie.value.results.sorted(by: { $0.release_date < $1.release_date }).map({ movie in
+                    MovieEntity(from: movie)
+                })
+            case MovieTypes.upcoming.title:
                 mutableMoviesLists[movie.key] = movie.value.results
-            case MovieTypes.nowPlaying.title, MovieTypes.upcoming.title:
-                mutableMoviesLists[movie.key] = movie.value.results.sorted(by: { $0.release_date < $1.release_date })
+                    .filter({ $0.release_date > getTwoWeeksAgoDate()})
+                    .sorted(by: { $0.release_date < $1.release_date })
+                    .map({ movie in
+                    MovieEntity(from: movie)
+                })
             default:
                 break
             }
-           
-        })
-        
+        })        
     }
     
     private func createLanguageList() -> [String] {
@@ -88,9 +96,8 @@ class MainScreenViewModel: ObservableObject {
         moviesDictionary.forEach({ movie in
             dateSet.formUnion(movie.value.releaseDatesSet)
         })
-        
-        filterStartReleaseDate = Array(dateSet).sorted().first!
-        filterEndReleaseDate = Array(dateSet).sorted().last!
+
+        filterParameters.setDefaultValues(startDate: Array(dateSet).sorted().first!, endDate: Array(dateSet).sorted().last!)
         
         return Array(dateSet).sorted()
     }
@@ -104,6 +111,8 @@ class MainScreenViewModel: ObservableObject {
         moviesDictionary.forEach({ movie in
             mutableMoviesLists[movie.key] = movie.value.results.filter({ movie in
                 movie.title.localizedCaseInsensitiveContains(searchTitle)
+            }).map({ movie in
+                MovieEntity(from: movie)
             })
         })
     }
@@ -113,7 +122,8 @@ class MainScreenViewModel: ObservableObject {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         mutableMoviesLists.forEach({ movie in
             mutableMoviesLists[movie.key] = movie.value.filter({ movie in
-                dateFormatter.date(from: movie.release_date)! >= filterStartReleaseDate && dateFormatter.date(from: movie.release_date)! <= filterEndReleaseDate
+                dateFormatter.date(from: movie.releaseDate)! >= filterParameters.filterStartReleaseDate &&
+                dateFormatter.date(from: movie.releaseDate)! <= filterParameters.filterEndReleaseDate
             })
         })
     }
@@ -121,29 +131,19 @@ class MainScreenViewModel: ObservableObject {
     private func filterMoviesByLanguage() {
         mutableMoviesLists.forEach({ movie in
             mutableMoviesLists[movie.key] = movie.value.filter({ movie in
-                Locale.current.localizedString(forLanguageCode: movie.original_language) == filterLanguage
+                Locale.current.localizedString(forLanguageCode: movie.originalLanguage) == filterParameters.filterLanguage
             })
         })
     }
     
-    func filterMovies(){
+    func filterMovies() {
         setLists()
         
-        guard areFiltersApplied else { return }
+        guard filterParameters.areFiltersApplied else { return }
         
-        if filterLanguage != "All languages" { filterMoviesByLanguage() }
+        if filterParameters.filterLanguage != "All languages" { filterMoviesByLanguage() }
         
-        if filterStartReleaseDate != releaseDatesList.first! || filterEndReleaseDate != releaseDatesList.last! { filterMoviesByDate() }
+        if filterParameters.filterStartReleaseDate != releaseDatesList.first! ||
+            filterParameters.filterEndReleaseDate != releaseDatesList.last! { filterMoviesByDate() }
     }
-    
-    func cleanFilters() {
-        filterStartReleaseDate = Array(releaseDatesList).sorted().first!
-        filterEndReleaseDate = Array(releaseDatesList).sorted().last!
-        filterLanguage = "All languages"
-        areFiltersApplied = false
-    }
-    
 }
-
-
-

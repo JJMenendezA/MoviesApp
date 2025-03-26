@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class NetworkManager {
     static let shared = NetworkManager()
     
@@ -17,7 +16,7 @@ class NetworkManager {
         queryItems: [URLQueryItem]?,
         response: T.Type,
         completion: @escaping (Result<T, AppError>) -> Void
-    ){
+    ) {
         let url = baseMoviesURL.appendingPathComponent(endpoint)
         
         print("-------------URL-------------------")
@@ -34,7 +33,7 @@ class NetworkManager {
         request.timeoutInterval = 10
         request.allHTTPHeaderFields = [
             "accept": "application/json",
-            "Authorization": "Bearer \(API_Key)"
+            "Authorization": "Bearer \(APIKey)"
         ]
         
         URLSession.shared.dataTask(with: request) { data, response, error in
@@ -58,7 +57,9 @@ class NetworkManager {
             }
             
             print("---------------Data-----------------")
-            print(String(decoding: data, as: UTF8.self))
+            if let dataString = String(bytes: data, encoding: .utf8) {
+                print(dataString)
+            }
             
             do {
                 let decodedObject = try JSONDecoder().decode(T.self, from: data)

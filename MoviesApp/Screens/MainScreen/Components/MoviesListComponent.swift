@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct MoviesListComponent: View {
-    var movies: [MovieInfo]
+    var movies: [MovieEntity]
     var isUpcoming: Bool = false
     var body: some View {
         ScrollView(.horizontal) {
             HStack(spacing: 15) {
-                ForEach(movies, id: \.id){ movie in
+                ForEach(movies, id: \.id) { movie in
                     MovieItemComponent(movie: movie, isUpcoming: isUpcoming)
                 }
             } // :HStack
@@ -27,5 +27,5 @@ struct MoviesListComponent: View {
 }
 
 #Preview {
-    MoviesListComponent(movies: [dummyMovieInfo, dummyMovieInfo])
+    MoviesListComponent(movies: [dummyMovieEntity, dummyMovieEntity])
 }

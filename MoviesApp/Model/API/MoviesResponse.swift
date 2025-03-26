@@ -8,10 +8,10 @@
 
 import Foundation
 
-public struct Movies: Decodable, Hashable {
+public struct MoviesResponse: Decodable, Hashable {
     let dates: Dates?
     let page: Int
-    let results: [MovieInfo]
+    let results: [Movie]
     let total_pages: Int
     let total_results: Int
     
@@ -34,7 +34,7 @@ public struct Movies: Decodable, Hashable {
     }
 }
 
-struct MovieInfo: Decodable, Hashable {
+public struct Movie: Decodable, Hashable {
     let adult: Bool
     let backdrop_path: String?
     let genre_ids: [Int]
@@ -60,7 +60,7 @@ struct MovieInfo: Decodable, Hashable {
     }
     
     var releaseDateFormatted: String {
-        if release_date == "" {
+        if release_date.isEmpty {
             return release_date
         } else {
             let dateFormatter = DateFormatter()

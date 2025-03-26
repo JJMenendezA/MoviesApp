@@ -88,7 +88,6 @@ final class MoviesAppTests: XCTestCase {
         waitForExpectations(timeout: 5)
     }
 
-    
     func test_fetchMovies_failsWithError() throws {
         // Arrange
         let sut = MockMoviesService()

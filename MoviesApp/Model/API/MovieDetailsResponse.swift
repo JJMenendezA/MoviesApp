@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct MovieDetails: Decodable, Hashable {
+public struct MovieDetailsResponse: Decodable, Hashable {
     let adult: Bool?
     let backdrop_path: String?
     let belongs_to_collection: MovieCollection?
@@ -36,19 +36,11 @@ public struct MovieDetails: Decodable, Hashable {
     let vote_average: CGFloat
     let vote_count: Int
     let videos: Videos
-    let similar: Movies
+    let similar: MoviesResponse
     
     // Computed Properties
-    var stars: Int {
-        Int(vote_average.rounded(.down))/2
-    }
-    
-    var hasHalfStar: Bool {
-        vote_average.truncatingRemainder(dividingBy: 1) >= 0.5
-    }
-    
     var releaseDateFormatted: String {
-        if release_date == "" {
+        if release_date.isEmpty {
             return release_date
         } else {
             let dateFormatter = DateFormatter()
@@ -62,14 +54,6 @@ public struct MovieDetails: Decodable, Hashable {
             return outputDate.string(from: dateFormatted!)
         }
     }
-    
-    var originalLanguageComplete: String {
-        Locale.current.localizedString(forLanguageCode: original_language) ?? original_language
-    }
-    
-    var genresList: String {
-        genres.map(\.name).joined(separator: ", ")
-    }
 }
 
 struct Genre: Decodable, Hashable, Identifiable {
@@ -80,8 +64,8 @@ struct Genre: Decodable, Hashable, Identifiable {
 struct MovieCollection: Decodable, Hashable {
     let id: Int
     let name: String
-    let poster_path: String
-    let backdrop_path: String
+    let poster_path: String?
+    let backdrop_path: String?
     
 }
 

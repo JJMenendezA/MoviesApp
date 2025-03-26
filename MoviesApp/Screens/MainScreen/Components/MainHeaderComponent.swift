@@ -9,10 +9,10 @@ import SwiftUI
 
 struct MainHeaderComponent: View {
     var color: Color = .clear
-    var filterAction: () -> ()
-    var switchAction: () -> ()
-    var submenuAction: () -> ()
-    @Binding var areFiltersApplied: Bool
+    var filterAction: () -> Void
+    var switchAction: () -> Void
+    var submenuAction: () -> Void
+    var areFiltersApplied: Bool
     // Computed Properties
     var titleFilter: String {
         areFiltersApplied ? "Filters Applied" : "Filters"
@@ -25,18 +25,14 @@ struct MainHeaderComponent: View {
     }
     var body: some View {
         HStack {
-            Button(action: {
-                filterAction()
-            }){
+            Button(action: ({ filterAction() })) {
                 Text(titleFilter)
                     .fontWeight(filterTitleWeight)
                 Image(systemName: filterIcon)
             } // :Button
             
             Spacer()
-            Button(action: {
-                switchAction()
-            }){
+            Button(action: ({ switchAction() })) {
                 Image(systemName: "tv")
                     .resizable()
                     .frame(width: 20, height: 20)
@@ -44,9 +40,7 @@ struct MainHeaderComponent: View {
             .padding(.horizontal)
             .hidden()
             
-            Button(action: {
-                submenuAction()
-            }){
+            Button(action: ({ submenuAction() })) {
                 Image(systemName: "info.bubble")
                     .resizable()
                     .frame(width: 20, height: 20)
@@ -64,6 +58,6 @@ struct MainHeaderComponent: View {
 }
 
 #Preview {
-    MainHeaderComponent(filterAction: {}, switchAction: {}, submenuAction: {}, areFiltersApplied: .constant(false))
+    MainHeaderComponent(filterAction: {}, switchAction: {}, submenuAction: {}, areFiltersApplied: false)
         .background(.black)
 }

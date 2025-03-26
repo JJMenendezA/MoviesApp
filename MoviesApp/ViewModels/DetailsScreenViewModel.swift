@@ -8,15 +8,12 @@
 
 import Foundation
 
-
 class DetailsScreenViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var hasErrorTrigerred: Bool = false
     @Published var error: AppError?
     
-    var movieDetails: MovieDetails?
-    var similarMoviesList: [MovieInfo] = []
-    var movieVideo: URL?
+    var movieDetails: MovieDetailsEntity?
     
     private let moviesService: MoviesService
     
@@ -24,23 +21,18 @@ class DetailsScreenViewModel: ObservableObject {
         self.moviesService = moviesService
     }
     
-    
     func fetchMovieDetails(movieId: Int) {
         isLoading = true
-        moviesService.fetchMovieDetails(endPoint: MoviePathTypes.details(movieId: movieId).endpoint, completion: { result in
+        moviesService.fetchMovieDetails(endPoint: MoviePathTypes.details(movieId: movieId).endpoint, completion: { [weak self] result in
             switch result {
             case .success(let movieDetails):
-                self.movieDetails = movieDetails
-                self.similarMoviesList = movieDetails.similar.results
-                if let youtubeKey = movieDetails.videos.results.first?.key {
-                    self.movieVideo = movieVideoURL.appendingPathComponent(youtubeKey)
-                }
-                self.isLoading =  false
+                self?.movieDetails = MovieDetailsEntity(from: movieDetails)
+                self?.isLoading =  false
                 
             case .failure(let error):
-                self.error = error
-                self.hasErrorTrigerred = true
-                self.isLoading = false
+                self?.error = error
+                self?.hasErrorTrigerred = true
+                self?.isLoading = false
                 
             }
         })
