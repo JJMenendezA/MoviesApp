@@ -18,7 +18,7 @@ struct SearchBarComponent: View {
                 
                 TextField("",
                           text: $textSearch,
-                          prompt: Text("Search Movies")
+                          prompt: Text("Search movies")
                     .foregroundStyle(.white.opacity(0.5)))
                 .submitLabel(.done)
                 .focused($isFocused)
