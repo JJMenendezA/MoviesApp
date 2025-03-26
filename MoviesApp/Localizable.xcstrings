@@ -1,0 +1,63 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "%@" : {
+
+    },
+    "🤷‍♀️" : {
+
+    },
+    "Accept" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "End release date:" : {
+
+    },
+    "Error" : {
+
+    },
+    "I'm sorry, but no movies were found." : {
+
+    },
+    "Movies App" : {
+
+    },
+    "No poster available" : {
+
+    },
+    "No rating available." : {
+
+    },
+    "Original language:" : {
+
+    },
+    "Please wait..." : {
+
+    },
+    "Random pick of the day 👍" : {
+
+    },
+    "Retry" : {
+
+    },
+    "Search Movies" : {
+
+    },
+    "Select the desired parameters" : {
+
+    },
+    "Starting release date:" : {
+
+    },
+    "You can try searching for a different movie." : {
+
+    }
+  },
+  "version" : "1.0"
+}
