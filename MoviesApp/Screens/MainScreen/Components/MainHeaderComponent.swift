@@ -15,7 +15,7 @@ struct MainHeaderComponent: View {
     var areFiltersApplied: Bool
     // Computed Properties
     var titleFilter: String {
-        areFiltersApplied ? "Filters Applied" : "Filters"
+        areFiltersApplied ? NSLocalizedString("Filters Applied", comment: "") : NSLocalizedString("Filters", comment: "")
     }
     var filterTitleWeight: Font.Weight {
         areFiltersApplied ? .bold : .regular
