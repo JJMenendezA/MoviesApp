@@ -59,7 +59,7 @@ struct DetailsScreenView: View {
                                         .padding(.bottom, 20)
                                 }
                                 
-                                Text("\(movie.tagline)")
+                                Text(movie.tagline)
                                     .italic()
                                     .fontWeight(.heavy)
                                     .foregroundStyle(.white)
