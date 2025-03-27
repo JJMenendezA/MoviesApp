@@ -27,6 +27,8 @@ struct FiltersScreenView: View {
                         .fontWeight(.bold)
                         .padding(.horizontal, 5)
                         .padding(10)
+                        .minimumScaleFactor(0.5)
+                        .lineLimit(1)
                     Spacer()
                 } // :HStack
                 .padding(.horizontal)
@@ -71,7 +73,7 @@ struct FiltersScreenView: View {
                                         .font(.callout)
                                 }
                                 
-                                DatePicker("",
+                                DatePicker("Starting release date:",
                                            selection: $filterStartReleaseDate,
                                            in: firstElement...filterEndReleaseDate,
                                            displayedComponents: .date)
@@ -90,7 +92,10 @@ struct FiltersScreenView: View {
                                         .fontWeight(.light)
                                         .font(.callout)
                                 }
-                                DatePicker("", selection: $filterEndReleaseDate, in: filterStartReleaseDate...lastElement, displayedComponents: .date)
+                                DatePicker("End release date:",
+                                           selection: $filterEndReleaseDate,
+                                           in: filterStartReleaseDate...lastElement,
+                                           displayedComponents: .date)
                                     .labelsHidden()
                                     .tint(.purple700)
                                     .padding(.trailing)
@@ -104,7 +109,7 @@ struct FiltersScreenView: View {
                 
                 HStack {
                     if mainScreenViewModel.filterParameters.areFiltersApplied {
-                        ButtonComponent(text: "Clean Filters",
+                        ButtonComponent(text: NSLocalizedString("Clean Filters", comment: ""),
                                         colorGradient: customLinearGradient(colors: [.pink700, .pink900]),
                                         shape: .capsule,
                                         fontWeight: .bold) {
@@ -117,7 +122,7 @@ struct FiltersScreenView: View {
                         
                     }
                     
-                    ButtonComponent(text: "Ready",
+                    ButtonComponent(text: NSLocalizedString("Ready", comment: ""),
                                     colorGradient: customLinearGradient(colors: [.purple700, .purple900]),
                                     shape: .capsule,
                                     fontWeight: .bold) {

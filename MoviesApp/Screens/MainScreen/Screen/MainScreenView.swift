@@ -58,7 +58,8 @@ struct MainScreenView: View {
                                     
                                     // MARK: - ANNOUNCEMENTS SECTION
                                     LeadAlignedView {
-                                        DetailsScreenTitleComponent(text: "Important announcements", maxWidth: 250)
+                                        DetailsScreenTitleComponent(text: NSLocalizedString("Important announcements", comment: ""),
+                                                                    maxWidth: 250)
                                             .padding(.vertical, 10)
                                     } // :LeadAlignedView
                                     AnnouncementsComponent()
@@ -75,7 +76,7 @@ struct MainScreenView: View {
                                 if let topRatedList = mainScreenViewModel.mutableMoviesLists[MovieTypes.topRated.title] {
                                     if !topRatedList.isEmpty {
                                         LeadAlignedView {
-                                            DetailsScreenTitleComponent(text: "Top rated")
+                                            DetailsScreenTitleComponent(text: NSLocalizedString("Top rated", comment: ""))
                                         } // :LeadAlignedView
                                         MoviesListComponent(movies: topRatedList.sorted(by: { $0.voteAverage > $1.voteAverage }))
                                             .transition(.slide)
@@ -87,7 +88,7 @@ struct MainScreenView: View {
                                 if let nowPlayingList = mainScreenViewModel.mutableMoviesLists[MovieTypes.nowPlaying.title] {
                                     if !nowPlayingList.isEmpty {
                                         LeadAlignedView {
-                                            DetailsScreenTitleComponent(text: "Now playing")
+                                            DetailsScreenTitleComponent(text: NSLocalizedString("Now playing", comment: ""))
                                         } // :LeadAlignedView
                                         MoviesListComponent(movies: nowPlayingList)
                                             .transition(.slide)
@@ -98,7 +99,7 @@ struct MainScreenView: View {
                                 if let popularList = mainScreenViewModel.mutableMoviesLists[MovieTypes.popular.title] {
                                     if !popularList.isEmpty {
                                         LeadAlignedView {
-                                            DetailsScreenTitleComponent(text: "Popular")
+                                            DetailsScreenTitleComponent(text: NSLocalizedString("Popular", comment: ""))
                                         } // :LeadAlignedView
                                         MoviesListComponent(movies: popularList)
                                             .transition(.slide)
@@ -109,7 +110,7 @@ struct MainScreenView: View {
                                 if let upcomingList = mainScreenViewModel.mutableMoviesLists[MovieTypes.upcoming.title] {
                                     if !upcomingList.isEmpty {
                                         LeadAlignedView {
-                                            DetailsScreenTitleComponent(text: "Upcoming")
+                                            DetailsScreenTitleComponent(text: NSLocalizedString("Upcoming", comment: ""))
                                         } // :LeadAlignedView
                                         MoviesListComponent(movies: upcomingList, isUpcoming: true)
                                             .transition(.slide)

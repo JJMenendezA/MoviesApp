@@ -16,7 +16,7 @@ struct SearchBarComponent: View {
             HStack {
                 Image(systemName: "magnifyingglass")
                 
-                TextField("",
+                TextField("Search movies",
                           text: $textSearch,
                           prompt: Text("Search movies")
                     .foregroundStyle(.white.opacity(0.5)))
