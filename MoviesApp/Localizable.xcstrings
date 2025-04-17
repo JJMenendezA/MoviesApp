@@ -33,6 +33,23 @@
         }
       }
     },
+    "All languages" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All languages"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos los idiomas"
+          }
+        }
+      }
+    },
     "Cancel" : {
       "localizations" : {
         "en" : {

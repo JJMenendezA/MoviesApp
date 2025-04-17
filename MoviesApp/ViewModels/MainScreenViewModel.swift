@@ -141,7 +141,7 @@ class MainScreenViewModel: ObservableObject {
         
         guard filterParameters.areFiltersApplied else { return }
         
-        if filterParameters.filterLanguage != "All languages" { filterMoviesByLanguage() }
+        if filterParameters.filterLanguage != NSLocalizedString("All languages", comment: "") { filterMoviesByLanguage() }
         
         if filterParameters.filterStartReleaseDate != releaseDatesList.first! ||
             filterParameters.filterEndReleaseDate != releaseDatesList.last! { filterMoviesByDate() }

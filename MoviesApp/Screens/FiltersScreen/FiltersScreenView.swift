@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FiltersScreenView: View {
     @Binding var isSheetActive: Bool
-    @State var filterLanguage: String = "All languages"
+    @State var filterLanguage: String = NSLocalizedString("All languages", comment: "")
     @State var filterStartReleaseDate: Date = Date()
     @State var filterEndReleaseDate: Date = Date()
     @ObservedObject var mainScreenViewModel: MainScreenViewModel
