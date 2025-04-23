@@ -59,7 +59,7 @@ struct DetailsScreenView: View {
                                         .padding(.bottom, 20)
                                 }
                                 
-                                Text("\(movie.tagline)")
+                                Text(movie.tagline)
                                     .italic()
                                     .fontWeight(.heavy)
                                     .foregroundStyle(.white)
@@ -71,8 +71,8 @@ struct DetailsScreenView: View {
                                 HStack {
                                     Spacer()
                                     VStack {
-                                        DetailsScreenTitleComponent(text: "Release date")
-                                        Text(movie.releaseDate.isEmpty ? "No date available." : movie.releaseDate)
+                                        DetailsScreenTitleComponent(text: NSLocalizedString("Release date", comment: ""))
+                                        Text(movie.releaseDate.isEmpty ? NSLocalizedString("No date available.", comment: "") : movie.releaseDate)
                                             .font(.body)
                                             .foregroundStyle(.white)
                                             .frame(height: 50)
@@ -82,7 +82,7 @@ struct DetailsScreenView: View {
                                     Spacer()
                                     
                                     VStack {
-                                        DetailsScreenTitleComponent(text: "Vote average")
+                                        DetailsScreenTitleComponent(text: NSLocalizedString("Vote average", comment: ""))
                                         
                                         // MARK: - STAR SECTION
                                         HStack {
@@ -123,7 +123,7 @@ struct DetailsScreenView: View {
                                     Spacer()
                                     
                                     VStack {
-                                        DetailsScreenTitleComponent(text: "Original language")
+                                        DetailsScreenTitleComponent(text: NSLocalizedString("Original language", comment: ""))
                                         
                                         Text(movie.originalLanguage)
                                             .font(.body)
@@ -135,7 +135,7 @@ struct DetailsScreenView: View {
                                     Spacer()
                                     
                                     VStack {
-                                        DetailsScreenTitleComponent(text: "Original title")
+                                        DetailsScreenTitleComponent(text: NSLocalizedString("Original title", comment: ""))
                                         
                                         Text(movie.title)
                                             .font(.body)
@@ -153,7 +153,7 @@ struct DetailsScreenView: View {
                                 HStack {
                                     Spacer()
                                     VStack {
-                                        DetailsScreenTitleComponent(text: "Genres")
+                                        DetailsScreenTitleComponent(text: NSLocalizedString("Genres", comment: ""))
                                         
                                         Text(movie.genreList)
                                             .font(.body)
@@ -168,8 +168,10 @@ struct DetailsScreenView: View {
                                     Spacer()
                                     
                                     VStack {
-                                        DetailsScreenTitleComponent(text: "Run time")
-                                        Text(movie.runtime == 0 ? "No run time available." : String(movie.runtime) + " minutes")
+                                        DetailsScreenTitleComponent(text: NSLocalizedString("Run time", comment: ""))
+                                        Text(movie.runtime == 0 ?
+                                             NSLocalizedString("No run time available.", comment: "") :
+                                                String(movie.runtime) + " " + NSLocalizedString("minutes", comment: ""))
                                             .font(.body)
                                             .foregroundStyle(.white)
                                             .frame(height: 50)
@@ -182,20 +184,20 @@ struct DetailsScreenView: View {
                                 } // :HStack
                                 .padding(.bottom, 20)
                                 
-                                DetailsScreenTitleComponent(text: "Overview")
+                                DetailsScreenTitleComponent(text: NSLocalizedString("Overview", comment: ""))
                                 Text(movie.overview)
                                     .foregroundStyle(.white)
                                     .multilineTextAlignment(.center)
                                     .padding(.bottom, 20)
                                 
                                 if let movieVideo = movie.movieVideo {
-                                    DetailsScreenTitleComponent(text: "Video reference")
+                                    DetailsScreenTitleComponent(text: NSLocalizedString("Video reference", comment: ""), maxWidth: 200)
                                     VideoPlayer(videoURL: movieVideo)
                                         .frame(height: 300)
                                 }
                                 
                                 if !movie.similarMoviesList.isEmpty {
-                                    DetailsScreenTitleComponent(text: "Similar movies")
+                                    DetailsScreenTitleComponent(text: NSLocalizedString("Similar movies", comment: ""))
                                     MoviesListComponent(movies: movie.similarMoviesList)
                                 }
                                 

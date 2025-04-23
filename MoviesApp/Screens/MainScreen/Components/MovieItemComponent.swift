@@ -29,7 +29,7 @@ struct MovieItemComponent: View {
                         .fill(.clear)
                         .overlay {
                             VStack {
-                                Text("No poster available")
+                                Text("No poster available.")
                                     .foregroundStyle(.gray700)
                                 Spacer()
                             }

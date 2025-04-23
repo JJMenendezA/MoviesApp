@@ -10,6 +10,7 @@ import Foundation
 
 class MoviesService: MoviesServiceProtocol {
     private let networkManager: NetworkManager
+    private let language: String = NSLocale.current.language.languageCode?.identifier ?? "en-US"
     
     init(networkManager: NetworkManager = NetworkManager.shared) {
         self.networkManager = networkManager
@@ -47,7 +48,7 @@ class MoviesService: MoviesServiceProtocol {
                      completion: @escaping (Result<MoviesResponse, AppError>) -> Void) {
         networkManager.getMoviesRequest(endpoint: endpoint,
                                         queryItems: [URLQueryItem(name: "language",
-                                                                  value: "en-US"),
+                                                                  value: language),
                                                      URLQueryItem(name: "page",
                                                                   value: "1")],
                                         response: MoviesResponse.self) { result in
@@ -70,7 +71,7 @@ class MoviesService: MoviesServiceProtocol {
                                         queryItems: [URLQueryItem(name: "append_to_response",
                                                                   value: "videos,similar"),
                                                      URLQueryItem(name: "language",
-                                                                  value: "en-US")],
+                                                                  value: language)],
                                         response: MovieDetailsResponse.self) { result in
             switch result {
             case .success(let fetchedMovies):

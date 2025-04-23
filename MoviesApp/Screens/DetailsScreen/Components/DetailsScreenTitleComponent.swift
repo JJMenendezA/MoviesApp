@@ -21,5 +21,6 @@ struct DetailsScreenTitleComponent: View {
             .multilineTextAlignment(.center)
             .background(customLinearGradient(colors: [.gray900, .black]).opacity(0.5))
             .clipShape(RoundedRectangle(cornerRadius: 10))
+            .minimumScaleFactor(0.5)
     }
 }
