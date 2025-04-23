@@ -126,7 +126,7 @@ struct DetailsScreenView: View {
                                     VStack {
                                         DetailsScreenTitleComponent(text: NSLocalizedString("Original language", comment: ""))
                                         
-                                        Text(movie.originalLanguage)
+                                        Text(movie.originalLanguage.capitalized)
                                             .font(.body)
                                             .foregroundStyle(.white)
                                             .frame(height: 50)
