@@ -15,7 +15,8 @@ struct MovieItemComponent: View {
         // MARK: - Movie Item
         NavigationLink(destination: DetailsScreenView(movieId: movie.id)) {
             ZStack {
-                if let moviePosterPath = movie.posterPath {
+                if let moviePosterPath = movie.posterPath,
+                   let movieImageURL = URL(string: "https://image.tmdb.org/t/p/w500") {
                     KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
                         .resizable()
                         .clipShape(RoundedRectangle(cornerRadius: 10))

@@ -50,7 +50,8 @@ struct DetailsScreenView: View {
                         
                         ScrollView {
                             VStack {
-                                if let moviePosterPath = movie.moviePoster {
+                                if let moviePosterPath = movie.moviePoster,
+                                    let movieImageURL = URL(string: "https://image.tmdb.org/t/p/w500") {
                                     KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
                                         .resizable()
                                         .frame(width: 300, height: 425)

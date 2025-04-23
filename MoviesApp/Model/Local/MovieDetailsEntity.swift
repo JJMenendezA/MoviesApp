@@ -36,6 +36,11 @@ public struct MovieDetailsEntity: Decodable {
         self.similarMoviesList = movie.similar.results.map({ movie in
             MovieEntity(from: movie)
         })
-        self.movieVideo = movie.videos.results.first?.key != nil ? movieVideoURL.appendingPathComponent(movie.videos.results.first!.key) : nil
+        if let firstResult = movie.videos.results.first,
+           let movieVideoURL = URL(string: "https:/youtube.com/embed/") {
+            self.movieVideo = movieVideoURL.appendingPathComponent(firstResult.key)
+        } else {
+            movieVideo = nil
+        }
     }
 }

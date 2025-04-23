@@ -12,7 +12,8 @@ struct HighlightMovieComponent: View {
     var movie: MovieEntity
     var body: some View {
         ZStack {
-            if let moviePosterPath = movie.posterPath {
+            if let moviePosterPath = movie.posterPath,
+               let movieImageURL = URL(string: "https://image.tmdb.org/t/p/w500") {
                 KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
                     .resizable()
                     .frame(height: 700)
