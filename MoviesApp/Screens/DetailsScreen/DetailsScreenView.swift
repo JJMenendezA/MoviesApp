@@ -185,11 +185,13 @@ struct DetailsScreenView: View {
                                 } // :HStack
                                 .padding(.bottom, 20)
                                 
-                                DetailsScreenTitleComponent(text: NSLocalizedString("Overview", comment: ""))
-                                Text(movie.overview)
-                                    .foregroundStyle(.white)
-                                    .multilineTextAlignment(.center)
-                                    .padding(.bottom, 20)
+                                if !movie.overview.isEmpty {
+                                    DetailsScreenTitleComponent(text: NSLocalizedString("Overview", comment: ""))
+                                    Text(movie.overview)
+                                        .foregroundStyle(.white)
+                                        .multilineTextAlignment(.center)
+                                        .padding(.bottom, 20)
+                                }
                                 
                                 if let movieVideo = movie.movieVideo {
                                     DetailsScreenTitleComponent(text: NSLocalizedString("Video reference", comment: ""), maxWidth: 200)
