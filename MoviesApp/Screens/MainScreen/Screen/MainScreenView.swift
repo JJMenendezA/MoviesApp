@@ -157,7 +157,7 @@ struct MainScreenView: View {
         }
         .alert(isPresented: $mainScreenViewModel.hasErrorTrigerred) {
             Alert(title: Text("Error"),
-                  message: Text(mainScreenViewModel.error!.localizedDescription),
+                  message: Text(mainScreenViewModel.error?.localizedDescription ?? "Something went wrong."),
                   dismissButton: .default(Text("Retry"), action: { mainScreenViewModel.fetchMovies() }))
         }
         .onAppear {

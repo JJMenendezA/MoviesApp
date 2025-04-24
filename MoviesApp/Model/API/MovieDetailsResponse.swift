@@ -51,7 +51,7 @@ public struct MovieDetailsResponse: Decodable, Hashable {
             let outputDate = DateFormatter()
             outputDate.dateFormat = "dd MMM yyyy"
             
-            return outputDate.string(from: dateFormatted!)
+            return outputDate.string(from: dateFormatted ?? Date())
         }
     }
 }

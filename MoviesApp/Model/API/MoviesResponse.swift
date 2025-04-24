@@ -28,7 +28,7 @@ public struct MoviesResponse: Decodable, Hashable {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
         return Set(results.map({
-            dateFormatter.date(from: $0.release_date)!
+            dateFormatter.date(from: $0.release_date) ?? Date()
         })
         )
     }
@@ -71,7 +71,7 @@ public struct Movie: Decodable, Hashable {
             let outputDate = DateFormatter()
             outputDate.dateFormat = "dd MMM yyyy"
             
-            return outputDate.string(from: dateFormatted!)
+            return outputDate.string(from: dateFormatted ?? Date())
         }
     }
     

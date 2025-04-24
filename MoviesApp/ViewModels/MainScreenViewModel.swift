@@ -42,8 +42,8 @@ class MainScreenViewModel: ObservableObject {
                     self?.randomMovie = MovieEntity(from: randomMovie)
                 }
                 self?.setLists()
-                self?.originalLanguagesList = (self?.createLanguageList())!
-                self?.releaseDatesList = (self?.createDateListAndSetVariables())!
+                self?.originalLanguagesList = (self?.createLanguageList()) ?? []
+                self?.releaseDatesList = (self?.createDateListAndSetVariables()) ?? []
                 self?.isLoading = false
             case .failure(let error):
                 self?.error = error
@@ -97,7 +97,10 @@ class MainScreenViewModel: ObservableObject {
             dateSet.formUnion(movie.value.releaseDatesSet)
         })
 
-        filterParameters.setDefaultValues(startDate: Array(dateSet).sorted().first!, endDate: Array(dateSet).sorted().last!)
+        if let startDate = Array(dateSet).sorted().first,
+            let endDate = Array(dateSet).sorted().last {
+            filterParameters.setDefaultValues(startDate: startDate, endDate: endDate)
+        }
         
         return Array(dateSet).sorted()
     }
@@ -122,8 +125,8 @@ class MainScreenViewModel: ObservableObject {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         mutableMoviesLists.forEach({ movie in
             mutableMoviesLists[movie.key] = movie.value.filter({ movie in
-                dateFormatter.date(from: movie.releaseDate)! >= filterParameters.filterStartReleaseDate &&
-                dateFormatter.date(from: movie.releaseDate)! <= filterParameters.filterEndReleaseDate
+                dateFormatter.date(from: movie.releaseDate) ?? Date() >= filterParameters.filterStartReleaseDate &&
+                dateFormatter.date(from: movie.releaseDate) ?? Date() <= filterParameters.filterEndReleaseDate
             })
         })
     }
@@ -143,7 +146,10 @@ class MainScreenViewModel: ObservableObject {
         
         if filterParameters.filterLanguage != NSLocalizedString("All languages", comment: "") { filterMoviesByLanguage() }
         
-        if filterParameters.filterStartReleaseDate != releaseDatesList.first! ||
-            filterParameters.filterEndReleaseDate != releaseDatesList.last! { filterMoviesByDate() }
+        if let firstDate = releaseDatesList.first,
+           let lastDate = releaseDatesList.last {
+            if filterParameters.filterStartReleaseDate != firstDate ||
+                filterParameters.filterEndReleaseDate != lastDate { filterMoviesByDate() }
+        }
     }
 }

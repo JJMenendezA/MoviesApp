@@ -219,7 +219,7 @@ struct DetailsScreenView: View {
         .navigationBarBackButtonHidden(true)
         .alert(isPresented: $detailsScreenViewModel.hasErrorTrigerred) {
             Alert(title: Text("Error"),
-                  message: Text(detailsScreenViewModel.error!.localizedDescription),
+                  message: Text(detailsScreenViewModel.error?.localizedDescription ?? "Something went wrong."),
                   dismissButton: .default(Text("Accept"), action: { dismiss() }))
         }
         .onAppear {

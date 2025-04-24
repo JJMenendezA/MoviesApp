@@ -39,7 +39,9 @@ class MoviesService: MoviesServiceProtocol {
             if moviesError == nil {
                 completion(.success(moviesList))
             } else {
-                completion(.failure(moviesError!))
+                if let error = moviesError {
+                    completion(.failure(error))
+                }
             }
         }
     }

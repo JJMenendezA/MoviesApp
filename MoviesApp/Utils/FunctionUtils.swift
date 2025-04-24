@@ -22,6 +22,6 @@ func getTodaysDate() -> String {
 func getTwoWeeksAgoDate() -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
-    let twoWeeksAgoDate = Calendar.current.date(byAdding: .weekOfYear, value: -2, to: Date())!
+    let twoWeeksAgoDate = Calendar.current.date(byAdding: .weekOfYear, value: -2, to: Date()) ?? Date()
     return dateFormatter.string(from: twoWeeksAgoDate)
 }
