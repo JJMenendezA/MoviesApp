@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class DetailsScreenViewModel: ObservableObject {
     @Published var isLoading: Bool = false
@@ -21,20 +22,20 @@ class DetailsScreenViewModel: ObservableObject {
         self.moviesService = moviesService
     }
     
-    func fetchMovieDetails(movieId: Int) {
+    @MainActor
+    func fetchMovieDetails(movieId: Int) async {
         isLoading = true
-        moviesService.fetchMovieDetails(endPoint: MoviePathTypes.details(movieId: movieId).endpoint, completion: { [weak self] result in
-            switch result {
-            case .success(let movieDetails):
-                self?.movieDetails = MovieDetailsEntity(from: movieDetails)
-                self?.isLoading =  false
-                
-            case .failure(let error):
-                self?.error = error
-                self?.hasErrorTrigerred = true
-                self?.isLoading = false
-                
+        Task {
+            do {
+                movieDetails = try await MovieDetailsEntity(from:
+                                                                moviesService.fecthMovieDetails(endPoint:
+                                                                                                MoviePathTypes.details(movieId: movieId).endpoint))
+                isLoading = false
+            } catch {
+                self.error = AppError.unknown(localizedDesciption: error.localizedDescription)
+                hasErrorTrigerred = true
+                isLoading = false
             }
-        })
+        }
     }
 }
