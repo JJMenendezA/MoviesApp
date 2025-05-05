@@ -110,4 +110,50 @@ final class MoviesAppTests: XCTestCase {
         // Wait for completion
         waitForExpectations(timeout: 5)
     }
+    
+    func test_fetchMovieDetails_successfullyCompletes() throws {
+        // Arrange
+        let sut = MockMoviesService()
+        
+        let expectation = self.expectation(description: "Fetch movies complete")
+        
+        // Act
+        Task {
+            do {
+                let fetchedDetails = try await sut.fecthMovieDetails(endPoint: "/details")
+                XCTAssertNotNil(fetchedDetails)
+                expectation.fulfill()
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+        }
+        
+        // Wait for completion
+        waitForExpectations(timeout: 5)
+    }
+    
+    func test_fetchMovieDetails_failsWithError() throws {
+        // Arrange
+        let sut = MockMoviesService()
+        
+        sut.shouldFail = true
+        
+        let expectation = self.expectation(description: "Fetch movies complete")
+        
+        // Act
+        Task {
+            do {
+                _ = try await sut.fecthMovieDetails(endPoint: "/details")
+                XCTFail("Test should be failing!")
+            } catch let error as AppError {
+                XCTAssertEqual(error, AppError.noData)
+                expectation.fulfill()
+            } catch {
+                XCTFail("Expected AppError.noData but got \(error).")
+            }
+        }
+        
+        // Wait for completion
+        waitForExpectations(timeout: 5)
+    }
 }
