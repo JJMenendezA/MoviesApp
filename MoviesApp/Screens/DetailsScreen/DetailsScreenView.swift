@@ -223,7 +223,9 @@ struct DetailsScreenView: View {
                   dismissButton: .default(Text("Accept"), action: { dismiss() }))
         }
         .onAppear {
-            detailsScreenViewModel.fetchMovieDetails(movieId: movieId)
+            Task {
+                await detailsScreenViewModel.fetchMovieDetails(movieId: movieId)
+            }
         }
     }
 }
