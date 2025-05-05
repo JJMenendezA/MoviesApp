@@ -26,16 +26,15 @@ final class MoviesAppTests: XCTestCase {
         let expectation = self.expectation(description: "Fetch all movies complete")
         
         // Act
-        sut.fetchAllMovies(completion: { result in
-            switch result {
-            case .success(let fetchedMovies):
-                // Assert
+        Task {
+            do {
+                let fetchedMovies = try await sut.fetchAllMovies()
                 XCTAssertFalse(fetchedMovies.isEmpty, "Loading state should be false after fetching completes")
                 expectation.fulfill()
-            case .failure(let error):
+            } catch {
                 XCTFail(error.localizedDescription)
             }
-        })
+        }
         
         // Wait for completion
         waitForExpectations(timeout: 5)
@@ -50,16 +49,17 @@ final class MoviesAppTests: XCTestCase {
         let expectation = self.expectation(description: "Fetch all movies fails")
         
         // Act
-        sut.fetchAllMovies(completion: { result in
-            switch result {
-            case .success:
-                // Assert
+        Task {
+            do {
+                _ = try await sut.fetchAllMovies()
                 XCTFail("Test should be failing!")
-            case .failure(let error):
-                XCTAssertEqual(error.localizedDescription, AppError.noData.localizedDescription)
+            } catch let error as AppError {
+                XCTAssertEqual(error, AppError.noData)
                 expectation.fulfill()
+            } catch {
+                XCTFail("Expected AppError.noData but got \(error).")
             }
-        })
+        }
         
         // Wait for completion
         waitForExpectations(timeout: 5)
@@ -72,17 +72,15 @@ final class MoviesAppTests: XCTestCase {
         let expectation = self.expectation(description: "Fetch movies complete")
         
         // Act
-        sut.fetchMovies(endpoint: "/popular", completion: { result in
-            switch result {
-            case .success(let movies):
-                // Assert
-                XCTAssertNotNil(movies)
+        Task {
+            do {
+                let fetchedMovies = try await sut.fetchMovies(endpoint: "/popular")
+                XCTAssertNotNil(fetchedMovies)
                 expectation.fulfill()
-                
-            case .failure:
-                XCTFail("Test should be successful!")
+            } catch {
+                XCTFail(error.localizedDescription)
             }
-        })
+        }
         
         // Wait for completion
         waitForExpectations(timeout: 5)
@@ -97,17 +95,17 @@ final class MoviesAppTests: XCTestCase {
         let expectation = self.expectation(description: "Fetch movies complete")
         
         // Act
-        sut.fetchMovies(endpoint: "/popular", completion: { result in
-            switch result {
-            case .success:
-                // Assert
+        Task {
+            do {
+                _ = try await sut.fetchMovies(endpoint: "/popular")
                 XCTFail("Test should be failing!")
-                
-            case .failure(let error):
-                XCTAssertEqual(error.localizedDescription, AppError.noData.localizedDescription)
+            } catch let error as AppError {
+                XCTAssertEqual(error, AppError.noData)
                 expectation.fulfill()
+            } catch {
+                XCTFail("Expected AppError.noData but got \(error).")
             }
-        })
+        }
         
         // Wait for completion
         waitForExpectations(timeout: 5)
