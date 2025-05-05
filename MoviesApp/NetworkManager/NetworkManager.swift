@@ -14,65 +14,59 @@ class NetworkManager {
     func getMoviesRequest<T: Decodable>(
         endpoint: String,
         queryItems: [URLQueryItem]?,
-        response: T.Type,
-        completion: @escaping (Result<T, AppError>) -> Void
-    ) {
-        if let baseMoviesURL = URL(string: "https://api.themoviedb.org/3") {
-            let url = baseMoviesURL.appendingPathComponent(endpoint)
+        response: T.Type) async throws -> T {
+            
+            guard let baseMovieURL = URL(string: "https://api.themoviedb.org/3") else {
+                throw AppError.invalidURL
+            }
+            
+            let url = baseMovieURL.appendingPathComponent(endpoint)
             
             print("-------------URL-------------------")
             print(url.absoluteString)
             
-            if var components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
-                if let queryItems = queryItems {
-                    components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
-                }
-                
-                if let componentsURL = components.url {
-                    var request = URLRequest(url: componentsURL)
-                    request.httpMethod = "GET"
-                    request.timeoutInterval = 10
-                    request.allHTTPHeaderFields = [
-                        "accept": "application/json",
-                        "Authorization": "Bearer \(APIKey)"
-                    ]
-                    
-                    URLSession.shared.dataTask(with: request) { data, response, error in
-                        
-                        if let error = error {
-                            completion(.failure(.unknown(localizedDesciption: error.localizedDescription)))
-                            return
-                        }
-                        
-                        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                            let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
-                            completion(.failure(.invalidResponse(statusCode: statusCode)))
-                            return
-                        }
-                        print("-------------HTTP Response-------------------")
-                        print(httpResponse)
-                        
-                        guard let data = data else {
-                            completion(.failure(AppError.noData))
-                            return
-                        }
-                        
-                        print("---------------Data-----------------")
-                        if let dataString = String(bytes: data, encoding: .utf8) {
-                            print(dataString)
-                        }
-                        
-                        do {
-                            let decodedObject = try JSONDecoder().decode(T.self, from: data)
-                            print("--------------Decoded Object------------------")
-                            print(decodedObject)
-                            completion(.success(decodedObject))
-                        } catch {
-                            completion(.failure(.decodingError))
-                        }
-                    }.resume()
-                }
+            guard var components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
+                throw AppError.invalidURL
+            }
+            
+            if let queryItems = queryItems {
+                components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
+            }
+            
+            guard let componentsURL = components.url else {
+                throw AppError.invalidURL
+            }
+            
+            var request = URLRequest(url: componentsURL)
+            request.httpMethod = "GET"
+            request.timeoutInterval = 10
+            request.allHTTPHeaderFields = [
+                "accept": "application/json",
+                "Authorization": "Bearer \(APIKey)"
+            ]
+            
+            let (data, response) =  try await URLSession.shared.data(for: request)
+            
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
+                throw AppError.invalidResponse(statusCode: statusCode)
+            }
+            
+            print("-------------HTTP Response-------------------")
+            print(httpResponse)
+            
+            print("---------------Data-----------------")
+            if let dataString = String(bytes: data, encoding: .utf8) {
+                print(dataString)
+            }
+            
+            do {
+                let decodedObject = try JSONDecoder().decode(T.self, from: data)
+                print("--------------Decoded Object------------------")
+                print(decodedObject)
+                return decodedObject
+            } catch {
+                throw AppError.decodingError
             }
         }
-    }
 }
