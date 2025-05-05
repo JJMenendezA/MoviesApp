@@ -10,38 +10,39 @@ import Foundation
 
 class MockMoviesService: MoviesServiceProtocol {
     var shouldFail: Bool = false
-
-    func fetchAllMovies(completion: @escaping (Result<[String: MoviesResponse], AppError>) -> Void) {
+    
+    func fetchAllMovies() async throws -> [String: MoviesResponse] {
         if shouldFail {
-            completion(.failure(.noData))
+            throw AppError.noData
         } else {
             var moviesList: [String: MoviesResponse] = [:]
+            
             moviesList["popular"] = MoviesResponse(dates: nil,
-                                           page: 1,
+                                                   page: 1,
                                                    results: [dummyMovieResponse],
-                                           total_pages: 5,
-                                           total_results: 100)
-            completion(.success(moviesList))
+                                                   total_pages: 5,
+                                                   total_results: 100)
+            return moviesList
         }
     }
-
-    func fetchMovies(endpoint: String, completion: @escaping (Result<MoviesResponse, AppError>) -> Void) {
+    
+    func fetchMovies(endpoint: String)  async throws -> MoviesResponse {
         if shouldFail {
-            completion(.failure(.noData))
+            throw AppError.noData
         } else {
-            completion(.success(MoviesResponse(dates: nil,
-                                       page: 1,
-                                               results: [dummyMovieResponse],
-                                       total_pages: 5,
-                                       total_results: 100)))
+            return MoviesResponse(dates: nil,
+                                  page: 1,
+                                  results: [dummyMovieResponse],
+                                  total_pages: 5,
+                                  total_results: 100)
         }
     }
-
-    func fetchMovieDetails(endPoint: String, completion: @escaping (Result<MovieDetailsResponse, AppError>) -> Void) {
+    
+    func fecthMovieDetails(endPoint: String) async throws -> MovieDetailsResponse {
         if shouldFail {
-            completion(.failure(.noData))
+            throw AppError.noData
         } else {
-            completion(.success(dummyDetailsMovieInfo))
+            return dummyDetailsMovieInfo
         }
     }
 }
