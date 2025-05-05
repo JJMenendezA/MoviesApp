@@ -32,26 +32,25 @@ class MainScreenViewModel: ObservableObject {
         self.moviesService = moviesService
     }
     
-    func fetchMovies() {
+    @MainActor
+    func fetchMovies() async {
         isLoading = true
-        moviesService.fetchAllMovies(completion: { [weak self] result in
-            switch result {
-            case .success(let fetchedMovies):
-                self?.moviesDictionary = fetchedMovies
-                if let randomMovie = self?.moviesDictionary.values.randomElement()?.results.randomElement() {
-                    self?.randomMovie = MovieEntity(from: randomMovie)
+        Task {
+            do {
+                moviesDictionary = try await moviesService.fetchAllMovies()
+                if let randomMovie = self.moviesDictionary.values.randomElement()?.results.randomElement() {
+                    self.randomMovie = MovieEntity(from: randomMovie)
                 }
-                self?.setLists()
-                self?.originalLanguagesList = (self?.createLanguageList()) ?? []
-                self?.releaseDatesList = (self?.createDateListAndSetVariables()) ?? []
-                self?.isLoading = false
-            case .failure(let error):
-                self?.error = error
-                self?.hasErrorTrigerred = true
-                self?.isLoading = false
+                setLists()
+                originalLanguagesList = (createLanguageList())
+                releaseDatesList = (createDateListAndSetVariables())
+                isLoading = false
+            } catch {
+                self.error = AppError.unknown(localizedDesciption: error.localizedDescription)
+                hasErrorTrigerred = true
+                isLoading = false
             }
-            
-        })
+        }
     }
     
     private func setLists() {
