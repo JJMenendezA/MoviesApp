@@ -13,6 +13,7 @@ public enum AppError: Error, LocalizedError, Equatable {
     case noData
     case decodingError
     case unknown(localizedDesciption: String)
+    case invalidURL
 
     var localizedDescription: String {
         switch self {
@@ -24,6 +25,8 @@ public enum AppError: Error, LocalizedError, Equatable {
             "The data couldn’t be read because it is missing or has invalid formatting."
         case .unknown(let localizedDesciption):
             localizedDesciption
+        case .invalidURL:
+            "The URL is invalid."
         }
     }
 }
