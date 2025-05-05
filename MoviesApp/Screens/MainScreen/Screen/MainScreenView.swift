@@ -60,7 +60,7 @@ struct MainScreenView: View {
                                     LeadAlignedView {
                                         DetailsScreenTitleComponent(text: NSLocalizedString("Important announcements", comment: ""),
                                                                     maxWidth: 250)
-                                            .padding(.vertical, 10)
+                                        .padding(.vertical, 10)
                                     } // :LeadAlignedView
                                     AnnouncementsComponent()
                                 }
@@ -158,10 +158,17 @@ struct MainScreenView: View {
         .alert(isPresented: $mainScreenViewModel.hasErrorTrigerred) {
             Alert(title: Text("Error"),
                   message: Text(mainScreenViewModel.error?.localizedDescription ?? NSLocalizedString("Something went wrong.", comment: "")),
-                  dismissButton: .default(Text("Retry"), action: { mainScreenViewModel.fetchMovies() }))
+                  dismissButton: .default(Text("Retry"),
+                                          action: {
+                Task {
+                    await mainScreenViewModel.fetchMovies()
+                }
+            }))
         }
         .onAppear {
-            mainScreenViewModel.fetchMovies()
+            Task {
+                await mainScreenViewModel.fetchMovies()
+            }
         }
         .onChange(of: isBottomSheetActive) {
             if !isBottomSheetActive {
@@ -183,8 +190,9 @@ struct MainScreenView: View {
             // Trigger to refresh the data when offset passes -120
             if yOffset <  -120 && !mainScreenViewModel.isLoading && !mainScreenViewModel.filterParameters.areFiltersApplied && !wasSearchMade {
                 mainScreenViewModel.isLoading = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                    mainScreenViewModel.fetchMovies()
+                Task {
+                    try? await Task.sleep(for: .seconds(1.5))
+                    await mainScreenViewModel.fetchMovies()
                 }
             }
         }
