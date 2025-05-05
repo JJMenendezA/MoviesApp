@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol MoviesServiceProtocol {
-    func fetchAllMovies(completion: @escaping (Result<[String: MoviesResponse], AppError>) -> Void)
-    func fetchMovies(endpoint: String, completion: @escaping (Result<MoviesResponse, AppError>) -> Void)
-    func fetchMovieDetails(endPoint: String, completion: @escaping (Result<MovieDetailsResponse, AppError>) -> Void)
+    func fetchAllMovies() async throws -> [String: MoviesResponse]
+    func fetchMovies(endpoint: String) async throws -> MoviesResponse
+    func fecthMovieDetails(endPoint: String) async throws -> MovieDetailsResponse
 }
