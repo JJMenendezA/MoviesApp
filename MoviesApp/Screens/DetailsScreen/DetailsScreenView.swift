@@ -49,7 +49,7 @@ struct DetailsScreenView: View {
                         .shadow(color: .black, radius: 10)
                         
                         ScrollView {
-                            VStack {
+                            LazyVStack {
                                 if let moviePosterPath = movie.moviePoster,
                                     let movieImageURL = URL(string: "https://image.tmdb.org/t/p/w500") {
                                     KFImage(movieImageURL.appendingPathComponent(moviePosterPath))

@@ -59,7 +59,7 @@ struct MainScreenView: View {
                     
                     ScrollViewReader { reader in
                         ScrollView {
-                            VStack(spacing: 0) {
+                            LazyVStack(spacing: 0) {
                                 if !wasSearchMade && !mainScreenViewModel.filterParameters.areFiltersApplied {
                                     // MARK: - RANDOM PICK SECTION
                                     if let randomMovie = mainScreenViewModel.randomMovie {
