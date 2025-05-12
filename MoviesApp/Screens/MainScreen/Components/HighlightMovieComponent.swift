@@ -18,7 +18,7 @@ struct HighlightMovieComponent: View {
                     .resizable()
                     .frame(height: 700)
                     .overlay {
-                        Color.black.opacity(0.6)
+                        Color.black.opacity(0.8)
                     }
                 
                 VStack {
