@@ -13,8 +13,13 @@ struct MainScreenView: View {
     @State private var yOffset: Double = 0.0
     @State private var backgroundHeaderColor: Color = .black.opacity(0.0)
     @State private var isBottomSheetActive: Bool = false
+    @State private var isRotating: Bool = false
+    @State private var isDragging = false
     @StateObject var mainScreenViewModel: MainScreenViewModel = MainScreenViewModel()
     // Computed properties
+    private var refreshText: String {
+        isRotating ? NSLocalizedString("Release to refresh", comment: "") : NSLocalizedString("Pull to refresh", comment: "")
+    }
     private var wasSearchMade: Bool {
         if isSearchBarActive {
             true
@@ -31,11 +36,16 @@ struct MainScreenView: View {
                 if mainScreenViewModel.error == nil && !mainScreenViewModel.mutableMoviesLists.isEmpty {
                     // MARK: - REFRESHER LOADER
                     if !mainScreenViewModel.filterParameters.areFiltersApplied && !wasSearchMade {
-                        ProgressView()
-                            .foregroundStyle(.white)
-                            .tint(.white)
-                            .offset(y: 75)
-                            .controlSize(.large)
+                        VStack {
+                            Image(systemName: "arrowshape.down.fill")
+                                .rotationEffect(.degrees(isRotating ? 180 : 0))
+                                .animation(.easeInOut, value: isRotating)
+                            Text(refreshText)
+                        }
+                        .foregroundStyle(.white)
+                        .tint(.white)
+                        .offset(y: 75)
+                        .controlSize(.large)
                     }
                     
                     // MARK: - TOP SECTION
@@ -125,6 +135,15 @@ struct MainScreenView: View {
                             } // :VStack
                             .padding(.top, mainScreenViewModel.filterParameters.areFiltersApplied ? 75 : 0)
                             .background(.gray900)
+                            .simultaneousGesture(
+                                DragGesture()
+                                    .onChanged { _ in
+                                        isDragging = true
+                                    }
+                                    .onEnded { _ in
+                                        isDragging = false
+                                    }
+                            )
                         } // :ScrollView
                         .padding(.bottom)
                         // Scroll Geometry Reader to get the value of the y offset
@@ -187,8 +206,15 @@ struct MainScreenView: View {
             // Header background color opacity changes depending on the y offset
             backgroundHeaderColor = .black.opacity(yOffset/750)
             
-            // Trigger to refresh the data when offset passes -120
-            if yOffset <  -120 && !mainScreenViewModel.isLoading && !mainScreenViewModel.filterParameters.areFiltersApplied && !wasSearchMade {
+            // Trigger to refresh the data when offset passes -130
+            if yOffset < -130 && !mainScreenViewModel.isLoading && !mainScreenViewModel.filterParameters.areFiltersApplied && !wasSearchMade {
+                isRotating = true
+            } else {
+                isRotating = false
+            }
+        }
+        .onChange(of: isDragging) {
+            if !isDragging && yOffset < -130 {
                 mainScreenViewModel.isLoading = true
                 Task {
                     try? await Task.sleep(for: .seconds(1.5))
