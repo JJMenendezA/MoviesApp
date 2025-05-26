@@ -8,6 +8,12 @@
 
 import Foundation
 
+protocol MoviesServiceProtocol {
+    func fetchAllMovies() async throws -> [String: MoviesResponse]
+    func fetchMovies(endpoint: String) async throws -> MoviesResponse
+    func fecthMovieDetails(endPoint: String) async throws -> MovieDetailsResponse
+}
+
 class MoviesService: MoviesServiceProtocol {
     private let networkManager: NetworkManager
     private let language: String = NSLocale.current.language.languageCode?.identifier ?? "en-US"
