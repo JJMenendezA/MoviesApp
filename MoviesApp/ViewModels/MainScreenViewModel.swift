@@ -26,10 +26,10 @@ class MainScreenViewModel: ObservableObject {
     @Published var searchTitle: String = ""
     @Published var filterParameters: FilterParameters = FilterParameters()
     
-    private let moviesService: MoviesService
+    private let fetchMoviesUseCase: FetchMoviesUseCaseImpl
     
-    init(moviesService: MoviesService = MoviesService()) {
-        self.moviesService = moviesService
+    init(fetchMoviesUseCase: FetchMoviesUseCaseImpl = FetchMoviesUseCaseImpl()) {
+        self.fetchMoviesUseCase = fetchMoviesUseCase
     }
     
     @MainActor
@@ -37,7 +37,7 @@ class MainScreenViewModel: ObservableObject {
         isLoading = true
         Task {
             do {
-                moviesDictionary = try await moviesService.fetchAllMovies()
+                moviesDictionary = try await fetchMoviesUseCase.execute()
                 if let randomMovie = self.moviesDictionary.values.randomElement()?.results.randomElement() {
                     self.randomMovie = MovieEntity(from: randomMovie)
                 }

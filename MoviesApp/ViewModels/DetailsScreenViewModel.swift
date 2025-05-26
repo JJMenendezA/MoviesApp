@@ -16,10 +16,10 @@ class DetailsScreenViewModel: ObservableObject {
     
     var movieDetails: MovieDetailsEntity?
     
-    private let moviesService: MoviesService
+    private let fetchMovieDetailsUseCase: FetchMovieDetailsImpl
     
-    init(moviesService: MoviesService = MoviesService()) {
-        self.moviesService = moviesService
+    init(fetchMovieDetailsUseCase: FetchMovieDetailsImpl = FetchMovieDetailsImpl()) {
+        self.fetchMovieDetailsUseCase = fetchMovieDetailsUseCase
     }
     
     @MainActor
@@ -28,7 +28,7 @@ class DetailsScreenViewModel: ObservableObject {
         Task {
             do {
                 movieDetails = try await MovieDetailsEntity(from:
-                                                                moviesService.fecthMovieDetails(endPoint:
+                                                                fetchMovieDetailsUseCase.execute(endPoint:
                                                                                                 MoviePathTypes.details(movieId: movieId).endpoint))
                 isLoading = false
             } catch {
