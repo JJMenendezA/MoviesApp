@@ -8,6 +8,7 @@
 
 protocol MoviesRepository {
     func fetchAllMovies() async throws -> [String: MoviesResponse]
+    func fecthMovieDetails(endPoint: String) async throws -> MovieDetailsResponse
 }
 
 class MoviesRepositoryImpl: MoviesRepository {
@@ -19,5 +20,9 @@ class MoviesRepositoryImpl: MoviesRepository {
     
     func fetchAllMovies() async throws -> [String: MoviesResponse] {
         try await moviesService.fetchAllMovies()
+    }
+    
+    func fecthMovieDetails(endPoint: String) async throws -> MovieDetailsResponse {
+        try await moviesService.fecthMovieDetails(endPoint: endPoint)
     }
 }
