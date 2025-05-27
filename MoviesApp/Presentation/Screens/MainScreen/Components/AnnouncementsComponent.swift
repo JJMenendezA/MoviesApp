@@ -19,11 +19,11 @@ struct AnnouncementsComponent: View {
             }
         } // :TabView
         .tabViewStyle(.page)
-        .foregroundStyle(.pink700)
+        .foregroundStyle(.white)
         .frame(height: 220)
         .onAppear {
             // Change the color of the dots
-            UIPageControl.appearance().currentPageIndicatorTintColor = .pink700
+            UIPageControl.appearance().currentPageIndicatorTintColor = .white
             UIPageControl.appearance().pageIndicatorTintColor = .gray
         }
         // Autoscrolling logic
