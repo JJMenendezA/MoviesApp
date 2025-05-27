@@ -26,9 +26,9 @@ class MainScreenViewModel: ObservableObject {
     @Published var searchTitle: String = ""
     @Published var filterParameters: FilterParameters = FilterParameters()
     
-    private let fetchMoviesUseCase: FetchMoviesUseCaseImpl
+    private let fetchMoviesUseCase: FetchMoviesUseCase
     
-    init(fetchMoviesUseCase: FetchMoviesUseCaseImpl = FetchMoviesUseCaseImpl()) {
+    init(fetchMoviesUseCase: FetchMoviesUseCase = FetchMoviesUseCaseImpl()) {
         self.fetchMoviesUseCase = fetchMoviesUseCase
     }
     

@@ -16,9 +16,9 @@ class DetailsScreenViewModel: ObservableObject {
     
     var movieDetails: MovieDetailsEntity?
     
-    private let fetchMovieDetailsUseCase: FetchMovieDetailsImpl
+    private let fetchMovieDetailsUseCase: FetchMovieDetailsUseCase
     
-    init(fetchMovieDetailsUseCase: FetchMovieDetailsImpl = FetchMovieDetailsImpl()) {
+    init(fetchMovieDetailsUseCase: FetchMovieDetailsUseCase = FetchMovieDetailsImpl()) {
         self.fetchMovieDetailsUseCase = fetchMovieDetailsUseCase
     }
     
