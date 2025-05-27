@@ -14,7 +14,7 @@ protocol MoviesRepository {
 class MoviesRepositoryImpl: MoviesRepository {
     private let moviesService: MoviesService
     
-    init(moviesService: MoviesService = MoviesService()) {
+    init(moviesService: MoviesService = MoviesServiceImpl()) {
         self.moviesService = moviesService
     }
     
