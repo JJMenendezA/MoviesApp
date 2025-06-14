@@ -8,7 +8,7 @@
 
 import Foundation
 
-class MockMoviesService: MoviesServiceProtocol {
+class MockMoviesService: MoviesService {
     var shouldFail: Bool = false
     
     func fetchAllMovies() async throws -> [String: MoviesResponse] {
