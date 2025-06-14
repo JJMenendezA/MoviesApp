@@ -7,7 +7,7 @@
 //
 
 protocol FetchMovieDetailsUseCase {
-    func execute(endPoint: String) async throws -> MovieDetailsResponse
+    func fetch(endPoint: String) async throws -> MovieDetailsResponse
 }
 
 class FetchMovieDetailsImpl: FetchMovieDetailsUseCase {
@@ -17,7 +17,7 @@ class FetchMovieDetailsImpl: FetchMovieDetailsUseCase {
         self.repository = repository
     }
     
-    func execute(endPoint: String) async throws -> MovieDetailsResponse {
+    func fetch(endPoint: String) async throws -> MovieDetailsResponse {
         try await repository.fecthMovieDetails(endPoint: endPoint)
     }
 }

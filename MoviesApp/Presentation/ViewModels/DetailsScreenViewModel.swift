@@ -28,7 +28,7 @@ class DetailsScreenViewModel: ObservableObject {
         Task {
             do {
                 movieDetails = try await MovieDetailsEntity(from:
-                                                                fetchMovieDetailsUseCase.execute(endPoint:
+                                                                fetchMovieDetailsUseCase.fetch(endPoint:
                                                                                                 MoviePathTypes.details(movieId: movieId).endpoint))
                 isLoading = false
             } catch {

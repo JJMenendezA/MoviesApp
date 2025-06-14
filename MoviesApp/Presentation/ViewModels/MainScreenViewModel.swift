@@ -37,7 +37,7 @@ class MainScreenViewModel: ObservableObject {
         isLoading = true
         Task {
             do {
-                moviesDictionary = try await fetchMoviesUseCase.execute()
+                moviesDictionary = try await fetchMoviesUseCase.fetch()
                 if let randomMovie = self.moviesDictionary.values.randomElement()?.results.randomElement() {
                     self.randomMovie = MovieEntity(from: randomMovie)
                 }

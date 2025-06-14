@@ -13,7 +13,7 @@ class MockFetchMoviesUseCase: FetchMoviesUseCase {
         self.repository = repository
     }
     
-    func execute() async throws -> [String: MoviesResponse] {
+    func fetch() async throws -> [String: MoviesResponse] {
         try await repository.fetchAllMovies()
     }
 }
