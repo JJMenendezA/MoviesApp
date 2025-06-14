@@ -1,0 +1,86 @@
+//
+//  MovieModel.swift
+//  MoviesApp
+//
+//  Created by Juan José Menéndez Alarcón on 18/11/24.
+//  Copyright © 2024 Juan José Menéndez Alarcón. All rights reserved.
+//
+
+import Foundation
+
+public struct MoviesResponse: Decodable, Hashable {
+    let dates: Dates?
+    let page: Int
+    let results: [Movie]
+    let total_pages: Int
+    let total_results: Int
+    
+    // Computed Properties
+    var originalLanguagesSet: Set<String> {
+        Set(results.map({
+            Locale.current.localizedString(forLanguageCode: $0.original_language) ?? $0.original_language
+        })
+        )
+    }
+    
+    var releaseDatesSet: Set<Date> {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        return Set(results.map({
+            dateFormatter.date(from: $0.release_date) ?? Date()
+        })
+        )
+    }
+}
+
+public struct Movie: Decodable, Hashable {
+    let adult: Bool
+    let backdrop_path: String?
+    let genre_ids: [Int]
+    let id: Int
+    let original_language: String
+    let original_title: String
+    let overview: String
+    let popularity: CGFloat
+    let poster_path: String?
+    let release_date: String
+    let title: String
+    let video: Bool
+    let vote_average: CGFloat
+    let vote_count: Int
+    
+    // Computed Properties
+    var stars: Int {
+        Int(vote_average.rounded(.down))/2
+    }
+    
+    var hasHalfStar: Bool {
+        vote_average.truncatingRemainder(dividingBy: 1) >= 0.5
+    }
+    
+    var releaseDateFormatted: String {
+        if release_date.isEmpty {
+            return release_date
+        } else {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            let dateFormatted = dateFormatter.date(from: release_date)
+            
+            let outputDate = DateFormatter()
+            outputDate.dateFormat = "dd MMM yyyy"
+            
+            return outputDate.string(from: dateFormatted ?? Date())
+        }
+    }
+    
+    var originalLanguageComplete: String {
+        Locale.current.localizedString(forLanguageCode: original_language) ?? original_language
+    }
+}
+
+struct Dates: Decodable, Hashable {
+    let maximum: String
+    let minimum: String
+}

@@ -414,6 +414,23 @@
         }
       }
     },
+    "Pull to refresh" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pull to refresh"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jala para refrescar"
+          }
+        }
+      }
+    },
     "Random pick of the day 👍" : {
       "localizations" : {
         "en" : {
@@ -460,6 +477,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fecha de estreno"
+          }
+        }
+      }
+    },
+    "Release to refresh" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Release to refresh"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suelta para refrescar"
           }
         }
       }
@@ -542,6 +576,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Películas similares"
+          }
+        }
+      }
+    },
+    "Something went wrong." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something went wrong."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algo salió mal."
           }
         }
       }
