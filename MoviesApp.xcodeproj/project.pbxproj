@@ -25,9 +25,36 @@
 		BEE3FBA52CC74002002A0C8C /* MoviesApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoviesApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		BE14FC112E08F65D007DFF70 /* Exceptions for "MoviesAppTests" folder in "MoviesApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Mocks/Repository/MockMoviesRepository.swift,
+				Mocks/Service/MockMoviesService.swift,
+				Mocks/UseCases/MockFetchMovieDetailsUseCase.swift,
+				Mocks/UseCases/MockFetchMoviesUseCase.swift,
+			);
+			target = BEE3FBA42CC74002002A0C8C /* MoviesApp */;
+		};
+		BE14FC122E08F65D007DFF70 /* Exceptions for "MoviesAppTests" folder in "MoviesAppTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Mocks/Repository/MockMoviesRepository.swift,
+				Mocks/Service/MockMoviesService.swift,
+				Mocks/UseCases/MockFetchMovieDetailsUseCase.swift,
+				Mocks/UseCases/MockFetchMoviesUseCase.swift,
+			);
+			target = BE49FF3F2CF037D4008917B2 /* MoviesAppTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		BE49FF412CF037D4008917B2 /* MoviesAppTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				BE14FC112E08F65D007DFF70 /* Exceptions for "MoviesAppTests" folder in "MoviesApp" target */,
+				BE14FC122E08F65D007DFF70 /* Exceptions for "MoviesAppTests" folder in "MoviesAppTests" target */,
+			);
 			path = MoviesAppTests;
 			sourceTree = "<group>";
 		};
