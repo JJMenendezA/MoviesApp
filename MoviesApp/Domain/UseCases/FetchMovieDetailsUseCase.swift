@@ -13,11 +13,11 @@ protocol FetchMovieDetailsUseCase {
 class FetchMovieDetailsImpl: FetchMovieDetailsUseCase {
     private let repository: MoviesRepository
     
-    init(repository: MoviesRepository = MoviesRepositoryImpl()) {
+    init(repository: MoviesRepository) {
         self.repository = repository
     }
     
     func fetch(endPoint: String) async throws -> MovieDetailsResponse {
-        try await repository.fecthMovieDetails(endPoint: endPoint)
+        try await repository.fetchDetails(endPoint: endPoint)
     }
 }

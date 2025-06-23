@@ -13,12 +13,12 @@ protocol FetchMoviesUseCase {
 class FetchMoviesUseCaseImpl: FetchMoviesUseCase {
     private let repository: MoviesRepository
     
-    init(repository: MoviesRepository = MoviesRepositoryImpl()) {
+    init(repository: MoviesRepository) {
         self.repository = repository
     }
     
     func fetch() async throws -> [String: MoviesResponse] {
-        try await repository.fetchAllMovies()
+        try await repository.fetchMovies()
     }
     
 }
