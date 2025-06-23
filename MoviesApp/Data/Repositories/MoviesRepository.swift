@@ -7,22 +7,22 @@
 //
 
 protocol MoviesRepository {
-    func fetchAllMovies() async throws -> [String: MoviesResponse]
-    func fecthMovieDetails(endPoint: String) async throws -> MovieDetailsResponse
+    func fetchMovies() async throws -> [String: MoviesResponse]
+    func fetchDetails(endPoint: String) async throws -> MovieDetailsResponse
 }
 
 class MoviesRepositoryImpl: MoviesRepository {
     private let moviesService: MoviesService
     
-    init(moviesService: MoviesService = MoviesServiceImpl()) {
+    init(moviesService: MoviesService) {
         self.moviesService = moviesService
     }
     
-    func fetchAllMovies() async throws -> [String: MoviesResponse] {
+    func fetchMovies() async throws -> [String: MoviesResponse] {
         try await moviesService.fetchAllMovies()
     }
     
-    func fecthMovieDetails(endPoint: String) async throws -> MovieDetailsResponse {
+    func fetchDetails(endPoint: String) async throws -> MovieDetailsResponse {
         try await moviesService.fecthMovieDetails(endPoint: endPoint)
     }
 }
