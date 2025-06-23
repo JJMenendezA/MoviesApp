@@ -11,31 +11,33 @@ import SwiftUI
 
 class DetailsScreenViewModel: ObservableObject {
     @Published var isLoading: Bool = false
-    @Published var hasErrorTrigerred: Bool = false
+    @Published var hasErrorTriggered: Bool = false
     @Published var error: AppError?
     
     var movieDetails: MovieDetailsEntity?
     
     private let fetchMovieDetailsUseCase: FetchMovieDetailsUseCase
     
-    init(fetchMovieDetailsUseCase: FetchMovieDetailsUseCase = FetchMovieDetailsImpl()) {
+    init(fetchMovieDetailsUseCase: FetchMovieDetailsUseCase) {
         self.fetchMovieDetailsUseCase = fetchMovieDetailsUseCase
     }
     
     @MainActor
     func fetchMovieDetails(movieId: Int) async {
         isLoading = true
-        Task {
-            do {
-                movieDetails = try await MovieDetailsEntity(from:
-                                                                fetchMovieDetailsUseCase.fetch(endPoint:
-                                                                                                MoviePathTypes.details(movieId: movieId).endpoint))
-                isLoading = false
-            } catch {
-                self.error = AppError.unknown(localizedDesciption: error.localizedDescription)
-                hasErrorTrigerred = true
-                isLoading = false
-            }
+        do {
+            movieDetails = try await MovieDetailsEntity(from:
+                                                            fetchMovieDetailsUseCase.fetch(endPoint:
+                                                                                            MoviePathTypes.details(movieId: movieId).endpoint))
+            isLoading = false
+        } catch let error as AppError {
+            self.error = error
+            hasErrorTriggered = true
+            isLoading = false
+        } catch {
+            self.error = AppError.unknown(localizedDesciption: error.localizedDescription)
+            hasErrorTriggered = true
+            isLoading = false
         }
     }
 }

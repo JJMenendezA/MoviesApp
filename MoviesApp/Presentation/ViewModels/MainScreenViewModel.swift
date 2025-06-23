@@ -11,13 +11,13 @@ import SwiftUI
 
 class MainScreenViewModel: ObservableObject {
     // Immutable lists
-    private var moviesDictionary: [String: MoviesResponse] = [:]
+    var moviesDictionary: [String: MoviesResponse] = [:]
     // Mutable lists
     @Published var mutableMoviesLists: [String: [MovieEntity]] = [:]
     var randomMovie: MovieEntity?
     // Error and Loading States
     @Published var error: AppError?
-    @Published var hasErrorTrigerred: Bool = false
+    @Published var hasErrorTriggered: Bool = false
     @Published var isLoading: Bool = true
     // Filter lists
     @Published var originalLanguagesList: [String] = []
@@ -28,28 +28,30 @@ class MainScreenViewModel: ObservableObject {
     
     private let fetchMoviesUseCase: FetchMoviesUseCase
     
-    init(fetchMoviesUseCase: FetchMoviesUseCase = FetchMoviesUseCaseImpl()) {
+    init(fetchMoviesUseCase: FetchMoviesUseCase) {
         self.fetchMoviesUseCase = fetchMoviesUseCase
     }
     
     @MainActor
     func fetchMovies() async {
         isLoading = true
-        Task {
-            do {
-                moviesDictionary = try await fetchMoviesUseCase.fetch()
-                if let randomMovie = self.moviesDictionary.values.randomElement()?.results.randomElement() {
-                    self.randomMovie = MovieEntity(from: randomMovie)
-                }
-                setLists()
-                originalLanguagesList = (createLanguageList())
-                releaseDatesList = (createDateListAndSetVariables())
-                isLoading = false
-            } catch {
-                self.error = AppError.unknown(localizedDesciption: error.localizedDescription)
-                hasErrorTrigerred = true
-                isLoading = false
+        do {
+            moviesDictionary = try await fetchMoviesUseCase.fetch()
+            if let randomMovie = self.moviesDictionary.values.randomElement()?.results.randomElement() {
+                self.randomMovie = MovieEntity(from: randomMovie)
             }
+            setLists()
+            originalLanguagesList = (createLanguageList())
+            releaseDatesList = (createDateListAndSetVariables())
+            isLoading = false
+        } catch let error as AppError {
+            self.error = error
+            hasErrorTriggered = true
+            isLoading = false
+        } catch {
+            self.error = AppError.unknown(localizedDesciption: error.localizedDescription)
+            hasErrorTriggered = true
+            isLoading = false
         }
     }
     
