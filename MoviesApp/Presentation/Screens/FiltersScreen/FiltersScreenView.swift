@@ -152,5 +152,6 @@ struct FiltersScreenView: View {
 }
 
 #Preview {
-    FiltersScreenView(isSheetActive: .constant(true), mainScreenViewModel: MainScreenViewModel())
+    FiltersScreenView(isSheetActive: .constant(true),
+                      mainScreenViewModel: MainScreenViewModel(fetchMoviesUseCase: MockFetchMoviesUseCase()))
 }
