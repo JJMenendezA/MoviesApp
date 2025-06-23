@@ -11,8 +11,15 @@ import Kingfisher
 
 struct DetailsScreenView: View {
     @Environment(\.dismiss) var dismiss
-    @StateObject var detailsScreenViewModel: DetailsScreenViewModel = DetailsScreenViewModel()
+    @StateObject var detailsScreenViewModel: DetailsScreenViewModel
     var movieId: Int
+    init(movieId: Int) {
+        let service = MoviesServiceImpl()
+        let repository = MoviesRepositoryImpl(moviesService: service)
+        let useCase = FetchMovieDetailsImpl(repository: repository)
+        self._detailsScreenViewModel = StateObject(wrappedValue: DetailsScreenViewModel(fetchMovieDetailsUseCase: useCase))
+        self.movieId = movieId
+    }
     var body: some View {
         ZStack {
             if detailsScreenViewModel.isLoading {
@@ -217,7 +224,7 @@ struct DetailsScreenView: View {
             }
         } // :ZStack
         .navigationBarBackButtonHidden(true)
-        .alert(isPresented: $detailsScreenViewModel.hasErrorTrigerred) {
+        .alert(isPresented: $detailsScreenViewModel.hasErrorTriggered) {
             Alert(title: Text("Error"),
                   message: Text(detailsScreenViewModel.error?.localizedDescription ?? NSLocalizedString("Something went wrong.", comment: "")),
                   dismissButton: .default(Text("Accept"), action: { dismiss() }))

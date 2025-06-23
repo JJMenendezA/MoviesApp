@@ -15,7 +15,7 @@ struct MainScreenView: View {
     @State private var isBottomSheetActive: Bool = false
     @State private var isRotating: Bool = false
     @State private var isDragging = false
-    @StateObject var mainScreenViewModel: MainScreenViewModel = MainScreenViewModel()
+    @StateObject var mainScreenViewModel: MainScreenViewModel
     // Computed properties
     private var refreshText: String {
         isRotating ? NSLocalizedString("Release to refresh", comment: "") : NSLocalizedString("Pull to refresh", comment: "")
@@ -29,7 +29,12 @@ struct MainScreenView: View {
             false
         }
     }
-    
+    init() {
+        let service: MoviesService = MoviesServiceImpl()
+        let repository: MoviesRepository = MoviesRepositoryImpl(moviesService: service)
+        let useCase: FetchMoviesUseCase = FetchMoviesUseCaseImpl(repository: repository)
+        self._mainScreenViewModel = StateObject(wrappedValue: MainScreenViewModel(fetchMoviesUseCase: useCase))
+    }
     var body: some View {
         NavigationView {
             ZStack(alignment: .top) {
@@ -174,7 +179,7 @@ struct MainScreenView: View {
             FiltersScreenView(isSheetActive: $isBottomSheetActive, mainScreenViewModel: mainScreenViewModel)
                 .presentationDetents([.height(400)])
         }
-        .alert(isPresented: $mainScreenViewModel.hasErrorTrigerred) {
+        .alert(isPresented: $mainScreenViewModel.hasErrorTriggered) {
             Alert(title: Text("Error"),
                   message: Text(mainScreenViewModel.error?.localizedDescription ?? NSLocalizedString("Something went wrong.", comment: "")),
                   dismissButton: .default(Text("Retry"),
