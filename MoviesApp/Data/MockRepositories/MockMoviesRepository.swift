@@ -8,17 +8,28 @@
 
 class MockMoviesRepository: MoviesRepository {
     private let moviesService: MoviesService
-    
+    var shouldFail: Bool = false
     init(moviesService: MoviesService = MockMoviesService()) {
         self.moviesService = moviesService
     }
     
-    func fetchAllMovies() async throws -> [String: MoviesResponse] {
-        try await moviesService.fetchAllMovies()
+    func fetchMovies() async throws -> [String: MoviesResponse] {
+        if shouldFail {
+            throw AppError.noData
+        } else {
+            return ["popular": MoviesResponse(dates: nil,
+                                              page: 1,
+                                              results: [dummyMovieResponse],
+                                              total_pages: 5,
+                                              total_results: 100)]
+        }
     }
     
-    func fecthMovieDetails(endPoint: String) async throws -> MovieDetailsResponse {
-        try await moviesService.fecthMovieDetails(endPoint: endPoint)
+    func fetchDetails(endPoint: String) async throws -> MovieDetailsResponse {
+        if shouldFail {
+            throw AppError.noData
+        } else {
+            return dummyDetailsMovieInfo
+        }
     }
-    
 }

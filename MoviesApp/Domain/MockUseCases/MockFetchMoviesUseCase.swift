@@ -7,13 +7,17 @@
 //
 
 class MockFetchMoviesUseCase: FetchMoviesUseCase {
-    private let repository: MoviesRepository
-    
-    init(repository: MoviesRepository = MockMoviesRepository()) {
-        self.repository = repository
-    }
+    var shouldFail: Bool = false
     
     func fetch() async throws -> [String: MoviesResponse] {
-        try await repository.fetchAllMovies()
+        if shouldFail {
+            throw AppError.noData
+        } else {
+            return ["popular": MoviesResponse(dates: nil,
+                                              page: 1,
+                                              results: [dummyMovieResponse],
+                                              total_pages: 5,
+                                              total_results: 100)]
+        }
     }
 }

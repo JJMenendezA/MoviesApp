@@ -15,14 +15,11 @@ class MockMoviesService: MoviesService {
         if shouldFail {
             throw AppError.noData
         } else {
-            var moviesList: [String: MoviesResponse] = [:]
-            
-            moviesList["popular"] = MoviesResponse(dates: nil,
-                                                   page: 1,
-                                                   results: [dummyMovieResponse],
-                                                   total_pages: 5,
-                                                   total_results: 100)
-            return moviesList
+            return ["popular": MoviesResponse(dates: nil,
+                                              page: 1,
+                                              results: [dummyMovieResponse],
+                                              total_pages: 5,
+                                              total_results: 100)]
         }
     }
     
