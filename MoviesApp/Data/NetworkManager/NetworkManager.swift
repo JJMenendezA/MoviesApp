@@ -22,8 +22,7 @@ class NetworkManager {
             
             let url = baseMovieURL.appendingPathComponent(endpoint)
             
-            print("-------------URL-------------------")
-            print(url.absoluteString)
+            Logger.log("URL: \(url.absoluteString)")
             
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
                 throw AppError.invalidURL
@@ -52,18 +51,15 @@ class NetworkManager {
                 throw AppError.invalidResponse(statusCode: statusCode)
             }
             
-            print("-------------HTTP Response-------------------")
-            print(httpResponse)
-            
-            print("---------------Data-----------------")
+            Logger.log("HTTP Response: \(httpResponse)")
+
             if let dataString = String(bytes: data, encoding: .utf8) {
-                print(dataString)
+                Logger.log("Data: \(dataString)")
             }
             
             do {
                 let decodedObject = try JSONDecoder().decode(T.self, from: data)
-                print("--------------Decoded Object------------------")
-                print(decodedObject)
+                Logger.log("Decoded Object: \(decodedObject)")
                 return decodedObject
             } catch {
                 throw AppError.decodingError
