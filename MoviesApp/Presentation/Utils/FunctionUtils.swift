@@ -9,7 +9,9 @@ import SwiftUI
 
 // Reusable linear gradient component
 func customLinearGradient(colors: [Color]) -> LinearGradient {
-    return LinearGradient(colors: colors, startPoint: .bottomLeading, endPoint: .topTrailing)
+    return LinearGradient(colors: colors,
+                          startPoint: .bottomLeading,
+                          endPoint: .topTrailing)
 }
 
 // Date related functions

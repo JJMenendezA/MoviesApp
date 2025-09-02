@@ -45,7 +45,7 @@ struct FiltersScreenView: View {
                         Spacer()
                         
                         Menu(filterLanguage) {
-                            ForEach(mainScreenViewModel.originalLanguagesList, id: \.self) { language in
+                            ForEach(mainScreenViewModel.languagesList, id: \.self) { language in
                                 Button(action: ({ filterLanguage = language })) {
                                     Text(language)
                                 }

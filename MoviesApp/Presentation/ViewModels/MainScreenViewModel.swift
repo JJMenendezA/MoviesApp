@@ -14,20 +14,19 @@ class MainScreenViewModel: ObservableObject {
     var moviesDictionary: [String: MoviesResponse] = [:]
     // Mutable lists
     @Published var mutableMoviesLists: [String: [MovieEntity]] = [:]
+    // Random movie to showcase
     var randomMovie: MovieEntity?
     // Error and Loading States
     @Published var error: AppError?
     @Published var hasErrorTriggered: Bool = false
     @Published var isLoading: Bool = true
     // Filter lists
-    @Published var originalLanguagesList: [String] = []
+    @Published var languagesList: [String] = []
     @Published var releaseDatesList: [Date] = []
-    // Search and filter variables
-    @Published var searchTitle: String = ""
+    // Filter variables
     @Published var filterParameters: FilterParameters = FilterParameters()
     
     private let fetchMoviesUseCase: FetchMoviesUseCase
-    
     init(fetchMoviesUseCase: FetchMoviesUseCase) {
         self.fetchMoviesUseCase = fetchMoviesUseCase
     }
@@ -37,21 +36,20 @@ class MainScreenViewModel: ObservableObject {
         isLoading = true
         do {
             moviesDictionary = try await fetchMoviesUseCase.fetch()
-            if let randomMovie = self.moviesDictionary.values.randomElement()?.results.randomElement() {
+            if  let randomList = self.moviesDictionary.values.randomElement(),
+                let randomMovie = randomList.results.randomElement() {
                 self.randomMovie = MovieEntity(from: randomMovie)
             }
             setLists()
-            originalLanguagesList = (createLanguageList())
-            releaseDatesList = (createDateListAndSetVariables())
+            languagesList = createLanguageList()
+            releaseDatesList = createDatesList()
+            setDefaultDateVariables()
             isLoading = false
         } catch let error as AppError {
-            self.error = error
-            hasErrorTriggered = true
-            isLoading = false
+            triggerErrorAlert(appError: error)
         } catch {
-            self.error = AppError.unknown(localizedDesciption: error.localizedDescription)
-            hasErrorTriggered = true
-            isLoading = false
+            triggerErrorAlert(appError:
+                                AppError.unknown(localizedDesciption: error.localizedDescription))
         }
     }
     
@@ -92,29 +90,31 @@ class MainScreenViewModel: ObservableObject {
         return sortedLanguageList
     }
     
-    private func createDateListAndSetVariables() -> [Date] {
+    private func createDatesList() -> [Date] {
         var dateSet: Set<Date> = []
         moviesDictionary.forEach({ movie in
             dateSet.formUnion(movie.value.releaseDatesSet)
         })
-
-        if let startDate = Array(dateSet).sorted().first,
-            let endDate = Array(dateSet).sorted().last {
-            filterParameters.setDefaultValues(startDate: startDate, endDate: endDate)
-        }
         
         return Array(dateSet).sorted()
     }
     
-    func searchMoviesByTitle() {
-        guard !searchTitle.isEmpty else {
+    func setDefaultDateVariables() {
+        if let startDate = releaseDatesList.sorted().first,
+            let endDate = releaseDatesList.sorted().last {
+            filterParameters.setDefaultValues(startDate: startDate, endDate: endDate)
+        }
+    }
+    
+    func searchMoviesByTitle(title: String) {
+        guard !title.isEmpty else {
             setLists()
             return
         }
         
         moviesDictionary.forEach({ movie in
             mutableMoviesLists[movie.key] = movie.value.results.filter({ movie in
-                movie.title.localizedCaseInsensitiveContains(searchTitle)
+                movie.title.localizedCaseInsensitiveContains(title)
             }).map({ movie in
                 MovieEntity(from: movie)
             })
@@ -145,12 +145,20 @@ class MainScreenViewModel: ObservableObject {
         
         guard filterParameters.areFiltersApplied else { return }
         
-        if filterParameters.filterLanguage != NSLocalizedString("All languages", comment: "") { filterMoviesByLanguage() }
+        if filterParameters.filterLanguage != NSLocalizedString("All languages", comment: "") {
+            filterMoviesByLanguage()
+        }
         
         if let firstDate = releaseDatesList.first,
            let lastDate = releaseDatesList.last {
             if filterParameters.filterStartReleaseDate != firstDate ||
                 filterParameters.filterEndReleaseDate != lastDate { filterMoviesByDate() }
         }
+    }
+    
+    private func triggerErrorAlert(appError: AppError) {
+        error = appError
+        hasErrorTriggered = true
+        isLoading = false
     }
 }

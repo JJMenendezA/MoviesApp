@@ -15,6 +15,7 @@ struct MainScreenView: View {
     @State private var isBottomSheetActive: Bool = false
     @State private var isRotating: Bool = false
     @State private var isDragging = false
+    @State private var searchTitle: String = ""
     @StateObject var mainScreenViewModel: MainScreenViewModel
     // Computed properties
     private var refreshText: String {
@@ -23,7 +24,7 @@ struct MainScreenView: View {
     private var wasSearchMade: Bool {
         if isSearchBarActive {
             true
-        } else if !mainScreenViewModel.searchTitle.isEmpty {
+        } else if !searchTitle.isEmpty {
             true
         } else {
             false
@@ -82,7 +83,7 @@ struct MainScreenView: View {
                                 
                                 // MARK: - SEARCH BAR SECTION
                                 if !mainScreenViewModel.filterParameters.areFiltersApplied {
-                                    SearchBarComponent(textSearch: $mainScreenViewModel.searchTitle, isSearchBarFocused: $isSearchBarActive)
+                                    SearchBarComponent(textSearch: $searchTitle, isSearchBarFocused: $isSearchBarActive)
                                         .padding(.top, wasSearchMade ? 75 : 0)
                                         .id("SearchView")
                                 }
@@ -201,10 +202,10 @@ struct MainScreenView: View {
                 }
             }
         }
-        .onChange(of: mainScreenViewModel.searchTitle) {
+        .onChange(of: searchTitle) {
             // Filtering the lists according to the search value
             withAnimation {
-                mainScreenViewModel.searchMoviesByTitle()
+                mainScreenViewModel.searchMoviesByTitle(title: searchTitle)
             }
         }
         .onChange(of: yOffset) {
