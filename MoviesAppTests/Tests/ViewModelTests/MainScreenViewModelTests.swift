@@ -27,7 +27,7 @@ final class MainScreenViewModelTests: XCTestCase {
         await sut.fetchMovies()
         XCTAssertFalse(sut.isLoading, "Loading state should be false after fetch completes")
         XCTAssertFalse(sut.moviesDictionary.isEmpty, "Dictionary shouldn't be empty after fetching")
-        XCTAssertFalse(sut.originalLanguagesList.isEmpty, "List shouldn't be empty after fetching")
+        XCTAssertFalse(sut.languagesList.isEmpty, "List shouldn't be empty after fetching")
         XCTAssertFalse(sut.releaseDatesList.isEmpty, "List shouldn't be empty after fetching")
     }
     
