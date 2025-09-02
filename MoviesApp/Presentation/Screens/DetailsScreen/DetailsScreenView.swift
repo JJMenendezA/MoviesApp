@@ -83,29 +83,23 @@ struct DetailsScreenView: View {
                                 } // :HStack
                                 .padding(.bottom, 20)
                                 
-                                HStack {
-                                    Spacer()
+                                DetailsRowComponent(firstView: {
                                     DetailsItemComponent(title: NSLocalizedString("Original language", comment: ""),
                                                          caption: movie.originalLanguage.capitalized)
-                                    Spacer()
+                                }, secondView: {
                                     DetailsItemComponent(title: NSLocalizedString("Original title", comment: ""),
                                                          caption: movie.title)
-                                    Spacer()
-                                } // :HStack
-                                .padding(.bottom, 20)
+                                })
                                 
-                                HStack {
-                                    Spacer()
+                                DetailsRowComponent(firstView: {
                                     DetailsItemComponent(title: NSLocalizedString("Genres", comment: ""),
                                                          caption: movie.genreList)
-                                    Spacer()
+                                }, secondView: {
                                     DetailsItemComponent(title: NSLocalizedString("Run time", comment: ""),
                                                          caption: movie.runtime == 0 ?
                                                          NSLocalizedString("No run time available.", comment: "") :
                                                             String(movie.runtime) + " " + NSLocalizedString("minutes", comment: ""))
-                                    Spacer()
-                                } // :HStack
-                                .padding(.bottom, 20)
+                                })
                                 
                                 if !movie.overview.isEmpty {
                                     DetailsScreenTitleComponent(text: NSLocalizedString("Overview", comment: ""))
