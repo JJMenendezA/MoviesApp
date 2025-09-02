@@ -39,15 +39,10 @@ struct DetailsScreenView: View {
                                 
                                 HStack {
                                     Spacer()
-                                    VStack {
-                                        DetailsScreenTitleComponent(text: NSLocalizedString("Release date", comment: ""))
-                                        Text(movie.releaseDate.isEmpty ? NSLocalizedString("No date available.", comment: "") : movie.releaseDate)
-                                            .font(.body)
-                                            .foregroundStyle(.white)
-                                            .frame(height: 50)
-                                        
-                                    } // :VStack
-                                    .frame(width: 150)
+                                    
+                                    DetailsItemComponent(title: NSLocalizedString("Release date", comment: ""),
+                                                         caption: movie.releaseDate.isEmpty ?
+                                                         NSLocalizedString("No date available.", comment: "") : movie.releaseDate)
                                     Spacer()
                                     
                                     VStack {
@@ -90,65 +85,24 @@ struct DetailsScreenView: View {
                                 
                                 HStack {
                                     Spacer()
-                                    
-                                    VStack {
-                                        DetailsScreenTitleComponent(text: NSLocalizedString("Original language", comment: ""))
-                                        
-                                        Text(movie.originalLanguage.capitalized)
-                                            .font(.body)
-                                            .foregroundStyle(.white)
-                                            .frame(height: 50)
-                                    } // :VStack
-                                    .frame(width: 150)
-                                    
+                                    DetailsItemComponent(title: NSLocalizedString("Original language", comment: ""),
+                                                         caption: movie.originalLanguage.capitalized)
                                     Spacer()
-                                    
-                                    VStack {
-                                        DetailsScreenTitleComponent(text: NSLocalizedString("Original title", comment: ""))
-                                        
-                                        Text(movie.title)
-                                            .font(.body)
-                                            .foregroundStyle(.white)
-                                            .minimumScaleFactor(0.5)
-                                            .lineLimit(2)
-                                            .multilineTextAlignment(.center)
-                                            .frame(height: 50)
-                                    } // :VStack
-                                    .frame(width: 150)
+                                    DetailsItemComponent(title: NSLocalizedString("Original title", comment: ""),
+                                                         caption: movie.title)
                                     Spacer()
                                 } // :HStack
                                 .padding(.bottom, 20)
                                 
                                 HStack {
                                     Spacer()
-                                    VStack {
-                                        DetailsScreenTitleComponent(text: NSLocalizedString("Genres", comment: ""))
-                                        
-                                        Text(movie.genreList)
-                                            .font(.body)
-                                            .foregroundStyle(.white)
-                                            .frame(height: 50)
-                                            .multilineTextAlignment(.center)
-                                            .lineLimit(2)
-                                            .minimumScaleFactor(0.5)
-                                    } // :VStack
-                                    .frame(width: 150)
-                                    
+                                    DetailsItemComponent(title: NSLocalizedString("Genres", comment: ""),
+                                                         caption: movie.genreList)
                                     Spacer()
-                                    
-                                    VStack {
-                                        DetailsScreenTitleComponent(text: NSLocalizedString("Run time", comment: ""))
-                                        Text(movie.runtime == 0 ?
-                                             NSLocalizedString("No run time available.", comment: "") :
-                                                String(movie.runtime) + " " + NSLocalizedString("minutes", comment: ""))
-                                            .font(.body)
-                                            .foregroundStyle(.white)
-                                            .frame(height: 50)
-                                            .multilineTextAlignment(.center)
-                                        
-                                    } // :VStack
-                                    .frame(width: 150)
-                                    
+                                    DetailsItemComponent(title: NSLocalizedString("Run time", comment: ""),
+                                                         caption: movie.runtime == 0 ?
+                                                         NSLocalizedString("No run time available.", comment: "") :
+                                                            String(movie.runtime) + " " + NSLocalizedString("minutes", comment: ""))
                                     Spacer()
                                 } // :HStack
                                 .padding(.bottom, 20)
