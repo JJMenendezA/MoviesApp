@@ -33,24 +33,9 @@ struct DetailsScreenView: View {
                         
                         ScrollView {
                             LazyVStack {
-                                if let moviePosterPath = movie.moviePoster,
-                                    let movieImageURL = URL(string: "https://image.tmdb.org/t/p/w500") {
-                                    KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
-                                        .resizable()
-                                        .frame(width: 300, height: 425)
-                                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                                        .shadow(radius: 10)
-                                        .padding(.bottom, 20)
-                                }
-                                
-                                Text(movie.tagline)
-                                    .italic()
-                                    .fontWeight(.heavy)
-                                    .foregroundStyle(.white)
-                                    .multilineTextAlignment(.center)
-                                    .padding(.bottom, movie.tagline.isEmpty ? 0 : 20)
-                                    .lineLimit(2)
-                                    .minimumScaleFactor(0.5)
+                                // MARK: - IMAGE AND TAGLINE SECTION
+                                DetailsImageAndTaglineComponent(moviePoster: movie.moviePoster,
+                                                                tagline: movie.tagline)
                                 
                                 HStack {
                                     Spacer()
