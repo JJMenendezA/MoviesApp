@@ -28,32 +28,8 @@ struct DetailsScreenView: View {
                 if let movie = detailsScreenViewModel.movieDetails {
                     VStack(spacing: 0) {
                         // MARK: - HEADER SECTION
-                        ZStack(alignment: .leading) {
-                            Button(action: {
-                                dismiss()
-                            }, label: {
-                                Image(systemName: "arrow.left")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(.white)
-                            })
-                            .padding(.leading)
-                            
-                            HStack {
-                                Spacer()
-                                Text(movie.title)
-                                    .font(.title2)
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(.white)
-                                    .lineLimit(1)
-                                    .minimumScaleFactor(0.5)
-                                    .frame(maxWidth: 300)
-                                Spacer()
-                            } // :HStack
-                        } // :ZStack
-                        .padding(.bottom)
-                        .background(.black)
-                        .shadow(color: .black, radius: 10)
+                        DetailsScreenHeaderComponent(title: movie.title,
+                                                     action: { dismiss() })
                         
                         ScrollView {
                             LazyVStack {
