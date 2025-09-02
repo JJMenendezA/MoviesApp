@@ -37,64 +37,29 @@ struct DetailsScreenView: View {
                                 DetailsImageAndTaglineComponent(moviePoster: movie.moviePoster,
                                                                 tagline: movie.tagline)
                                 
-                                HStack {
-                                    Spacer()
-                                    
+                                DetailsRowComponent(content: {
                                     DetailsItemComponent(title: NSLocalizedString("Release date", comment: ""),
                                                          caption: movie.releaseDate.isEmpty ?
                                                          NSLocalizedString("No date available.", comment: "") : movie.releaseDate)
-                                    Spacer()
                                     
                                     VStack {
                                         DetailsScreenTitleComponent(text: NSLocalizedString("Vote average", comment: ""))
-                                        
                                         // MARK: - STAR SECTION
-                                        HStack {
-                                            if movie.stars > 0 {
-                                                ForEach(0..<movie.stars, id: \.self) { _ in
-                                                    Image(systemName: "star.fill")
-                                                        .resizable()
-                                                        .frame(width: 20, height: 20)
-                                                        .frame(height: 50)
-                                                }
-                                                
-                                                if movie.hasHalfStar {
-                                                    Image(systemName: "star.leadinghalf.filled")
-                                                        .resizable()
-                                                        .frame(width: 20, height: 20)
-                                                        .frame(height: 50)
-                                                }
-                                            } else {
-                                                Text("No rating available.")
-                                                    .font(.body)
-                                                    .foregroundStyle(.white)
-                                                    .frame(maxWidth: 150, maxHeight: 40)
-                                                    .minimumScaleFactor(0.5)
-                                                    .multilineTextAlignment(.center)
-                                                    .lineLimit(2)
-                                                    .frame(height: 50)
-                                            }
-                                        } // :HStack
-                                        .foregroundStyle(.white)
-                                        .padding(.horizontal, 10)
+                                        DetailsStarsComponent(stars: movie.stars, hasHalfStar: movie.hasHalfStar)
                                     } // :VStack
                                     .frame(width: 150)
-                                    Spacer()
-                                } // :HStack
-                                .padding(.bottom, 20)
+                                })
                                 
-                                DetailsRowComponent(firstView: {
+                                DetailsRowComponent(content: {
                                     DetailsItemComponent(title: NSLocalizedString("Original language", comment: ""),
                                                          caption: movie.originalLanguage.capitalized)
-                                }, secondView: {
                                     DetailsItemComponent(title: NSLocalizedString("Original title", comment: ""),
                                                          caption: movie.title)
                                 })
                                 
-                                DetailsRowComponent(firstView: {
+                                DetailsRowComponent(content: {
                                     DetailsItemComponent(title: NSLocalizedString("Genres", comment: ""),
                                                          caption: movie.genreList)
-                                }, secondView: {
                                     DetailsItemComponent(title: NSLocalizedString("Run time", comment: ""),
                                                          caption: movie.runtime == 0 ?
                                                          NSLocalizedString("No run time available.", comment: "") :

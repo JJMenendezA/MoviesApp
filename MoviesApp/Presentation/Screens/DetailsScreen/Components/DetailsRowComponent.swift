@@ -9,15 +9,10 @@
 import SwiftUI
 
 struct DetailsRowComponent<Content: View>: View {
-    @ViewBuilder let firstView: Content
-    @ViewBuilder let secondView: Content
+    @ViewBuilder let content: Content
     var body: some View {
-        HStack {
-            Spacer()
-            firstView
-            Spacer()
-            secondView
-            Spacer()
+        HStack(alignment: .center) {
+            content
         } // :HStack
         .padding(.bottom, 20)
     }
