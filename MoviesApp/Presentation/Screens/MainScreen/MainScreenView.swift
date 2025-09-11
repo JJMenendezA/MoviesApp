@@ -94,9 +94,7 @@ struct MainScreenView: View {
                                 // MARK: - TOP RATED MOVIES SECTION
                                 if let topRatedList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.topRated.title] {
                                     if !topRatedList.isEmpty {
-                                        LeadAlignedView {
-                                            DetailsScreenTitleComponent(text: NSLocalizedString("Top rated", comment: ""))
-                                        } // :LeadAlignedView
+                                        MoviesListTitleComponent(title: "Top rated")
                                         MoviesListComponent(movies: topRatedList.sorted(by: { $0.voteAverage > $1.voteAverage }))
                                             .transition(.slide)
                                     }
@@ -106,9 +104,7 @@ struct MainScreenView: View {
                                 // MARK: - NOW PLAYING MOVIES SECTION
                                 if let nowPlayingList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.nowPlaying.title] {
                                     if !nowPlayingList.isEmpty {
-                                        LeadAlignedView {
-                                            DetailsScreenTitleComponent(text: NSLocalizedString("Now playing", comment: ""))
-                                        } // :LeadAlignedView
+                                       MoviesListTitleComponent(title: "Now playing")
                                         MoviesListComponent(movies: nowPlayingList)
                                             .transition(.slide)
                                     }
@@ -117,9 +113,7 @@ struct MainScreenView: View {
                                 // MARK: - POPULAR MOVIES SECTION
                                 if let popularList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.popular.title] {
                                     if !popularList.isEmpty {
-                                        LeadAlignedView {
-                                            DetailsScreenTitleComponent(text: NSLocalizedString("Popular", comment: ""))
-                                        } // :LeadAlignedView
+                                        MoviesListTitleComponent(title: "Popular")
                                         MoviesListComponent(movies: popularList)
                                             .transition(.slide)
                                     }
@@ -128,9 +122,7 @@ struct MainScreenView: View {
                                 // MARK: - UPCOMING MOVIES SECTION
                                 if let upcomingList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.upcoming.title] {
                                     if !upcomingList.isEmpty {
-                                        LeadAlignedView {
-                                            DetailsScreenTitleComponent(text: NSLocalizedString("Upcoming", comment: ""))
-                                        } // :LeadAlignedView
+                                        MoviesListTitleComponent(title: "Upcoming")
                                         MoviesListComponent(movies: upcomingList, isUpcoming: true)
                                             .transition(.slide)
                                     }
