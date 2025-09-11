@@ -192,7 +192,14 @@ struct MainScreenView: View {
             }))
         }
         .onAppear {
-            Task { await mainScreenViewModel.fetchMovies() }
+            Task {
+                await mainScreenViewModel.fetchMovies()
+                mainScreenViewModel.setMutableMovieDictionary()
+                mainScreenViewModel.setDateArray()
+                mainScreenViewModel.setLanguageArray()
+                mainScreenViewModel.setDefaultDateVariables()
+                mainScreenViewModel.isInformationLoading = false
+            }
         }
         .onChange(of: isBottomSheetActive) {
             if !isBottomSheetActive {
@@ -217,6 +224,11 @@ struct MainScreenView: View {
                 Task {
                     try? await Task.sleep(for: .seconds(1.5))
                     await mainScreenViewModel.fetchMovies()
+                    mainScreenViewModel.setMutableMovieDictionary()
+                    mainScreenViewModel.setDateArray()
+                    mainScreenViewModel.setLanguageArray()
+                    mainScreenViewModel.setDefaultDateVariables()
+                    mainScreenViewModel.isInformationLoading = false
                 }
             }
         }

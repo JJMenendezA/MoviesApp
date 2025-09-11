@@ -36,11 +36,6 @@ class MainScreenViewModel: ObservableObject {
                 let randomMovie = randomList.results.randomElement() {
                 self.randomMovie = MovieEntity(from: randomMovie)
             }
-            setMutableMovieDictionary()
-            setDateArray()
-            setLanguageArray()
-            setDefaultDateVariables()
-            isInformationLoading = false
         } catch let error as AppError {
             triggerErrorAlert(appError: error)
         } catch {
@@ -49,7 +44,7 @@ class MainScreenViewModel: ObservableObject {
         }
     }
     
-    private func setMutableMovieDictionary() {
+    func setMutableMovieDictionary() {
         moviesDictionary.forEach({ movie in
             switch movie.key {
             case MovieTypes.popular.title, MovieTypes.topRated.title:
