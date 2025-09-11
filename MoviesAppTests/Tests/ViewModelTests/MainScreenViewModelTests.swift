@@ -25,10 +25,10 @@ final class MainScreenViewModelTests: XCTestCase {
         let sut = MainScreenViewModel(fetchMoviesUseCase: useCase)
         // Act
         await sut.fetchMovies()
-        XCTAssertFalse(sut.isLoading, "Loading state should be false after fetch completes")
+        XCTAssertFalse(sut.isInformationLoading, "Loading state should be false after fetch completes")
         XCTAssertFalse(sut.moviesDictionary.isEmpty, "Dictionary shouldn't be empty after fetching")
-        XCTAssertFalse(sut.languagesList.isEmpty, "List shouldn't be empty after fetching")
-        XCTAssertFalse(sut.releaseDatesList.isEmpty, "List shouldn't be empty after fetching")
+        XCTAssertFalse(sut.languagesArray.isEmpty, "Array shouldn't be empty after fetching")
+        XCTAssertFalse(sut.releaseDatesArray.isEmpty, "Array shouldn't be empty after fetching")
     }
     
     func test_fetchAllMovies_failsWithError() async throws {
@@ -37,10 +37,10 @@ final class MainScreenViewModelTests: XCTestCase {
         let sut = MainScreenViewModel(fetchMoviesUseCase: useCase)
         useCase.shouldFail = true
         // Act
-        XCTAssertTrue(sut.isLoading, "Loading state should be true before fetch completes")
+        XCTAssertTrue(sut.isInformationLoading, "Loading state should be true before fetch completes")
         await sut.fetchMovies()
-        XCTAssertFalse(sut.isLoading, "Loading state should be false after fetch completes")
-        XCTAssertTrue(sut.hasErrorTriggered, "HasErrorTriggered state should be true after fetch fails with error")
+        XCTAssertFalse(sut.isInformationLoading, "Loading state should be false after fetch completes")
+        XCTAssertTrue(sut.hasErrorBeenTriggered, "HasErrorBeenTriggered state should be true after fetch fails with error")
         XCTAssertEqual(sut.error, AppError.noData)
     }
 }

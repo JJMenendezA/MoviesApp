@@ -26,9 +26,6 @@ struct MainScreenView: View {
     private var hasScreenDragLimitBeenPassed: Bool {
         yOffset < -130
     }
-    private var isInformationLoading: Bool {
-        mainScreenViewModel.isLoading
-    }
     private var haveMoviesNotBeenFiltered: Bool {
         !mainScreenViewModel.filterParameters.areFiltersApplied && !isSearchActive
     }
@@ -36,7 +33,7 @@ struct MainScreenView: View {
         !isUserDragging && hasScreenDragLimitBeenPassed && haveMoviesNotBeenFiltered
     }
     private var rotateArrow: Bool {
-        hasScreenDragLimitBeenPassed && !isInformationLoading && haveMoviesNotBeenFiltered
+        hasScreenDragLimitBeenPassed && !mainScreenViewModel.isInformationLoading && haveMoviesNotBeenFiltered
     }
     init() {
         let service: MoviesService = MoviesServiceImpl()
@@ -47,7 +44,7 @@ struct MainScreenView: View {
     var body: some View {
         NavigationView {
             ZStack(alignment: .top) {
-                if mainScreenViewModel.error == nil && !mainScreenViewModel.mutableMoviesLists.isEmpty {
+                if mainScreenViewModel.error == nil && !mainScreenViewModel.mutableMoviesDictionary.isEmpty {
                     // MARK: - REFRESHER LOADER
                     if haveMoviesNotBeenFiltered {
                         VStack {
@@ -95,7 +92,7 @@ struct MainScreenView: View {
                                 }
                                 
                                 // MARK: - TOP RATED MOVIES SECTION
-                                if let topRatedList = mainScreenViewModel.mutableMoviesLists[MovieTypes.topRated.title] {
+                                if let topRatedList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.topRated.title] {
                                     if !topRatedList.isEmpty {
                                         LeadAlignedView {
                                             DetailsScreenTitleComponent(text: NSLocalizedString("Top rated", comment: ""))
@@ -107,7 +104,7 @@ struct MainScreenView: View {
                                 }
                                 
                                 // MARK: - NOW PLAYING MOVIES SECTION
-                                if let nowPlayingList = mainScreenViewModel.mutableMoviesLists[MovieTypes.nowPlaying.title] {
+                                if let nowPlayingList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.nowPlaying.title] {
                                     if !nowPlayingList.isEmpty {
                                         LeadAlignedView {
                                             DetailsScreenTitleComponent(text: NSLocalizedString("Now playing", comment: ""))
@@ -118,7 +115,7 @@ struct MainScreenView: View {
                                 }
                                 
                                 // MARK: - POPULAR MOVIES SECTION
-                                if let popularList = mainScreenViewModel.mutableMoviesLists[MovieTypes.popular.title] {
+                                if let popularList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.popular.title] {
                                     if !popularList.isEmpty {
                                         LeadAlignedView {
                                             DetailsScreenTitleComponent(text: NSLocalizedString("Popular", comment: ""))
@@ -129,7 +126,7 @@ struct MainScreenView: View {
                                 }
                                 
                                 // MARK: - UPCOMING MOVIES SECTION
-                                if let upcomingList = mainScreenViewModel.mutableMoviesLists[MovieTypes.upcoming.title] {
+                                if let upcomingList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.upcoming.title] {
                                     if !upcomingList.isEmpty {
                                         LeadAlignedView {
                                             DetailsScreenTitleComponent(text: NSLocalizedString("Upcoming", comment: ""))
@@ -140,7 +137,7 @@ struct MainScreenView: View {
                                 }
                                 
                                 // MARK: - EMPTY RESULTS MESSAGE
-                                if mainScreenViewModel.mutableMoviesLists.values.allSatisfy(\.isEmpty) {
+                                if mainScreenViewModel.mutableMoviesDictionary.values.allSatisfy(\.isEmpty) {
                                     NoMoviesComponent()
                                         .padding(.vertical, 50)
                                 }
@@ -172,7 +169,7 @@ struct MainScreenView: View {
                     } // :ScrollViewReader
                 }
                 
-                if isInformationLoading {
+                if mainScreenViewModel.isInformationLoading {
                     // MARK: - LOADING SCREEN
                     LoaderComponent()
                         .zIndex(1)
@@ -186,7 +183,7 @@ struct MainScreenView: View {
             FiltersScreenView(isSheetActive: $isBottomSheetActive, mainScreenViewModel: mainScreenViewModel)
                 .presentationDetents([.height(400)])
         }
-        .alert(isPresented: $mainScreenViewModel.hasErrorTriggered) {
+        .alert(isPresented: $mainScreenViewModel.hasErrorBeenTriggered) {
             Alert(title: Text("Error"),
                   message: Text(mainScreenViewModel.error?.localizedDescription ?? NSLocalizedString("Something went wrong.", comment: "")),
                   dismissButton: .default(Text("Retry"),
@@ -216,7 +213,7 @@ struct MainScreenView: View {
         }
         .onChange(of: isUserDragging) {
             if isUserRefreshingMovies {
-                mainScreenViewModel.isLoading = true
+                mainScreenViewModel.isInformationLoading = true
                 Task {
                     try? await Task.sleep(for: .seconds(1.5))
                     await mainScreenViewModel.fetchMovies()

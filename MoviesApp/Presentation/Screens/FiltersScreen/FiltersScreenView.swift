@@ -45,7 +45,7 @@ struct FiltersScreenView: View {
                         Spacer()
                         
                         Menu(filterLanguage) {
-                            ForEach(mainScreenViewModel.languagesList, id: \.self) { language in
+                            ForEach(mainScreenViewModel.languagesArray, id: \.self) { language in
                                 Button(action: ({ filterLanguage = language })) {
                                     Text(language)
                                 }
@@ -62,8 +62,8 @@ struct FiltersScreenView: View {
                     } // :HStack
                     .padding(.vertical)
                     
-                    if let firstElement = mainScreenViewModel.releaseDatesList.first,
-                       let lastElement = mainScreenViewModel.releaseDatesList.last {
+                    if let firstElement = mainScreenViewModel.releaseDatesArray.first,
+                       let lastElement = mainScreenViewModel.releaseDatesArray.last {
                         
                         if firstElement <= filterEndReleaseDate {
                             HStack {
