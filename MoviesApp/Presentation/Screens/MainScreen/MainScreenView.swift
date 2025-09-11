@@ -13,22 +13,30 @@ struct MainScreenView: View {
     @State private var yOffset: Double = 0.0
     @State private var backgroundHeaderColor: Color = .black.opacity(0.0)
     @State private var isBottomSheetActive: Bool = false
-    @State private var isRotating: Bool = false
-    @State private var isDragging = false
-    @State private var searchTitle: String = ""
+    @State private var isUserDragging = false
+    @State private var searchText: String = ""
     @StateObject var mainScreenViewModel: MainScreenViewModel
     // Computed properties
     private var refreshText: String {
-        isRotating ? NSLocalizedString("Release to refresh", comment: "") : NSLocalizedString("Pull to refresh", comment: "")
+        rotateArrow ? NSLocalizedString("Release to refresh", comment: "") : NSLocalizedString("Pull to refresh", comment: "")
     }
-    private var wasSearchMade: Bool {
-        if isSearchBarActive {
-            true
-        } else if !searchTitle.isEmpty {
-            true
-        } else {
-            false
-        }
+    private var isSearchActive: Bool {
+        isSearchBarActive || !searchText.isEmpty
+    }
+    private var hasScreenDragLimitBeenPassed: Bool {
+        yOffset < -130
+    }
+    private var isInformationLoading: Bool {
+        mainScreenViewModel.isLoading
+    }
+    private var haveMoviesNotBeenFiltered: Bool {
+        !mainScreenViewModel.filterParameters.areFiltersApplied && !isSearchActive
+    }
+    private var isUserRefreshingMovies: Bool {
+        !isUserDragging && hasScreenDragLimitBeenPassed && haveMoviesNotBeenFiltered
+    }
+    private var rotateArrow: Bool {
+        hasScreenDragLimitBeenPassed && !isInformationLoading && haveMoviesNotBeenFiltered
     }
     init() {
         let service: MoviesService = MoviesServiceImpl()
@@ -41,11 +49,11 @@ struct MainScreenView: View {
             ZStack(alignment: .top) {
                 if mainScreenViewModel.error == nil && !mainScreenViewModel.mutableMoviesLists.isEmpty {
                     // MARK: - REFRESHER LOADER
-                    if !mainScreenViewModel.filterParameters.areFiltersApplied && !wasSearchMade {
+                    if haveMoviesNotBeenFiltered {
                         VStack {
                             Image(systemName: "arrowshape.down.fill")
-                                .rotationEffect(.degrees(isRotating ? 180 : 0))
-                                .animation(.easeInOut, value: isRotating)
+                                .rotationEffect(.degrees(rotateArrow ? 180 : 0))
+                                .animation(.easeInOut, value: rotateArrow)
                             Text(refreshText)
                         }
                         .foregroundStyle(.white)
@@ -55,18 +63,16 @@ struct MainScreenView: View {
                     }
                     
                     // MARK: - TOP SECTION
-                    MainHeaderComponent(color: backgroundHeaderColor, filterAction: {
-                        isBottomSheetActive = true
-                    }, switchAction: {
-                        
-                    }, submenuAction: {
-                        
-                    }, areFiltersApplied: mainScreenViewModel.filterParameters.areFiltersApplied)
+                    MainHeaderComponent(color: backgroundHeaderColor,
+                                        filterAction: { isBottomSheetActive = true },
+                                        switchAction: {},
+                                        submenuAction: {},
+                                        areFiltersApplied: mainScreenViewModel.filterParameters.areFiltersApplied)
                     
                     ScrollViewReader { reader in
                         ScrollView {
                             LazyVStack(spacing: 0) {
-                                if !wasSearchMade && !mainScreenViewModel.filterParameters.areFiltersApplied {
+                                if !isSearchActive && !mainScreenViewModel.filterParameters.areFiltersApplied {
                                     // MARK: - RANDOM PICK SECTION
                                     if let randomMovie = mainScreenViewModel.randomMovie {
                                         HighlightMovieComponent(movie: randomMovie)
@@ -83,8 +89,8 @@ struct MainScreenView: View {
                                 
                                 // MARK: - SEARCH BAR SECTION
                                 if !mainScreenViewModel.filterParameters.areFiltersApplied {
-                                    SearchBarComponent(textSearch: $searchTitle, isSearchBarFocused: $isSearchBarActive)
-                                        .padding(.top, wasSearchMade ? 75 : 0)
+                                    SearchBarComponent(textSearch: $searchText, isSearchBarFocused: $isSearchBarActive)
+                                        .padding(.top, isSearchActive ? 75 : 0)
                                         .id("SearchView")
                                 }
                                 
@@ -144,10 +150,10 @@ struct MainScreenView: View {
                             .simultaneousGesture(
                                 DragGesture()
                                     .onChanged { _ in
-                                        isDragging = true
+                                        isUserDragging = true
                                     }
                                     .onEnded { _ in
-                                        isDragging = false
+                                        isUserDragging = false
                                     }
                             )
                         } // :ScrollView
@@ -166,7 +172,7 @@ struct MainScreenView: View {
                     } // :ScrollViewReader
                 }
                 
-                if mainScreenViewModel.isLoading {
+                if isInformationLoading {
                     // MARK: - LOADING SCREEN
                     LoaderComponent()
                         .zIndex(1)
@@ -185,15 +191,11 @@ struct MainScreenView: View {
                   message: Text(mainScreenViewModel.error?.localizedDescription ?? NSLocalizedString("Something went wrong.", comment: "")),
                   dismissButton: .default(Text("Retry"),
                                           action: {
-                Task {
-                    await mainScreenViewModel.fetchMovies()
-                }
+                Task { await mainScreenViewModel.fetchMovies() }
             }))
         }
         .onAppear {
-            Task {
-                await mainScreenViewModel.fetchMovies()
-            }
+            Task { await mainScreenViewModel.fetchMovies() }
         }
         .onChange(of: isBottomSheetActive) {
             if !isBottomSheetActive {
@@ -202,25 +204,18 @@ struct MainScreenView: View {
                 }
             }
         }
-        .onChange(of: searchTitle) {
+        .onChange(of: searchText) {
             // Filtering the lists according to the search value
             withAnimation {
-                mainScreenViewModel.searchMoviesByTitle(title: searchTitle)
+                mainScreenViewModel.searchMoviesByTitle(title: searchText)
             }
         }
         .onChange(of: yOffset) {
             // Header background color opacity changes depending on the y offset
             backgroundHeaderColor = .black.opacity(yOffset/750)
-            
-            // Trigger to refresh the data when offset passes -130
-            if yOffset < -130 && !mainScreenViewModel.isLoading && !mainScreenViewModel.filterParameters.areFiltersApplied && !wasSearchMade {
-                isRotating = true
-            } else {
-                isRotating = false
-            }
         }
-        .onChange(of: isDragging) {
-            if !isDragging && yOffset < -130 {
+        .onChange(of: isUserDragging) {
+            if isUserRefreshingMovies {
                 mainScreenViewModel.isLoading = true
                 Task {
                     try? await Task.sleep(for: .seconds(1.5))
