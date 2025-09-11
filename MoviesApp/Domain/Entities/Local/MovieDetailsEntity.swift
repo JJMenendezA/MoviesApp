@@ -37,7 +37,7 @@ public struct MovieDetailsEntity: Decodable {
             MovieEntity(from: movie)
         })
         if let firstResult = movie.videos.results.first,
-           let movieVideoURL = URL(string: "https:/youtube.com/embed/") {
+           let movieVideoURL = URL(string: "https://youtube.com/embed/") {
             self.movieVideo = movieVideoURL.appendingPathComponent(firstResult.key)
         } else {
             movieVideo = nil
