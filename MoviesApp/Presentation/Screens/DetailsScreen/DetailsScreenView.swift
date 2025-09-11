@@ -51,8 +51,8 @@ struct DetailsScreenView: View {
                                 })
                                 
                                 DetailsRowComponent(content: {
-                                    DetailsItemComponent(title: NSLocalizedString("Original language", comment: ""),
-                                                         caption: movie.originalLanguage.capitalized)
+                                    DetailsItemComponent(title: NSLocalizedString("Language", comment: ""),
+                                                         caption: movie.language.capitalized)
                                     DetailsItemComponent(title: NSLocalizedString("Original title", comment: ""),
                                                          caption: movie.title)
                                 })

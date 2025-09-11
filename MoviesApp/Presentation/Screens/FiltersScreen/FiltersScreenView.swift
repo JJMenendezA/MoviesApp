@@ -37,7 +37,7 @@ struct FiltersScreenView: View {
                 ScrollView {
                     HStack {
                         LeadAlignedView {
-                            Text("Original language:")
+                            Text("Language:")
                                 .fontWeight(.light)
                                 .font(.callout)
                         }
