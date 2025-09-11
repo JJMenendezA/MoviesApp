@@ -40,7 +40,7 @@ class MainScreenViewModel: ObservableObject {
                 let randomMovie = randomList.results.randomElement() {
                 self.randomMovie = MovieEntity(from: randomMovie)
             }
-            setLists()
+            setMutableMovieDictionary()
             languagesArray = createLanguageList()
             releaseDatesArray = createDatesList()
             setDefaultDateVariables()
@@ -53,7 +53,7 @@ class MainScreenViewModel: ObservableObject {
         }
     }
     
-    private func setLists() {
+    private func setMutableMovieDictionary() {
         moviesDictionary.forEach({ movie in
             switch movie.key {
             case MovieTypes.popular.title, MovieTypes.topRated.title:
@@ -108,7 +108,7 @@ class MainScreenViewModel: ObservableObject {
     
     func searchMoviesByTitle(title: String) {
         guard !title.isEmpty else {
-            setLists()
+            setMutableMovieDictionary()
             return
         }
         
@@ -141,7 +141,7 @@ class MainScreenViewModel: ObservableObject {
     }
     
     func filterMovies() {
-        setLists()
+        setMutableMovieDictionary()
         
         guard filterParameters.areFiltersApplied else { return }
         
