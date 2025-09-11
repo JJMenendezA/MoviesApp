@@ -127,9 +127,9 @@ struct FiltersScreenView: View {
                                     shape: .capsule,
                                     fontWeight: .bold) {
                         withAnimation {
-                            mainScreenViewModel.filterParameters.filterLanguage = self.filterLanguage
-                            mainScreenViewModel.filterParameters.filterStartReleaseDate = self.filterStartReleaseDate
-                            mainScreenViewModel.filterParameters.filterEndReleaseDate = self.filterEndReleaseDate
+                            mainScreenViewModel.filterParameters.language = self.filterLanguage
+                            mainScreenViewModel.filterParameters.startDate = self.filterStartReleaseDate
+                            mainScreenViewModel.filterParameters.endDate = self.filterEndReleaseDate
                             isSheetActive = false
                         }
                     }
@@ -144,9 +144,9 @@ struct FiltersScreenView: View {
             .background(.gray900)
         } // :ZStack
         .onAppear {
-            filterLanguage = mainScreenViewModel.filterParameters.filterLanguage
-            filterEndReleaseDate = mainScreenViewModel.filterParameters.filterEndReleaseDate
-            filterStartReleaseDate = mainScreenViewModel.filterParameters.filterStartReleaseDate
+            filterLanguage = mainScreenViewModel.filterParameters.language
+            filterEndReleaseDate = mainScreenViewModel.filterParameters.endDate
+            filterStartReleaseDate = mainScreenViewModel.filterParameters.startDate
         }
     }
 }

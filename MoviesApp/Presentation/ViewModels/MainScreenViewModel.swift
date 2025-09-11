@@ -128,8 +128,8 @@ class MainScreenViewModel: ObservableObject {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         mutableMoviesDictionary.forEach({ movie in
             mutableMoviesDictionary[movie.key] = movie.value.filter({ movie in
-                dateFormatter.date(from: movie.releaseDate) ?? Date() >= filterParameters.filterStartReleaseDate &&
-                dateFormatter.date(from: movie.releaseDate) ?? Date() <= filterParameters.filterEndReleaseDate
+                dateFormatter.date(from: movie.releaseDate) ?? Date() >= filterParameters.startDate &&
+                dateFormatter.date(from: movie.releaseDate) ?? Date() <= filterParameters.endDate
             })
         })
     }
@@ -137,7 +137,7 @@ class MainScreenViewModel: ObservableObject {
     private func filterMoviesByLanguage() {
         mutableMoviesDictionary.forEach({ movie in
             mutableMoviesDictionary[movie.key] = movie.value.filter({ movie in
-                Locale.current.localizedString(forLanguageCode: movie.originalLanguage) == filterParameters.filterLanguage
+                Locale.current.localizedString(forLanguageCode: movie.originalLanguage) == filterParameters.language
             })
         })
     }
@@ -147,14 +147,14 @@ class MainScreenViewModel: ObservableObject {
         
         guard filterParameters.areFiltersApplied else { return }
         
-        if filterParameters.filterLanguage != NSLocalizedString("All languages", comment: "") {
+        if filterParameters.language != NSLocalizedString("All languages", comment: "") {
             filterMoviesByLanguage()
         }
         
         if let firstDate = releaseDatesArray.first,
            let lastDate = releaseDatesArray.last {
-            if filterParameters.filterStartReleaseDate != firstDate ||
-                filterParameters.filterEndReleaseDate != lastDate { filterMoviesByDate() }
+            if filterParameters.startDate != firstDate ||
+                filterParameters.endDate != lastDate { filterMoviesByDate() }
         }
     }
     

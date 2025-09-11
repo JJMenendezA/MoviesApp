@@ -98,7 +98,6 @@ struct MainScreenView: View {
                                         MoviesListComponent(movies: topRatedList.sorted(by: { $0.voteAverage > $1.voteAverage }))
                                             .transition(.slide)
                                     }
-                                    
                                 }
                                 
                                 // MARK: - NOW PLAYING MOVIES SECTION

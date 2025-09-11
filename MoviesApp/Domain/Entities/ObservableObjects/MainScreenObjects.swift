@@ -9,30 +9,30 @@
 import SwiftUI
 
 class FilterParameters: ObservableObject {
-    private var filterOriginalLanguage: String = NSLocalizedString("All languages", comment: "")
-    private var filterOriginalStartReleaseDate: Date = Date()
-    private var filterOriginalEndReleaseDate: Date = Date()
+    private var defaultLanguage: String = NSLocalizedString("All languages", comment: "")
+    private var defaultStartDate: Date = Date()
+    private var defaultEndDate: Date = Date()
     
-    @Published var filterLanguage: String = NSLocalizedString("All languages", comment: "")
-    @Published var filterStartReleaseDate: Date = Date()
-    @Published var filterEndReleaseDate: Date = Date()
+    @Published var language: String = NSLocalizedString("All languages", comment: "")
+    @Published var startDate: Date = Date()
+    @Published var endDate: Date = Date()
     
     var areFiltersApplied: Bool {
-        filterLanguage != filterOriginalLanguage ||
-        filterStartReleaseDate != filterOriginalStartReleaseDate ||
-        filterEndReleaseDate != filterOriginalEndReleaseDate
+        language != defaultLanguage ||
+        startDate != defaultStartDate ||
+        endDate != defaultEndDate
         }
     
     func setDefaultValues(startDate: Date, endDate: Date) {
-        filterStartReleaseDate = startDate
-        filterOriginalStartReleaseDate = startDate
-        filterEndReleaseDate = endDate
-        filterOriginalEndReleaseDate = endDate
+        self.startDate = startDate
+        defaultStartDate = startDate
+        self.endDate = endDate
+        defaultEndDate = endDate
     }
     
     func cleanFilters() {
-        filterLanguage = filterOriginalLanguage
-        filterStartReleaseDate = filterOriginalStartReleaseDate
-        filterEndReleaseDate = filterOriginalEndReleaseDate
+        language = defaultLanguage
+        startDate = defaultStartDate
+        endDate = defaultEndDate
     }
 }
