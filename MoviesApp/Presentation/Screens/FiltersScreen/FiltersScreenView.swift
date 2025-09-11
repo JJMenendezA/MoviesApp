@@ -9,9 +9,9 @@ import SwiftUI
 
 struct FiltersScreenView: View {
     @Binding var isSheetActive: Bool
-    @State var filterLanguage: String = NSLocalizedString("All languages", comment: "")
-    @State var filterStartReleaseDate: Date = Date()
-    @State var filterEndReleaseDate: Date = Date()
+    @State var language: String = NSLocalizedString("All languages", comment: "")
+    @State var startDate: Date = Date()
+    @State var endDate: Date = Date()
     @ObservedObject var mainScreenViewModel: MainScreenViewModel
     var body: some View {
         ZStack {
@@ -44,10 +44,10 @@ struct FiltersScreenView: View {
                         
                         Spacer()
                         
-                        Menu(filterLanguage) {
-                            ForEach(mainScreenViewModel.languagesArray, id: \.self) { language in
-                                Button(action: ({ filterLanguage = language })) {
-                                    Text(language)
+                        Menu(language) {
+                            ForEach(mainScreenViewModel.languagesArray, id: \.self) { optionLanguage in
+                                Button(action: ({ language = optionLanguage })) {
+                                    Text(optionLanguage)
                                 }
                             }
                         }
@@ -65,7 +65,7 @@ struct FiltersScreenView: View {
                     if let firstElement = mainScreenViewModel.releaseDatesArray.first,
                        let lastElement = mainScreenViewModel.releaseDatesArray.last {
                         
-                        if firstElement <= filterEndReleaseDate {
+                        if firstElement <= endDate {
                             HStack {
                                 LeadAlignedView {
                                     Text("Starting release date:")
@@ -74,8 +74,8 @@ struct FiltersScreenView: View {
                                 }
                                 
                                 DatePicker("Starting release date:",
-                                           selection: $filterStartReleaseDate,
-                                           in: firstElement...filterEndReleaseDate,
+                                           selection: $startDate,
+                                           in: firstElement...endDate,
                                            displayedComponents: .date)
                                 .labelsHidden()
                                 .tint(.purple700)
@@ -85,7 +85,7 @@ struct FiltersScreenView: View {
                             .padding(.vertical)
                         }
                         
-                        if filterStartReleaseDate <= lastElement {
+                        if startDate <= lastElement {
                             HStack {
                                 LeadAlignedView {
                                     Text("End release date:")
@@ -93,8 +93,8 @@ struct FiltersScreenView: View {
                                         .font(.callout)
                                 }
                                 DatePicker("End release date:",
-                                           selection: $filterEndReleaseDate,
-                                           in: filterStartReleaseDate...lastElement,
+                                           selection: $endDate,
+                                           in: startDate...lastElement,
                                            displayedComponents: .date)
                                     .labelsHidden()
                                     .tint(.purple700)
@@ -127,9 +127,9 @@ struct FiltersScreenView: View {
                                     shape: .capsule,
                                     fontWeight: .bold) {
                         withAnimation {
-                            mainScreenViewModel.filterParameters.language = self.filterLanguage
-                            mainScreenViewModel.filterParameters.startDate = self.filterStartReleaseDate
-                            mainScreenViewModel.filterParameters.endDate = self.filterEndReleaseDate
+                            mainScreenViewModel.filterParameters.language = self.language
+                            mainScreenViewModel.filterParameters.startDate = self.startDate
+                            mainScreenViewModel.filterParameters.endDate = self.endDate
                             isSheetActive = false
                         }
                     }
@@ -144,9 +144,9 @@ struct FiltersScreenView: View {
             .background(.gray900)
         } // :ZStack
         .onAppear {
-            filterLanguage = mainScreenViewModel.filterParameters.language
-            filterEndReleaseDate = mainScreenViewModel.filterParameters.endDate
-            filterStartReleaseDate = mainScreenViewModel.filterParameters.startDate
+            language = mainScreenViewModel.filterParameters.language
+            endDate = mainScreenViewModel.filterParameters.endDate
+            startDate = mainScreenViewModel.filterParameters.startDate
         }
     }
 }
