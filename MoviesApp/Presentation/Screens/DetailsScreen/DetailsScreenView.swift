@@ -43,7 +43,7 @@ struct DetailsScreenView: View {
                                                          NSLocalizedString("No date available.", comment: "") : movie.releaseDate)
                                     
                                     VStack {
-                                        DetailsScreenTitleComponent(text: NSLocalizedString("Vote average", comment: ""))
+                                        SubtitleComponent(text: NSLocalizedString("Vote average", comment: ""))
                                         // MARK: - STAR SECTION
                                         DetailsStarsComponent(stars: movie.stars, hasHalfStar: movie.hasHalfStar)
                                     } // :VStack
@@ -67,7 +67,7 @@ struct DetailsScreenView: View {
                                 })
                                 
                                 if !movie.overview.isEmpty {
-                                    DetailsScreenTitleComponent(text: NSLocalizedString("Overview", comment: ""))
+                                    SubtitleComponent(text: NSLocalizedString("Overview", comment: ""))
                                     Text(movie.overview)
                                         .foregroundStyle(.white)
                                         .multilineTextAlignment(.center)
@@ -75,13 +75,13 @@ struct DetailsScreenView: View {
                                 }
                                 
                                 if let movieVideo = movie.movieVideo {
-                                    DetailsScreenTitleComponent(text: NSLocalizedString("Video reference", comment: ""), maxWidth: 200)
+                                    SubtitleComponent(text: NSLocalizedString("Video reference", comment: ""), maxWidth: 200)
                                     VideoPlayer(videoURL: movieVideo)
                                         .frame(height: 300)
                                 }
                                 
                                 if !movie.similarMoviesList.isEmpty {
-                                    DetailsScreenTitleComponent(text: NSLocalizedString("Similar movies", comment: ""))
+                                    SubtitleComponent(text: NSLocalizedString("Similar movies", comment: ""))
                                     MoviesListComponent(movies: movie.similarMoviesList)
                                 }
                                 

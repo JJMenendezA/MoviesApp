@@ -12,7 +12,7 @@ struct MoviesListTitleComponent: View {
     var title: String
     var body: some View {
         LeadAlignedView {
-            DetailsScreenTitleComponent(text: NSLocalizedString(title, comment: ""))
+            SubtitleComponent(text: NSLocalizedString(title, comment: ""))
         } // :LeadAlignedView
     }
 }

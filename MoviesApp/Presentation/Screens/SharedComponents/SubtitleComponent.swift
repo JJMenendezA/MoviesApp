@@ -1,5 +1,5 @@
 //
-//  DetailsScreenTitleComponent.swift
+//  SubtitleComponent.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 16/12/24.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct DetailsScreenTitleComponent: View {
+struct SubtitleComponent: View {
     var text: String
     var maxWidth: CGFloat = 150
     var body: some View {

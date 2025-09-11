@@ -13,7 +13,7 @@ struct DetailsItemComponent: View {
     var caption: String
     var body: some View {
         VStack {
-            DetailsScreenTitleComponent(text: NSLocalizedString(title, comment: ""))
+            SubtitleComponent(text: NSLocalizedString(title, comment: ""))
             
             Text(caption)
                 .font(.body)

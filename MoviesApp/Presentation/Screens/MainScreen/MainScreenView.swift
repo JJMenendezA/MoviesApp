@@ -77,7 +77,7 @@ struct MainScreenView: View {
                                     
                                     // MARK: - ANNOUNCEMENTS SECTION
                                     LeadAlignedView {
-                                        DetailsScreenTitleComponent(text: NSLocalizedString("Important announcements", comment: ""),
+                                        SubtitleComponent(text: NSLocalizedString("Important announcements", comment: ""),
                                                                     maxWidth: 250)
                                         .padding(.vertical, 10)
                                     } // :LeadAlignedView
