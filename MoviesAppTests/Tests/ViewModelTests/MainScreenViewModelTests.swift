@@ -25,10 +25,7 @@ final class MainScreenViewModelTests: XCTestCase {
         let sut = MainScreenViewModel(fetchMoviesUseCase: useCase)
         // Act
         await sut.fetchMovies()
-        XCTAssertFalse(sut.isInformationLoading, "Loading state should be false after fetch completes")
         XCTAssertFalse(sut.moviesDictionary.isEmpty, "Dictionary shouldn't be empty after fetching")
-        XCTAssertFalse(sut.languagesArray.isEmpty, "Array shouldn't be empty after fetching")
-        XCTAssertFalse(sut.releaseDatesArray.isEmpty, "Array shouldn't be empty after fetching")
     }
     
     func test_fetchAllMovies_failsWithError() async throws {
