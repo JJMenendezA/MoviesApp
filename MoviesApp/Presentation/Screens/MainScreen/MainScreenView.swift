@@ -78,7 +78,7 @@ struct MainScreenView: View {
                                     // MARK: - ANNOUNCEMENTS SECTION
                                     LeadAlignedView {
                                         SubtitleComponent(text: NSLocalizedString("Important announcements", comment: ""),
-                                                                    maxWidth: 250)
+                                                          maxWidth: 250)
                                         .padding(.vertical, 10)
                                     } // :LeadAlignedView
                                     AnnouncementsComponent()
@@ -103,7 +103,7 @@ struct MainScreenView: View {
                                 // MARK: - NOW PLAYING MOVIES SECTION
                                 if let nowPlayingList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.nowPlaying.title] {
                                     if !nowPlayingList.isEmpty {
-                                       MoviesListTitleComponent(title: "Now playing")
+                                        MoviesListTitleComponent(title: "Now playing")
                                         MoviesListComponent(movies: nowPlayingList)
                                             .transition(.slide)
                                     }
@@ -135,16 +135,16 @@ struct MainScreenView: View {
                             } // :VStack
                             .padding(.top, mainScreenViewModel.filterParameters.areFiltersApplied ? 75 : 0)
                             .background(.gray900)
-                            .simultaneousGesture(
-                                DragGesture()
-                                    .onChanged { _ in
-                                        isUserDragging = true
-                                    }
-                                    .onEnded { _ in
-                                        isUserDragging = false
-                                    }
-                            )
                         } // :ScrollView
+                        .simultaneousGesture(
+                            DragGesture()
+                                .onChanged { _ in
+                                    if !isUserDragging { isUserDragging = true }
+                                }
+                                .onEnded { _ in
+                                    isUserDragging = false
+                                }
+                        )
                         .padding(.bottom)
                         // Scroll Geometry Reader to get the value of the y offset
                         .onScrollGeometryChange(for: Double.self) { geo in
