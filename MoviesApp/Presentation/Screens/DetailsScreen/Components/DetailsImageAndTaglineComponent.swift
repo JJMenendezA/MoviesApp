@@ -16,6 +16,7 @@ struct DetailsImageAndTaglineComponent: View {
     @State private var imageWidth: CGFloat = 300
     @State private var imageHeight: CGFloat = 425
     @State private var activeImage: String = ""
+    @State private var isMessageGone: Bool = false
     var body: some View {
         VStack {
             if arrayImagePaths.filter({ $0 != nil }).count > 1 {
@@ -24,6 +25,9 @@ struct DetailsImageAndTaglineComponent: View {
                    let movieImageURL = URL(string: "https://image.tmdb.org/t/p/w500") {
                     Button(action: {
                         withAnimation {
+                            if !isMessageGone {
+                                isMessageGone = true
+                            }
                             if imageXScale < 0 {
                                 imageXScale = 1
                                 activeImage = moviePosterPath
@@ -44,6 +48,21 @@ struct DetailsImageAndTaglineComponent: View {
                             .shadow(radius: 10)
                             .padding(.bottom, 20)
                             .scaleEffect(x: imageXScale, y: 1)
+                            .overlay {
+                                if !isMessageGone {
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .fill(Color.black.opacity(0.7))
+                                            .padding(.bottom, 20)
+                                        
+                                        VStack(spacing: 10) {
+                                            Image(systemName: "hand.tap.fill")
+                                            Text("Tap the poster to \nswitch the image")
+                                        } // :VStack
+                                        .foregroundStyle(.white)
+                                    } // :ZStack
+                                }
+                            }
                     })
                 }
             } else {
@@ -71,6 +90,11 @@ struct DetailsImageAndTaglineComponent: View {
             if !arrayImagePaths.isEmpty {
                 if let moviePosterPath = arrayImagePaths[0] {
                     activeImage = moviePosterPath
+                }
+            }
+            Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
+                withAnimation {
+                    isMessageGone = true
                 }
             }
         }
