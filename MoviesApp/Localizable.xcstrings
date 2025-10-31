@@ -607,6 +607,16 @@
         }
       }
     },
+    "Tap the poster to \nswitch the image" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Presiona el póster \npara cambiar la imagen"
+          }
+        }
+      }
+    },
     "Top rated" : {
       "extractionState" : "manual",
       "localizations" : {
