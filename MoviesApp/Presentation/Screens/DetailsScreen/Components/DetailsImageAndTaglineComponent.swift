@@ -18,7 +18,7 @@ struct DetailsImageAndTaglineComponent: View {
     @State private var activeImage: String = ""
     var body: some View {
         VStack {
-            if moviePosters.count > 1 {
+            if moviePosters.filter({ $0 != nil }).count > 1 {
                 if let moviePosterPath = moviePosters[0],
                    let alternativeImagePath = moviePosters[1],
                    let movieImageURL = URL(string: "https://image.tmdb.org/t/p/w500") {
@@ -78,5 +78,5 @@ struct DetailsImageAndTaglineComponent: View {
 }
 
 #Preview {
-    DetailsImageAndTaglineComponent(moviePosters: ["/63xYQj1BwRFielxsBDXvHIJyXVm.jpg", "/18TSJF1WLA4CkymvVUcKDBwUJ9F.jpg"], tagline: "Example")
+    DetailsImageAndTaglineComponent(moviePosters: ["/63xYQj1BwRFielxsBDXvHIJyXVm.jpg", nil], tagline: "Example")
 }
