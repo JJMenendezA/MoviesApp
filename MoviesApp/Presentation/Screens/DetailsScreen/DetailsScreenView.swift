@@ -34,8 +34,8 @@ struct DetailsScreenView: View {
                         ScrollView {
                             LazyVStack {
                                 // MARK: - IMAGE AND TAGLINE SECTION
-                                DetailsImageAndTaglineComponent(moviePoster: movie.moviePoster,
-                                                                tagline: movie.tagline)
+                                DetailsImageAndTaglineComponent(arrayImagePaths: [movie.moviePoster, movie.alternativeImage],
+                                                                txtTagline: movie.tagline)
                                 
                                 DetailsRowComponent(content: {
                                     DetailsItemComponent(title: NSLocalizedString("Release date", comment: ""),

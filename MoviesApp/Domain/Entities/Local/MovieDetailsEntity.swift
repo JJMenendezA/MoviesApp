@@ -11,6 +11,7 @@ import Foundation
 public struct MovieDetailsEntity: Decodable {
     let title: String
     let moviePoster: String?
+    var alternativeImage: String?
     let tagline: String
     let releaseDate: String
     let stars: Int
@@ -25,6 +26,7 @@ public struct MovieDetailsEntity: Decodable {
     public init(from movie: MovieDetailsResponse) {
         self.title = movie.title
         self.moviePoster = movie.poster_path
+        self.alternativeImage = movie.backdrop_path
         self.tagline = movie.tagline
         self.releaseDate = movie.releaseDateFormatted
         self.stars = Int(movie.vote_average.rounded(.down))/2
