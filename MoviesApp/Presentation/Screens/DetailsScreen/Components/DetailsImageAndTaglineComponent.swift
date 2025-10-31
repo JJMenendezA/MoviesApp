@@ -12,8 +12,10 @@ import Kingfisher
 struct DetailsImageAndTaglineComponent: View {
     var moviePosters: [String?]
     var tagline: String
-    @State var xScale: CGFloat = 1
-    @State var multiMoviePoster: String = ""
+    @State private var imageXScale: CGFloat = 1
+    @State private var imageWidth: CGFloat = 300
+    @State private var imageHeight: CGFloat = 425
+    @State private var activeImage: String = ""
     var body: some View {
         VStack {
             if moviePosters.count > 1 {
@@ -22,22 +24,26 @@ struct DetailsImageAndTaglineComponent: View {
                    let movieImageURL = URL(string: "https://image.tmdb.org/t/p/w500") {
                     Button(action: {
                         withAnimation {
-                            if xScale < 0 {
-                                xScale = 1
-                                multiMoviePoster = moviePosterPath
+                            if imageXScale < 0 {
+                                imageXScale = 1
+                                activeImage = moviePosterPath
+                                imageWidth = 300
+                                imageHeight = 425
                             } else {
-                                xScale = -1
-                                multiMoviePoster = alternativeImagePath
+                                imageXScale = -1
+                                activeImage = alternativeImagePath
+                                imageWidth = 375
+                                imageHeight = 275
                             }
                         }
                     }, label: {
-                        KFImage(movieImageURL.appendingPathComponent(multiMoviePoster))
+                        KFImage(movieImageURL.appendingPathComponent(activeImage))
                             .resizable()
-                            .frame(width: 300, height: 425)
+                            .frame(width: imageWidth, height: imageHeight)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                             .shadow(radius: 10)
                             .padding(.bottom, 20)
-                            .scaleEffect(x: xScale, y: 1)
+                            .scaleEffect(x: imageXScale, y: 1)
                     })
                 }
             } else {
@@ -64,7 +70,7 @@ struct DetailsImageAndTaglineComponent: View {
         .onAppear {
             if !moviePosters.isEmpty {
                 if let moviePosterPath = moviePosters[0] {
-                    multiMoviePoster = moviePosterPath
+                    activeImage = moviePosterPath
                 }
             }
         }
