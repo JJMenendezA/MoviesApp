@@ -10,17 +10,17 @@ import SwiftUI
 import Kingfisher
 
 struct DetailsImageAndTaglineComponent: View {
-    var moviePosters: [String?]
-    var tagline: String
+    var arrayImagePaths: [String?]
+    var txtTagline: String
     @State private var imageXScale: CGFloat = 1
     @State private var imageWidth: CGFloat = 300
     @State private var imageHeight: CGFloat = 425
     @State private var activeImage: String = ""
     var body: some View {
         VStack {
-            if moviePosters.filter({ $0 != nil }).count > 1 {
-                if let moviePosterPath = moviePosters[0],
-                   let alternativeImagePath = moviePosters[1],
+            if arrayImagePaths.filter({ $0 != nil }).count > 1 {
+                if let moviePosterPath = arrayImagePaths[0],
+                   let alternativeImagePath = arrayImagePaths[1],
                    let movieImageURL = URL(string: "https://image.tmdb.org/t/p/w500") {
                     Button(action: {
                         withAnimation {
@@ -47,7 +47,7 @@ struct DetailsImageAndTaglineComponent: View {
                     })
                 }
             } else {
-                if let moviePosterPath = moviePosters[0],
+                if let moviePosterPath = arrayImagePaths[0],
                    let movieImageURL = URL(string: "https://image.tmdb.org/t/p/w500") {
                     KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
                         .resizable()
@@ -58,18 +58,18 @@ struct DetailsImageAndTaglineComponent: View {
                 }
             }
             
-            Text(tagline)
+            Text(txtTagline)
                 .italic()
                 .fontWeight(.heavy)
                 .foregroundStyle(.white)
                 .multilineTextAlignment(.center)
-                .padding(.bottom, tagline.isEmpty ? 0 : 20)
+                .padding(.bottom, txtTagline.isEmpty ? 0 : 20)
                 .lineLimit(4)
                 .minimumScaleFactor(0.5)
         } // :VStack
         .onAppear {
-            if !moviePosters.isEmpty {
-                if let moviePosterPath = moviePosters[0] {
+            if !arrayImagePaths.isEmpty {
+                if let moviePosterPath = arrayImagePaths[0] {
                     activeImage = moviePosterPath
                 }
             }
@@ -78,5 +78,5 @@ struct DetailsImageAndTaglineComponent: View {
 }
 
 #Preview {
-    DetailsImageAndTaglineComponent(moviePosters: ["/63xYQj1BwRFielxsBDXvHIJyXVm.jpg", nil], tagline: "Example")
+    DetailsImageAndTaglineComponent(arrayImagePaths: ["/63xYQj1BwRFielxsBDXvHIJyXVm.jpg", "/18TSJF1WLA4CkymvVUcKDBwUJ9F.jpg"], txtTagline: "Example")
 }
