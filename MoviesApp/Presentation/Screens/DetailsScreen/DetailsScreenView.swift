@@ -34,7 +34,7 @@ struct DetailsScreenView: View {
                         ScrollView {
                             LazyVStack {
                                 // MARK: - IMAGE AND TAGLINE SECTION
-                                DetailsImageAndTaglineComponent(moviePoster: movie.moviePoster,
+                                DetailsImageAndTaglineComponent(moviePosters: [movie.moviePoster, movie.alternativeImage],
                                                                 tagline: movie.tagline)
                                 
                                 DetailsRowComponent(content: {
