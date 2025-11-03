@@ -22,6 +22,7 @@ public struct MovieDetailsEntity: Decodable {
     let overview: String
     let similarMoviesList: [MovieEntity]
     let movieVideo: URL?
+    let productionCompanies: [ProductionCompanyEntity]
     
     public init(from movie: MovieDetailsResponse) {
         self.title = movie.title
@@ -38,6 +39,11 @@ public struct MovieDetailsEntity: Decodable {
         self.similarMoviesList = movie.similar.results.map({ movie in
             MovieEntity(from: movie)
         })
+        self.productionCompanies = movie.production_companies.map({ productionCompany in
+            ProductionCompanyEntity(name: productionCompany.name,
+                                    logoPath: productionCompany.logo_path,
+                                    country: productionCompany.origin_country)
+        })
         if let firstResult = movie.videos.results.first,
            let movieVideoURL = URL(string: "https://youtube.com/embed/") {
             self.movieVideo = movieVideoURL.appendingPathComponent(firstResult.key)
@@ -45,4 +51,10 @@ public struct MovieDetailsEntity: Decodable {
             movieVideo = nil
         }
     }
+}
+
+public struct ProductionCompanyEntity: Decodable {
+    let name: String
+    let logoPath: String?
+    let country: String
 }
