@@ -80,6 +80,41 @@ struct DetailsScreenView: View {
                                         .frame(height: 300)
                                 }
                                 
+                                if !movie.productionCompanies.isEmpty {
+                                    SubtitleComponent(text: NSLocalizedString("Production Companies", comment: ""))
+                                    ScrollView(.horizontal) {
+                                        LazyHStack {
+                                            ForEach(movie.productionCompanies, id: \.self) { productionCompany in
+                                                if let logoPath = productionCompany.logoPath,
+                                                   let movieImageURL = URL(string: "https://image.tmdb.org/t/p/w500") {
+                                                    KFImage(movieImageURL.appendingPathComponent(logoPath))
+                                                        .resizable()
+                                                        .frame(width: 100, height: 50)
+                                                        .padding()
+                                                        .background {
+                                                            RoundedRectangle(cornerRadius: 10)
+                                                                .fill(.white)
+                                                        }
+                                                } else {
+                                                    VStack {
+                                                        Text(productionCompany.name)
+                                                        Text(productionCompany.country)
+                                                            .italic()
+                                                    } // :VStack
+                                                    .frame(width: 100, height: 50)
+                                                    .foregroundStyle(.black)
+                                                    .padding()
+                                                    .background {
+                                                        RoundedRectangle(cornerRadius: 10)
+                                                            .fill(.white)
+                                                    }
+                                                }
+                                            }
+                                        } // :HStack
+                                    } // :ScrollView
+                                    .scrollIndicators(.hidden)
+                                }
+                                
                                 if !movie.similarMoviesList.isEmpty {
                                     SubtitleComponent(text: NSLocalizedString("Similar movies", comment: ""))
                                     MoviesListComponent(movies: movie.similarMoviesList)
