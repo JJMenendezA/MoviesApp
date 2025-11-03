@@ -408,6 +408,16 @@
         }
       }
     },
+    "Production Companies" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compañías Productoras"
+          }
+        }
+      }
+    },
     "Pull to refresh" : {
       "extractionState" : "manual",
       "localizations" : {
