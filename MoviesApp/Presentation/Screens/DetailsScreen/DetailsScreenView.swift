@@ -12,6 +12,9 @@ import Kingfisher
 struct DetailsScreenView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var detailsScreenViewModel: DetailsScreenViewModel
+    @State var hasToastBeenTriggered: Bool = false
+    @State var productionCompanyName: String = ""
+    @State var productionCompanyOriginCountry: String = ""
     var movieId: Int
     init(movieId: Int) {
         let service = MoviesServiceImpl()
@@ -21,7 +24,7 @@ struct DetailsScreenView: View {
         self.movieId = movieId
     }
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             if detailsScreenViewModel.isLoading {
                 LoaderComponent()
             } else {
@@ -80,6 +83,7 @@ struct DetailsScreenView: View {
                                         .frame(height: 300)
                                 }
                                 
+                                // MARK: - PRODUCTION COMPANIES (TO FINISH)
                                 if !movie.productionCompanies.isEmpty {
                                     SubtitleComponent(text: NSLocalizedString("Production Companies", comment: ""))
                                     ScrollView(.horizontal) {
@@ -87,14 +91,24 @@ struct DetailsScreenView: View {
                                             ForEach(movie.productionCompanies, id: \.self) { productionCompany in
                                                 if let logoPath = productionCompany.logoPath,
                                                    let movieImageURL = URL(string: "https://image.tmdb.org/t/p/w500") {
-                                                    KFImage(movieImageURL.appendingPathComponent(logoPath))
-                                                        .resizable()
-                                                        .frame(width: 100, height: 50)
-                                                        .padding()
-                                                        .background {
-                                                            RoundedRectangle(cornerRadius: 10)
-                                                                .fill(.white)
+                                                    Button(action: {
+                                                        if !hasToastBeenTriggered {
+                                                            productionCompanyName = productionCompany.name
+                                                            productionCompanyOriginCountry = productionCompany.country
+                                                            withAnimation {
+                                                                hasToastBeenTriggered = true
+                                                            }
                                                         }
+                                                    }, label: {
+                                                        KFImage(movieImageURL.appendingPathComponent(logoPath))
+                                                            .resizable()
+                                                            .frame(width: 100, height: 50)
+                                                            .padding()
+                                                            .background {
+                                                                RoundedRectangle(cornerRadius: 10)
+                                                                    .fill(.white)
+                                                            }
+                                                    })
                                                 } else {
                                                     VStack {
                                                         Text(productionCompany.name)
@@ -131,6 +145,17 @@ struct DetailsScreenView: View {
                     .background(.gray900)
                 } // :If let movieDetails
             }
+        
+            // MARK: - TOAST COMPONENT (TO FINISH)
+            RoundedRectangle(cornerRadius: 10)
+                .fill(.black)
+                .overlay {
+                    Text(productionCompanyName)
+                }
+                .frame(height: 50)
+                .padding()
+                .opacity(hasToastBeenTriggered ? 1 : 0)
+            
         } // :ZStack
         .navigationBarBackButtonHidden(true)
         .alert(isPresented: $detailsScreenViewModel.hasErrorTriggered) {
@@ -141,6 +166,14 @@ struct DetailsScreenView: View {
         .onAppear {
             Task {
                 await detailsScreenViewModel.fetchMovieDetails(movieId: movieId)
+            }
+        }
+        // MARK: - TOAST TIMER (TO FINISH)
+        .onChange(of: hasToastBeenTriggered) {
+            Timer.scheduledTimer(withTimeInterval: 3, repeats: false) {_ in
+                withAnimation {
+                    hasToastBeenTriggered = false
+                }
             }
         }
     }
