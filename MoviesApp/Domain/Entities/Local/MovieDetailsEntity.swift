@@ -53,7 +53,7 @@ public struct MovieDetailsEntity: Decodable {
     }
 }
 
-public struct ProductionCompanyEntity: Decodable {
+public struct ProductionCompanyEntity: Decodable, Hashable {
     let name: String
     let logoPath: String?
     let country: String
