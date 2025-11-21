@@ -9,6 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct HighlightMovieComponent: View {
+    @EnvironmentObject var router: Router
     var movie: MovieEntity
     var body: some View {
         ZStack {
@@ -22,14 +23,14 @@ struct HighlightMovieComponent: View {
                     }
                 
                 VStack {
-                    NavigationLink(destination: DetailsScreenView(movieId: movie.id)) {
+                    Button(action: { router.navigateTo(.details(id: movie.id)) },
+                           label: {
                         KFImage(movieImageURL.appendingPathComponent(moviePosterPath))
                             .resizable()
                             .frame(width: 250, height: 350)
                             .padding(.horizontal, 35)
                             .padding(.top, 45)
-                    } // :NavigationLink
-                    
+                    })
                     VStack {
                         Text("Random pick of the day 👍")
                             .foregroundStyle(.white.opacity(0.8))
