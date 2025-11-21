@@ -408,12 +408,12 @@
         }
       }
     },
-    "Production Companies" : {
+    "Production companies" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Compañías Productoras"
+            "value" : "Compañías productoras"
           }
         }
       }
