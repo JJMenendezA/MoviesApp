@@ -106,13 +106,17 @@ struct DetailsScreenView: View {
                                                             .padding()
                                                             .background {
                                                                 RoundedRectangle(cornerRadius: 10)
-                                                                    .fill(.white)
+                                                                    .fill(customLinearGradient(colors: [.black, .white]).opacity(0.5))
                                                             }
                                                     })
                                                 } else {
                                                     VStack {
                                                         Text(productionCompany.name)
+                                                            .minimumScaleFactor(0.2)
+                                                            .multilineTextAlignment(.center)
+                                                            .foregroundStyle(.white)
                                                         Text(productionCompany.country)
+                                                            .foregroundStyle(.white)
                                                             .italic()
                                                     } // :VStack
                                                     .frame(width: 100, height: 50)
@@ -120,7 +124,7 @@ struct DetailsScreenView: View {
                                                     .padding()
                                                     .background {
                                                         RoundedRectangle(cornerRadius: 10)
-                                                            .fill(.white)
+                                                            .fill(customLinearGradient(colors: [.black, .white]).opacity(0.5))
                                                     }
                                                 }
                                             }
