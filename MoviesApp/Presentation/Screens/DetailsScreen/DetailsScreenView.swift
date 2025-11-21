@@ -12,6 +12,9 @@ import Kingfisher
 struct DetailsScreenView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var detailsScreenViewModel: DetailsScreenViewModel
+    @State private var hasToastBeenTriggered: Bool = false
+    @State private var productionCompanyName: String = ""
+    @State private var toastWorkItem: DispatchWorkItem?
     var movieId: Int
     init(movieId: Int) {
         let service = MoviesServiceImpl()
@@ -21,7 +24,7 @@ struct DetailsScreenView: View {
         self.movieId = movieId
     }
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             if detailsScreenViewModel.isLoading {
                 LoaderComponent()
             } else {
@@ -74,10 +77,55 @@ struct DetailsScreenView: View {
                                         .padding(.bottom, 20)
                                 }
                                 
-                                if let movieVideo = movie.movieVideo {
-                                    SubtitleComponent(text: NSLocalizedString("Video reference", comment: ""), maxWidth: 200)
-                                    VideoPlayer(videoURL: movieVideo)
-                                        .frame(height: 300)
+                                // MARK: - PRODUCTION COMPANIES (TO FINISH)
+                                if !movie.productionCompanies.isEmpty {
+                                    SubtitleComponent(text: NSLocalizedString("Production companies", comment: ""))
+                                    ScrollView(.horizontal) {
+                                        LazyHStack {
+                                            ForEach(movie.productionCompanies, id: \.self) { productionCompany in
+                                                if let logoPath = productionCompany.logoPath,
+                                                   let movieImageURL = URL(string: "https://image.tmdb.org/t/p/w500") {
+                                                    Button(action: {
+                                                        if !hasToastBeenTriggered {
+                                                            productionCompanyName = productionCompany.name
+                                                            withAnimation {
+                                                                hasToastBeenTriggered = true
+                                                            }
+                                                        } else {
+                                                            if productionCompanyName != productionCompany.name {
+                                                                productionCompanyName = productionCompany.name
+                                                                scheduleToastDismissal()
+                                                            }
+                                                        }
+                                                    }, label: {
+                                                        KFImage(movieImageURL.appendingPathComponent(logoPath))
+                                                            .resizable()
+                                                            .frame(width: 100, height: 50)
+                                                            .padding()
+                                                            .background {
+                                                                RoundedRectangle(cornerRadius: 10)
+                                                                    .fill(customLinearGradient(colors: [.black, .white]).opacity(0.5))
+                                                            }
+                                                    })
+                                                } else {
+                                                    VStack {
+                                                        Text(productionCompany.name)
+                                                            .minimumScaleFactor(0.2)
+                                                            .multilineTextAlignment(.center)
+                                                            .foregroundStyle(.white)
+                                                    } // :VStack
+                                                    .frame(width: 100, height: 50)
+                                                    .foregroundStyle(.black)
+                                                    .padding()
+                                                    .background {
+                                                        RoundedRectangle(cornerRadius: 10)
+                                                            .fill(customLinearGradient(colors: [.black, .white]).opacity(0.5))
+                                                    }
+                                                }
+                                            }
+                                        } // :HStack
+                                    } // :ScrollView
+                                    .scrollIndicators(.hidden)
                                 }
                                 
                                 if !movie.similarMoviesList.isEmpty {
@@ -96,6 +144,17 @@ struct DetailsScreenView: View {
                     .background(.gray900)
                 } // :If let movieDetails
             }
+            
+            // MARK: - TOAST COMPONENT
+            RoundedRectangle(cornerRadius: 10)
+                .fill(.black)
+                .overlay {
+                    Text(productionCompanyName)
+                }
+                .frame(height: 50)
+                .padding()
+                .opacity(hasToastBeenTriggered ? 1 : 0)
+            
         } // :ZStack
         .navigationBarBackButtonHidden(true)
         .alert(isPresented: $detailsScreenViewModel.hasErrorTriggered) {
@@ -108,6 +167,20 @@ struct DetailsScreenView: View {
                 await detailsScreenViewModel.fetchMovieDetails(movieId: movieId)
             }
         }
+        // MARK: - TOAST TIMER
+        .onChange(of: hasToastBeenTriggered) {
+            if hasToastBeenTriggered {
+                scheduleToastDismissal()
+            }
+        }
+    }
+    func scheduleToastDismissal() {
+        toastWorkItem?.cancel()
+        let work = DispatchWorkItem {
+            withAnimation { hasToastBeenTriggered = false }
+        }
+        toastWorkItem = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: work)
     }
 }
 
