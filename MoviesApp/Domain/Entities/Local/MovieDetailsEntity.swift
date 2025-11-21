@@ -21,7 +21,6 @@ public struct MovieDetailsEntity: Decodable {
     let runtime: Int
     let overview: String
     let similarMoviesList: [MovieEntity]
-    let movieVideo: URL?
     let productionCompanies: [ProductionCompanyEntity]
     
     public init(from movie: MovieDetailsResponse) {
@@ -44,12 +43,6 @@ public struct MovieDetailsEntity: Decodable {
                                     logoPath: productionCompany.logo_path,
                                     country: productionCompany.origin_country)
         })
-        if let firstResult = movie.videos.results.first,
-           let movieVideoURL = URL(string: "https://youtube.com/embed/") {
-            self.movieVideo = movieVideoURL.appendingPathComponent(firstResult.key)
-        } else {
-            movieVideo = nil
-        }
     }
 }
 
