@@ -77,12 +77,6 @@ struct DetailsScreenView: View {
                                         .padding(.bottom, 20)
                                 }
                                 
-                                if let movieVideo = movie.movieVideo {
-                                    SubtitleComponent(text: NSLocalizedString("Video reference", comment: ""), maxWidth: 200)
-                                    VideoPlayer(videoURL: movieVideo)
-                                        .frame(height: 300)
-                                }
-                                
                                 // MARK: - PRODUCTION COMPANIES (TO FINISH)
                                 if !movie.productionCompanies.isEmpty {
                                     SubtitleComponent(text: NSLocalizedString("Production Companies", comment: ""))
