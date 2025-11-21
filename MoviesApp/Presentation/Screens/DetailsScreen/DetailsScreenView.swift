@@ -14,7 +14,7 @@ struct DetailsScreenView: View {
     @StateObject var detailsScreenViewModel: DetailsScreenViewModel
     @State var hasToastBeenTriggered: Bool = false
     @State var productionCompanyName: String = ""
-    @State var productionCompanyOriginCountry: String = ""
+    @State private var toastWorkItem: DispatchWorkItem?
     var movieId: Int
     init(movieId: Int) {
         let service = MoviesServiceImpl()
@@ -88,9 +88,13 @@ struct DetailsScreenView: View {
                                                     Button(action: {
                                                         if !hasToastBeenTriggered {
                                                             productionCompanyName = productionCompany.name
-                                                            productionCompanyOriginCountry = productionCompany.country
                                                             withAnimation {
                                                                 hasToastBeenTriggered = true
+                                                            }
+                                                        } else {
+                                                            if productionCompanyName != productionCompany.name {
+                                                                productionCompanyName = productionCompany.name
+                                                                scheduleToastDismissal()
                                                             }
                                                         }
                                                     }, label: {
@@ -140,8 +144,8 @@ struct DetailsScreenView: View {
                     .background(.gray900)
                 } // :If let movieDetails
             }
-        
-            // MARK: - TOAST COMPONENT (TO FINISH)
+            
+            // MARK: - TOAST COMPONENT
             RoundedRectangle(cornerRadius: 10)
                 .fill(.black)
                 .overlay {
@@ -163,14 +167,20 @@ struct DetailsScreenView: View {
                 await detailsScreenViewModel.fetchMovieDetails(movieId: movieId)
             }
         }
-        // MARK: - TOAST TIMER (TO FINISH)
+        // MARK: - TOAST TIMER
         .onChange(of: hasToastBeenTriggered) {
-            Timer.scheduledTimer(withTimeInterval: 3, repeats: false) {_ in
-                withAnimation {
-                    hasToastBeenTriggered = false
-                }
+            if hasToastBeenTriggered {
+                scheduleToastDismissal()
             }
         }
+    }
+    func scheduleToastDismissal() {
+        toastWorkItem?.cancel()
+        let work = DispatchWorkItem {
+            withAnimation { hasToastBeenTriggered = false }
+        }
+        toastWorkItem = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: work)
     }
 }
 
