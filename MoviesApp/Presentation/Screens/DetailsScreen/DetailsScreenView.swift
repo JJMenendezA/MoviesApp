@@ -12,8 +12,8 @@ import Kingfisher
 struct DetailsScreenView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var detailsScreenViewModel: DetailsScreenViewModel
-    @State var hasToastBeenTriggered: Bool = false
-    @State var productionCompanyName: String = ""
+    @State private var hasToastBeenTriggered: Bool = false
+    @State private var productionCompanyName: String = ""
     @State private var toastWorkItem: DispatchWorkItem?
     var movieId: Int
     init(movieId: Int) {
