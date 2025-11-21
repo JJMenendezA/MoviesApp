@@ -79,7 +79,7 @@ struct DetailsScreenView: View {
                                 
                                 // MARK: - PRODUCTION COMPANIES (TO FINISH)
                                 if !movie.productionCompanies.isEmpty {
-                                    SubtitleComponent(text: NSLocalizedString("Production Companies", comment: ""))
+                                    SubtitleComponent(text: NSLocalizedString("Production companies", comment: ""))
                                     ScrollView(.horizontal) {
                                         LazyHStack {
                                             ForEach(movie.productionCompanies, id: \.self) { productionCompany in
@@ -109,9 +109,6 @@ struct DetailsScreenView: View {
                                                             .minimumScaleFactor(0.2)
                                                             .multilineTextAlignment(.center)
                                                             .foregroundStyle(.white)
-                                                        Text(productionCompany.country)
-                                                            .foregroundStyle(.white)
-                                                            .italic()
                                                     } // :VStack
                                                     .frame(width: 100, height: 50)
                                                     .foregroundStyle(.black)
