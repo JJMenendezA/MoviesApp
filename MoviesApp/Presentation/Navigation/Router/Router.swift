@@ -14,4 +14,8 @@ class Router: ObservableObject {
     func navigateTo(_ route: Routes) {
         path.append(route as Routes)
     }
+    
+    func navigateBackToRoot() {
+        path.removeAll()
+    }
 }
