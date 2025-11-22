@@ -18,6 +18,7 @@ class MainScreenViewModel: ObservableObject {
     @Published var hasErrorBeenTriggered: Bool = false
     
     @Published var isInformationLoading: Bool = true
+    @Published var hasInformationLoaded: Bool = false
     @Published var languagesArray: [String] = []
     @Published var releaseDatesArray: [Date] = []
     @Published var filterParameters: FilterParameters = FilterParameters()
@@ -36,6 +37,12 @@ class MainScreenViewModel: ObservableObject {
                 let randomMovie = randomList.results.randomElement() {
                 self.randomMovie = MovieEntity(from: randomMovie)
             }
+            setMutableMovieDictionary()
+            setDateArray()
+            setLanguageArray()
+            setDefaultDateVariables()
+            isInformationLoading = false
+            hasInformationLoaded = true
         } catch let error as AppError {
             triggerErrorAlert(appError: error)
         } catch {
