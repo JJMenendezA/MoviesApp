@@ -207,11 +207,6 @@ struct MainScreenView: View {
                 Task {
                     try? await Task.sleep(for: .seconds(1.5))
                     await mainScreenViewModel.fetchMovies()
-                    mainScreenViewModel.setMutableMovieDictionary()
-                    mainScreenViewModel.setDateArray()
-                    mainScreenViewModel.setLanguageArray()
-                    mainScreenViewModel.setDefaultDateVariables()
-                    mainScreenViewModel.isInformationLoading = false
                 }
             }
         }
