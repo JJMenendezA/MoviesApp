@@ -180,13 +180,8 @@ struct MainScreenView: View {
             }))
         }
         .onAppear {
-            Task {
-                await mainScreenViewModel.fetchMovies()
-                mainScreenViewModel.setMutableMovieDictionary()
-                mainScreenViewModel.setDateArray()
-                mainScreenViewModel.setLanguageArray()
-                mainScreenViewModel.setDefaultDateVariables()
-                mainScreenViewModel.isInformationLoading = false
+            if !mainScreenViewModel.hasInformationLoaded {
+                Task { await mainScreenViewModel.fetchMovies() }
             }
         }
         .onChange(of: isBottomSheetActive) {
