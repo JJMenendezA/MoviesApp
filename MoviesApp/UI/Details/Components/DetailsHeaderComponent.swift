@@ -1,5 +1,5 @@
 //
-//  DetailsScreenHeaderComponent.swift
+//  DetailsHeaderComponent.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 02/09/25.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct DetailsScreenHeaderComponent: View {
+struct DetailsHeaderComponent: View {
     var title: String
     var action: () -> Void
     var closeAction: (() -> Void)?
@@ -57,5 +57,5 @@ struct DetailsScreenHeaderComponent: View {
 }
 
 #Preview {
-    DetailsScreenHeaderComponent(title: "Example", action: {})
+    DetailsHeaderComponent(title: "Example", action: {})
 }

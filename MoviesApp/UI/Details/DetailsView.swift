@@ -32,7 +32,7 @@ struct DetailsView: View {
                 if let movie = detailsViewModel.movieDetails {
                     VStack(spacing: 0) {
                         // MARK: - HEADER SECTION
-                        DetailsScreenHeaderComponent(title: movie.title,
+                        DetailsHeaderComponent(title: movie.title,
                                                      action: { dismiss() },
                                                      closeAction: router.path.count > 1 ? { router.navigateBackToRoot() } : nil)
                         
