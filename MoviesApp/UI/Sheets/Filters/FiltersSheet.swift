@@ -1,5 +1,5 @@
 //
-//  FiltersSheetView.swift
+//  FiltersSheet.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 04/11/24.
@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct FiltersSheetView: View {
+struct FiltersSheet: View {
     @Binding var isSheetActive: Bool
     @State var language: String = NSLocalizedString("All languages", comment: "")
     @State var startDate: Date = Date()
     @State var endDate: Date = Date()
-    @ObservedObject var mainScreenViewModel: MainViewModel
+    @ObservedObject var mainViewModel: MainViewModel
     var body: some View {
         ZStack {
             VStack {
@@ -45,7 +45,7 @@ struct FiltersSheetView: View {
                         Spacer()
                         
                         Menu(language) {
-                            ForEach(mainScreenViewModel.languagesArray, id: \.self) { optionLanguage in
+                            ForEach(mainViewModel.languagesArray, id: \.self) { optionLanguage in
                                 Button(action: ({ language = optionLanguage })) {
                                     Text(optionLanguage)
                                 }
@@ -62,8 +62,8 @@ struct FiltersSheetView: View {
                     } // :HStack
                     .padding(.vertical)
                     
-                    if let firstElement = mainScreenViewModel.releaseDatesArray.first,
-                       let lastElement = mainScreenViewModel.releaseDatesArray.last {
+                    if let firstElement = mainViewModel.releaseDatesArray.first,
+                       let lastElement = mainViewModel.releaseDatesArray.last {
                         
                         if firstElement <= endDate {
                             HStack {
@@ -108,14 +108,14 @@ struct FiltersSheetView: View {
                 } // :ScrollView
                 
                 HStack {
-                    if mainScreenViewModel.filterParameters.areFiltersApplied {
+                    if mainViewModel.filterParameters.areFiltersApplied {
                         ButtonComponent(text: NSLocalizedString("Clean Filters", comment: ""),
                                         colorGradient: customLinearGradient(colors: [.pink700, .pink900]),
                                         shape: .capsule,
                                         fontWeight: .bold) {
                             withAnimation {
                                 isSheetActive = false
-                                mainScreenViewModel.filterParameters.cleanFilters()
+                                mainViewModel.filterParameters.cleanFilters()
                             }
                         }
                         .padding(.horizontal, 5)
@@ -127,9 +127,9 @@ struct FiltersSheetView: View {
                                     shape: .capsule,
                                     fontWeight: .bold) {
                         withAnimation {
-                            mainScreenViewModel.filterParameters.language = self.language
-                            mainScreenViewModel.filterParameters.startDate = self.startDate
-                            mainScreenViewModel.filterParameters.endDate = self.endDate
+                            mainViewModel.filterParameters.language = self.language
+                            mainViewModel.filterParameters.startDate = self.startDate
+                            mainViewModel.filterParameters.endDate = self.endDate
                             isSheetActive = false
                         }
                     }
@@ -144,14 +144,14 @@ struct FiltersSheetView: View {
             .background(.gray900)
         } // :ZStack
         .onAppear {
-            language = mainScreenViewModel.filterParameters.language
-            endDate = mainScreenViewModel.filterParameters.endDate
-            startDate = mainScreenViewModel.filterParameters.startDate
+            language = mainViewModel.filterParameters.language
+            endDate = mainViewModel.filterParameters.endDate
+            startDate = mainViewModel.filterParameters.startDate
         }
     }
 }
 
 #Preview {
-    FiltersSheetView(isSheetActive: .constant(true),
-                      mainScreenViewModel: MainViewModel(fetchMoviesUseCase: MockFetchMoviesUseCase()))
+    FiltersSheet(isSheetActive: .constant(true),
+                      mainViewModel: MainViewModel(fetchMoviesUseCase: MockFetchMoviesUseCase()))
 }
