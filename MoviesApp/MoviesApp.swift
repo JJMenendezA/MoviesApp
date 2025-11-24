@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct MoviesApp: App {
     @State private var showSplash = true
+    @StateObject private var router: Router = Router()
     var body: some Scene {
         WindowGroup {
             if showSplash {
@@ -20,7 +21,15 @@ struct MoviesApp: App {
                         }
                     }
             } else {
-                MainScreenView()
+                NavigationStack(path: $router.path) {
+                    MainScreenView()
+                        .statusBar(hidden: true)
+                        .navigationDestination(for: Routes.self,
+                                               destination: { route in
+                            destinationViewBuilder(for: route)
+                        })
+                } // :NavigationStack
+                .environmentObject(router)
             }
         }
     }

@@ -11,6 +11,7 @@ import Kingfisher
 
 struct DetailsScreenView: View {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var router: Router
     @StateObject var detailsScreenViewModel: DetailsScreenViewModel
     @State private var hasToastBeenTriggered: Bool = false
     @State private var productionCompanyName: String = ""
@@ -32,7 +33,8 @@ struct DetailsScreenView: View {
                     VStack(spacing: 0) {
                         // MARK: - HEADER SECTION
                         DetailsScreenHeaderComponent(title: movie.title,
-                                                     action: { dismiss() })
+                                                     action: { dismiss() },
+                                                     closeAction: router.path.count > 1 ? { router.navigateBackToRoot() } : nil)
                         
                         ScrollView {
                             LazyVStack {

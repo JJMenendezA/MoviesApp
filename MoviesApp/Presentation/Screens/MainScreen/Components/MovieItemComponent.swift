@@ -9,11 +9,14 @@ import SwiftUI
 import Kingfisher
 
 struct MovieItemComponent: View {
+    @EnvironmentObject var router: Router
     var movie: MovieEntity
     var isUpcoming: Bool = false
     var body: some View {
         // MARK: - Movie Item
-        NavigationLink(destination: DetailsScreenView(movieId: movie.id)) {
+        Button(action: {
+            router.navigateTo(.details(id: movie.id))
+        }, label: {
             ZStack {
                 if let moviePosterPath = movie.posterPath,
                    let movieImageURL = URL(string: "https://image.tmdb.org/t/p/w500") {
@@ -103,9 +106,8 @@ struct MovieItemComponent: View {
                     generator.impactOccurred()
                 }
             )
-        } // :NavigationLink
+        })
     }
-    
 }
 
 #Preview {

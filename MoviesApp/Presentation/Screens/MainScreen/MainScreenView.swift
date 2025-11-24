@@ -42,134 +42,131 @@ struct MainScreenView: View {
         self._mainScreenViewModel = StateObject(wrappedValue: MainScreenViewModel(fetchMoviesUseCase: useCase))
     }
     var body: some View {
-        NavigationView {
-            ZStack(alignment: .top) {
-                if mainScreenViewModel.error == nil && !mainScreenViewModel.mutableMoviesDictionary.isEmpty {
-                    // MARK: - REFRESHER LOADER
-                    if haveMoviesNotBeenFiltered {
-                        VStack {
-                            Image(systemName: "arrowshape.down.fill")
-                                .rotationEffect(.degrees(rotateArrow ? 180 : 0))
-                                .animation(.easeInOut, value: rotateArrow)
-                            Text(refreshText)
-                        }
-                        .foregroundStyle(.white)
-                        .tint(.white)
-                        .offset(y: 75)
-                        .controlSize(.large)
+        ZStack(alignment: .top) {
+            if mainScreenViewModel.error == nil && !mainScreenViewModel.mutableMoviesDictionary.isEmpty {
+                // MARK: - REFRESHER LOADER
+                if haveMoviesNotBeenFiltered {
+                    VStack {
+                        Image(systemName: "arrowshape.down.fill")
+                            .rotationEffect(.degrees(rotateArrow ? 180 : 0))
+                            .animation(.easeInOut, value: rotateArrow)
+                        Text(refreshText)
                     }
-                    
-                    // MARK: - TOP SECTION
-                    MainHeaderComponent(color: backgroundHeaderColor,
-                                        filterAction: { isBottomSheetActive = true },
-                                        switchAction: {},
-                                        submenuAction: {},
-                                        areFiltersApplied: mainScreenViewModel.filterParameters.areFiltersApplied)
-                    
-                    ScrollViewReader { reader in
-                        ScrollView {
-                            LazyVStack(spacing: 0) {
-                                if !isSearchActive && !mainScreenViewModel.filterParameters.areFiltersApplied {
-                                    // MARK: - RANDOM PICK SECTION
-                                    if let randomMovie = mainScreenViewModel.randomMovie {
-                                        HighlightMovieComponent(movie: randomMovie)
-                                    }
-                                    
-                                    // MARK: - ANNOUNCEMENTS SECTION
-                                    LeadAlignedView {
-                                        SubtitleComponent(text: NSLocalizedString("Important announcements", comment: ""),
-                                                          maxWidth: 250)
-                                        .padding(.vertical, 10)
-                                    } // :LeadAlignedView
-                                    AnnouncementsComponent()
-                                }
-                                
-                                // MARK: - SEARCH BAR SECTION
-                                if !mainScreenViewModel.filterParameters.areFiltersApplied {
-                                    SearchBarComponent(textSearch: $searchText, isSearchBarFocused: $isSearchBarActive)
-                                        .padding(.top, isSearchActive ? 75 : 0)
-                                        .id("SearchView")
-                                }
-                                
-                                // MARK: - TOP RATED MOVIES SECTION
-                                if let topRatedList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.topRated.title] {
-                                    if !topRatedList.isEmpty {
-                                        MoviesListTitleComponent(title: "Top rated")
-                                        MoviesListComponent(movies: topRatedList.sorted(by: { $0.voteAverage > $1.voteAverage }))
-                                            .transition(.slide)
-                                    }
-                                }
-                                
-                                // MARK: - NOW PLAYING MOVIES SECTION
-                                if let nowPlayingList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.nowPlaying.title] {
-                                    if !nowPlayingList.isEmpty {
-                                        MoviesListTitleComponent(title: "Now playing")
-                                        MoviesListComponent(movies: nowPlayingList)
-                                            .transition(.slide)
-                                    }
-                                }
-                                
-                                // MARK: - POPULAR MOVIES SECTION
-                                if let popularList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.popular.title] {
-                                    if !popularList.isEmpty {
-                                        MoviesListTitleComponent(title: "Popular")
-                                        MoviesListComponent(movies: popularList)
-                                            .transition(.slide)
-                                    }
-                                }
-                                
-                                // MARK: - UPCOMING MOVIES SECTION
-                                if let upcomingList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.upcoming.title] {
-                                    if !upcomingList.isEmpty {
-                                        MoviesListTitleComponent(title: "Upcoming")
-                                        MoviesListComponent(movies: upcomingList, isUpcoming: true)
-                                            .transition(.slide)
-                                    }
-                                }
-                                
-                                // MARK: - EMPTY RESULTS MESSAGE
-                                if mainScreenViewModel.mutableMoviesDictionary.values.allSatisfy(\.isEmpty) {
-                                    NoMoviesComponent()
-                                        .padding(.vertical, 50)
-                                }
-                            } // :VStack
-                            .padding(.top, mainScreenViewModel.filterParameters.areFiltersApplied ? 75 : 0)
-                            .background(.gray900)
-                        } // :ScrollView
-                        .simultaneousGesture(
-                            DragGesture()
-                                .onChanged { _ in
-                                    if !isUserDragging { isUserDragging = true }
-                                }
-                                .onEnded { _ in
-                                    isUserDragging = false
-                                }
-                        )
-                        .padding(.bottom)
-                        // Scroll Geometry Reader to get the value of the y offset
-                        .onScrollGeometryChange(for: Double.self) { geo in
-                            geo.contentOffset.y
-                        } action: { _, newValue in
-                            yOffset = newValue
-                        }
-                        .onChange(of: isSearchBarActive) {
-                            if isSearchBarActive {
-                                reader.scrollTo("SearchView", anchor: .top)
-                            }
-                        }
-                    } // :ScrollViewReader
+                    .foregroundStyle(.white)
+                    .tint(.white)
+                    .offset(y: 75)
+                    .controlSize(.large)
                 }
                 
-                if mainScreenViewModel.isInformationLoading {
-                    // MARK: - LOADING SCREEN
-                    LoaderComponent()
-                        .zIndex(1)
-                }
-            } // :ZStack
-            .background(.gray900)
-            .ignoresSafeArea()
-        }// :NavigationView
-        .statusBar(hidden: true)
+                // MARK: - TOP SECTION
+                MainHeaderComponent(color: backgroundHeaderColor,
+                                    filterAction: { isBottomSheetActive = true },
+                                    switchAction: {},
+                                    submenuAction: {},
+                                    areFiltersApplied: mainScreenViewModel.filterParameters.areFiltersApplied)
+                
+                ScrollViewReader { reader in
+                    ScrollView {
+                        LazyVStack(spacing: 0) {
+                            if !isSearchActive && !mainScreenViewModel.filterParameters.areFiltersApplied {
+                                // MARK: - RANDOM PICK SECTION
+                                if let randomMovie = mainScreenViewModel.randomMovie {
+                                    HighlightMovieComponent(movie: randomMovie)
+                                }
+                                
+                                // MARK: - ANNOUNCEMENTS SECTION
+                                LeadAlignedView {
+                                    SubtitleComponent(text: NSLocalizedString("Important announcements", comment: ""),
+                                                      maxWidth: 250)
+                                    .padding(.vertical, 10)
+                                } // :LeadAlignedView
+                                AnnouncementsComponent()
+                            }
+                            
+                            // MARK: - SEARCH BAR SECTION
+                            if !mainScreenViewModel.filterParameters.areFiltersApplied {
+                                SearchBarComponent(textSearch: $searchText, isSearchBarFocused: $isSearchBarActive)
+                                    .padding(.top, isSearchActive ? 75 : 0)
+                                    .id("SearchView")
+                            }
+                            
+                            // MARK: - TOP RATED MOVIES SECTION
+                            if let topRatedList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.topRated.title] {
+                                if !topRatedList.isEmpty {
+                                    MoviesListTitleComponent(title: "Top rated")
+                                    MoviesListComponent(movies: topRatedList.sorted(by: { $0.voteAverage > $1.voteAverage }))
+                                        .transition(.slide)
+                                }
+                            }
+                            
+                            // MARK: - NOW PLAYING MOVIES SECTION
+                            if let nowPlayingList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.nowPlaying.title] {
+                                if !nowPlayingList.isEmpty {
+                                    MoviesListTitleComponent(title: "Now playing")
+                                    MoviesListComponent(movies: nowPlayingList)
+                                        .transition(.slide)
+                                }
+                            }
+                            
+                            // MARK: - POPULAR MOVIES SECTION
+                            if let popularList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.popular.title] {
+                                if !popularList.isEmpty {
+                                    MoviesListTitleComponent(title: "Popular")
+                                    MoviesListComponent(movies: popularList)
+                                        .transition(.slide)
+                                }
+                            }
+                            
+                            // MARK: - UPCOMING MOVIES SECTION
+                            if let upcomingList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.upcoming.title] {
+                                if !upcomingList.isEmpty {
+                                    MoviesListTitleComponent(title: "Upcoming")
+                                    MoviesListComponent(movies: upcomingList, isUpcoming: true)
+                                        .transition(.slide)
+                                }
+                            }
+                            
+                            // MARK: - EMPTY RESULTS MESSAGE
+                            if mainScreenViewModel.mutableMoviesDictionary.values.allSatisfy(\.isEmpty) {
+                                NoMoviesComponent()
+                                    .padding(.vertical, 50)
+                            }
+                        } // :VStack
+                        .padding(.top, mainScreenViewModel.filterParameters.areFiltersApplied ? 75 : 0)
+                        .background(.gray900)
+                    } // :ScrollView
+                    .simultaneousGesture(
+                        DragGesture()
+                            .onChanged { _ in
+                                if !isUserDragging { isUserDragging = true }
+                            }
+                            .onEnded { _ in
+                                isUserDragging = false
+                            }
+                    )
+                    .padding(.bottom)
+                    // Scroll Geometry Reader to get the value of the y offset
+                    .onScrollGeometryChange(for: Double.self) { geo in
+                        geo.contentOffset.y
+                    } action: { _, newValue in
+                        yOffset = newValue
+                    }
+                    .onChange(of: isSearchBarActive) {
+                        if isSearchBarActive {
+                            reader.scrollTo("SearchView", anchor: .top)
+                        }
+                    }
+                } // :ScrollViewReader
+            }
+            
+            if mainScreenViewModel.isInformationLoading {
+                // MARK: - LOADING SCREEN
+                LoaderComponent()
+                    .zIndex(1)
+            }
+        } // :ZStack
+        .background(.gray900)
+        .ignoresSafeArea()
         .sheet(isPresented: $isBottomSheetActive) {
             FiltersScreenView(isSheetActive: $isBottomSheetActive, mainScreenViewModel: mainScreenViewModel)
                 .presentationDetents([.height(400)])
@@ -183,13 +180,8 @@ struct MainScreenView: View {
             }))
         }
         .onAppear {
-            Task {
-                await mainScreenViewModel.fetchMovies()
-                mainScreenViewModel.setMutableMovieDictionary()
-                mainScreenViewModel.setDateArray()
-                mainScreenViewModel.setLanguageArray()
-                mainScreenViewModel.setDefaultDateVariables()
-                mainScreenViewModel.isInformationLoading = false
+            if !mainScreenViewModel.hasInformationLoaded {
+                Task { await mainScreenViewModel.fetchMovies() }
             }
         }
         .onChange(of: isBottomSheetActive) {
@@ -215,11 +207,6 @@ struct MainScreenView: View {
                 Task {
                     try? await Task.sleep(for: .seconds(1.5))
                     await mainScreenViewModel.fetchMovies()
-                    mainScreenViewModel.setMutableMovieDictionary()
-                    mainScreenViewModel.setDateArray()
-                    mainScreenViewModel.setLanguageArray()
-                    mainScreenViewModel.setDefaultDateVariables()
-                    mainScreenViewModel.isInformationLoading = false
                 }
             }
         }

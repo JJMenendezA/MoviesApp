@@ -11,17 +11,32 @@ import SwiftUI
 struct DetailsScreenHeaderComponent: View {
     var title: String
     var action: () -> Void
+    var closeAction: (() -> Void)?
     var body: some View {
-        ZStack(alignment: .leading) {
-            Button(action: {
-                action()
-            }, label: {
-                Image(systemName: "arrow.left")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundStyle(.white)
-            })
-            .padding(.leading)
+        ZStack {
+            HStack {
+                Button(action: { action() },
+                       label: {
+                    Image(systemName: "arrow.left")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                })
+                .padding(.leading)
+                
+                Spacer()
+                
+                if let close = closeAction {
+                    Button(action: { close() },
+                           label: {
+                        Image(systemName: "xmark")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+                    })
+                    .padding(.trailing)
+                }
+            } // :HStack
             
             HStack {
                 Spacer()
