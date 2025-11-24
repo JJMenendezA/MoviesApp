@@ -1,5 +1,5 @@
 //
-//  ButtonComponent.swift
+//  SharedButtonComponent.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 06/11/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ButtonComponent<ShapeType: Shape>: View {
+struct SharedButtonComponent<ShapeType: Shape>: View {
     var text: String
     var colorGradient: LinearGradient
     var shape: ShapeType
@@ -33,7 +33,7 @@ struct ButtonComponent<ShapeType: Shape>: View {
 }
 
 #Preview {
-    ButtonComponent(text: "Listo",
+    SharedButtonComponent(text: "Listo",
                     colorGradient: LinearGradient(colors: [.pink700, .pink900],
                                                   startPoint: .bottomLeading,
                                                   endPoint: .topTrailing),

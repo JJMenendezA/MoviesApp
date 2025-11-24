@@ -1,5 +1,5 @@
 //
-//  LeadAlignedView.swift
+//  SharedLeadAlignedComponent.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 16/12/24.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct LeadAlignedView<Content: View>: View {
+struct SharedLeadAlignedComponent<Content: View>: View {
     @ViewBuilder let content: Content
     var body: some View {
         HStack {

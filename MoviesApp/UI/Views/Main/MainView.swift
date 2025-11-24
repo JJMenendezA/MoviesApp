@@ -75,7 +75,7 @@ struct MainView: View {
                                 }
                                 
                                 // MARK: - ANNOUNCEMENTS SECTION
-                                LeadAlignedView {
+                                SharedLeadAlignedComponent {
                                     SubtitleComponent(text: NSLocalizedString("Important announcements", comment: ""),
                                                       maxWidth: 250)
                                     .padding(.vertical, 10)

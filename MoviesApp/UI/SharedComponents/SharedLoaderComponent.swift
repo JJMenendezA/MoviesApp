@@ -1,5 +1,5 @@
 //
-//  LoaderComponent.swift
+//  SharedLoaderComponent.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 04/12/24.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct LoaderComponent: View {
+struct SharedLoaderComponent: View {
     var body: some View {
         ZStack {
             ProgressView {
@@ -32,5 +32,5 @@ struct LoaderComponent: View {
 }
 
 #Preview {
-    LoaderComponent()
+    SharedLoaderComponent()
 }
