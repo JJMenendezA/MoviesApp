@@ -12,6 +12,6 @@ import SwiftUI
 func destinationViewBuilder(for route: Routes) -> some View {
     switch route {
     case .details(let id):
-        DetailsScreenView(movieId: id)
+        DetailsView(movieId: id)
     }
 }

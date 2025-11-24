@@ -1,5 +1,5 @@
 //
-//  DetailsScreenView.swift
+//  DetailsView.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 05/12/24.
@@ -9,7 +9,7 @@
 import SwiftUI
 import Kingfisher
 
-struct DetailsScreenView: View {
+struct DetailsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var router: Router
     @StateObject var detailsScreenViewModel: DetailsScreenViewModel
@@ -187,5 +187,5 @@ struct DetailsScreenView: View {
 }
 
 #Preview {
-    DetailsScreenView(movieId: 11)
+    DetailsView(movieId: 11)
 }
