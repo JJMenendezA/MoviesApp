@@ -15,7 +15,7 @@ struct MainView: View {
     @State private var isBottomSheetActive: Bool = false
     @State private var isUserDragging = false
     @State private var searchText: String = ""
-    @StateObject var mainScreenViewModel: MainViewModel
+    @StateObject var mainViewModel: MainViewModel
     // Computed properties
     private var refreshText: String {
         rotateArrow ? NSLocalizedString("Release to refresh", comment: "") : NSLocalizedString("Pull to refresh", comment: "")
@@ -27,23 +27,23 @@ struct MainView: View {
         yOffset < -130
     }
     private var haveMoviesNotBeenFiltered: Bool {
-        !mainScreenViewModel.filterParameters.areFiltersApplied && !isSearchActive
+        !mainViewModel.filterParameters.areFiltersApplied && !isSearchActive
     }
     private var isUserRefreshingMovies: Bool {
         !isUserDragging && hasScreenDragLimitBeenPassed && haveMoviesNotBeenFiltered
     }
     private var rotateArrow: Bool {
-        hasScreenDragLimitBeenPassed && !mainScreenViewModel.isInformationLoading && haveMoviesNotBeenFiltered
+        hasScreenDragLimitBeenPassed && !mainViewModel.isInformationLoading && haveMoviesNotBeenFiltered
     }
     init() {
         let service: MoviesService = MoviesServiceImpl()
         let repository: MoviesRepository = MoviesRepositoryImpl(moviesService: service)
         let useCase: FetchMoviesUseCase = FetchMoviesUseCaseImpl(repository: repository)
-        self._mainScreenViewModel = StateObject(wrappedValue: MainViewModel(fetchMoviesUseCase: useCase))
+        self._mainViewModel = StateObject(wrappedValue: MainViewModel(fetchMoviesUseCase: useCase))
     }
     var body: some View {
         ZStack(alignment: .top) {
-            if mainScreenViewModel.error == nil && !mainScreenViewModel.mutableMoviesDictionary.isEmpty {
+            if mainViewModel.error == nil && !mainViewModel.mutableMoviesDictionary.isEmpty {
                 // MARK: - REFRESHER LOADER
                 if haveMoviesNotBeenFiltered {
                     VStack {
@@ -63,14 +63,14 @@ struct MainView: View {
                                     filterAction: { isBottomSheetActive = true },
                                     switchAction: {},
                                     submenuAction: {},
-                                    areFiltersApplied: mainScreenViewModel.filterParameters.areFiltersApplied)
+                                    areFiltersApplied: mainViewModel.filterParameters.areFiltersApplied)
                 
                 ScrollViewReader { reader in
                     ScrollView {
                         LazyVStack(spacing: 0) {
-                            if !isSearchActive && !mainScreenViewModel.filterParameters.areFiltersApplied {
+                            if !isSearchActive && !mainViewModel.filterParameters.areFiltersApplied {
                                 // MARK: - RANDOM PICK SECTION
-                                if let randomMovie = mainScreenViewModel.randomMovie {
+                                if let randomMovie = mainViewModel.randomMovie {
                                     HighlightMovieComponent(movie: randomMovie)
                                 }
                                 
@@ -84,14 +84,14 @@ struct MainView: View {
                             }
                             
                             // MARK: - SEARCH BAR SECTION
-                            if !mainScreenViewModel.filterParameters.areFiltersApplied {
+                            if !mainViewModel.filterParameters.areFiltersApplied {
                                 SearchBarComponent(textSearch: $searchText, isSearchBarFocused: $isSearchBarActive)
                                     .padding(.top, isSearchActive ? 75 : 0)
                                     .id("SearchView")
                             }
                             
                             // MARK: - TOP RATED MOVIES SECTION
-                            if let topRatedList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.topRated.title] {
+                            if let topRatedList = mainViewModel.mutableMoviesDictionary[MovieTypes.topRated.title] {
                                 if !topRatedList.isEmpty {
                                     MoviesListTitleComponent(title: "Top rated")
                                     MoviesListComponent(movies: topRatedList.sorted(by: { $0.voteAverage > $1.voteAverage }))
@@ -100,7 +100,7 @@ struct MainView: View {
                             }
                             
                             // MARK: - NOW PLAYING MOVIES SECTION
-                            if let nowPlayingList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.nowPlaying.title] {
+                            if let nowPlayingList = mainViewModel.mutableMoviesDictionary[MovieTypes.nowPlaying.title] {
                                 if !nowPlayingList.isEmpty {
                                     MoviesListTitleComponent(title: "Now playing")
                                     MoviesListComponent(movies: nowPlayingList)
@@ -109,7 +109,7 @@ struct MainView: View {
                             }
                             
                             // MARK: - POPULAR MOVIES SECTION
-                            if let popularList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.popular.title] {
+                            if let popularList = mainViewModel.mutableMoviesDictionary[MovieTypes.popular.title] {
                                 if !popularList.isEmpty {
                                     MoviesListTitleComponent(title: "Popular")
                                     MoviesListComponent(movies: popularList)
@@ -118,7 +118,7 @@ struct MainView: View {
                             }
                             
                             // MARK: - UPCOMING MOVIES SECTION
-                            if let upcomingList = mainScreenViewModel.mutableMoviesDictionary[MovieTypes.upcoming.title] {
+                            if let upcomingList = mainViewModel.mutableMoviesDictionary[MovieTypes.upcoming.title] {
                                 if !upcomingList.isEmpty {
                                     MoviesListTitleComponent(title: "Upcoming")
                                     MoviesListComponent(movies: upcomingList, isUpcoming: true)
@@ -127,12 +127,12 @@ struct MainView: View {
                             }
                             
                             // MARK: - EMPTY RESULTS MESSAGE
-                            if mainScreenViewModel.mutableMoviesDictionary.values.allSatisfy(\.isEmpty) {
+                            if mainViewModel.mutableMoviesDictionary.values.allSatisfy(\.isEmpty) {
                                 NoMoviesComponent()
                                     .padding(.vertical, 50)
                             }
                         } // :VStack
-                        .padding(.top, mainScreenViewModel.filterParameters.areFiltersApplied ? 75 : 0)
+                        .padding(.top, mainViewModel.filterParameters.areFiltersApplied ? 75 : 0)
                         .background(.gray900)
                     } // :ScrollView
                     .simultaneousGesture(
@@ -159,7 +159,7 @@ struct MainView: View {
                 } // :ScrollViewReader
             }
             
-            if mainScreenViewModel.isInformationLoading {
+            if mainViewModel.isInformationLoading {
                 // MARK: - LOADING SCREEN
                 LoaderComponent()
                     .zIndex(1)
@@ -168,33 +168,33 @@ struct MainView: View {
         .background(.gray900)
         .ignoresSafeArea()
         .sheet(isPresented: $isBottomSheetActive) {
-            FiltersSheetView(isSheetActive: $isBottomSheetActive, mainScreenViewModel: mainScreenViewModel)
+            FiltersSheetView(isSheetActive: $isBottomSheetActive, mainScreenViewModel: mainViewModel)
                 .presentationDetents([.height(400)])
         }
-        .alert(isPresented: $mainScreenViewModel.hasErrorBeenTriggered) {
+        .alert(isPresented: $mainViewModel.hasErrorBeenTriggered) {
             Alert(title: Text("Error"),
-                  message: Text(mainScreenViewModel.error?.localizedDescription ?? NSLocalizedString("Something went wrong.", comment: "")),
+                  message: Text(mainViewModel.error?.localizedDescription ?? NSLocalizedString("Something went wrong.", comment: "")),
                   dismissButton: .default(Text("Retry"),
                                           action: {
-                Task { await mainScreenViewModel.fetchMovies() }
+                Task { await mainViewModel.fetchMovies() }
             }))
         }
         .onAppear {
-            if !mainScreenViewModel.hasInformationLoaded {
-                Task { await mainScreenViewModel.fetchMovies() }
+            if !mainViewModel.hasInformationLoaded {
+                Task { await mainViewModel.fetchMovies() }
             }
         }
         .onChange(of: isBottomSheetActive) {
             if !isBottomSheetActive {
                 withAnimation {
-                    mainScreenViewModel.filterMovies()
+                    mainViewModel.filterMovies()
                 }
             }
         }
         .onChange(of: searchText) {
             // Filtering the lists according to the search value
             withAnimation {
-                mainScreenViewModel.searchMoviesByTitle(title: searchText)
+                mainViewModel.searchMoviesByTitle(title: searchText)
             }
         }
         .onChange(of: yOffset) {
@@ -203,10 +203,10 @@ struct MainView: View {
         }
         .onChange(of: isUserDragging) {
             if isUserRefreshingMovies {
-                mainScreenViewModel.isInformationLoading = true
+                mainViewModel.isInformationLoading = true
                 Task {
                     try? await Task.sleep(for: .seconds(1.5))
-                    await mainScreenViewModel.fetchMovies()
+                    await mainViewModel.fetchMovies()
                 }
             }
         }
