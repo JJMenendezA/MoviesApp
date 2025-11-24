@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-struct MovieItemComponent: View {
+struct MainMovieItemComponent: View {
     @EnvironmentObject var router: Router
     var movie: MovieEntity
     var isUpcoming: Bool = false
@@ -111,5 +111,5 @@ struct MovieItemComponent: View {
 }
 
 #Preview {
-    MovieItemComponent(movie: dummyMovieEntity)
+    MainMovieItemComponent(movie: dummyMovieEntity)
 }

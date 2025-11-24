@@ -1,5 +1,5 @@
 //
-//  MoviesListComponent.swift
+//  MainMoviesListComponent.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 01/11/24.
@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct MoviesListComponent: View {
+struct MainMoviesListComponent: View {
     var movies: [MovieEntity]
     var isUpcoming: Bool = false
     var body: some View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 15) {
                 ForEach(movies, id: \.id) { movie in
-                    MovieItemComponent(movie: movie, isUpcoming: isUpcoming)
+                    MainMovieItemComponent(movie: movie, isUpcoming: isUpcoming)
                 }
             } // :HStack
             .padding(.bottom, 20)
@@ -27,5 +27,5 @@ struct MoviesListComponent: View {
 }
 
 #Preview {
-    MoviesListComponent(movies: [dummyMovieEntity, dummyMovieEntity])
+    MainMoviesListComponent(movies: [dummyMovieEntity, dummyMovieEntity])
 }

@@ -1,5 +1,5 @@
 //
-//  SearchBarComponent.swift
+//  MainSearchBarComponent.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 03/11/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SearchBarComponent: View {
+struct MainSearchBarComponent: View {
     @Binding var textSearch: String
     @FocusState private var isFocused: Bool
     @Binding var isSearchBarFocused: Bool
@@ -55,6 +55,6 @@ struct SearchBarComponent: View {
 }
 
 #Preview(traits: .sizeThatFitsLayout) {
-    SearchBarComponent(textSearch: .constant(""), isSearchBarFocused: .constant(true))
+    MainSearchBarComponent(textSearch: .constant(""), isSearchBarFocused: .constant(true))
         .background(.gray900)
 }

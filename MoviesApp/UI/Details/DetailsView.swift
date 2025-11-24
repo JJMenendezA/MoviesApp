@@ -132,7 +132,7 @@ struct DetailsView: View {
                                 
                                 if !movie.similarMoviesList.isEmpty {
                                     SubtitleComponent(text: NSLocalizedString("Similar movies", comment: ""))
-                                    MoviesListComponent(movies: movie.similarMoviesList)
+                                    MainMoviesListComponent(movies: movie.similarMoviesList)
                                 }
                                 
                                 Spacer()

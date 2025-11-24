@@ -1,5 +1,5 @@
 //
-//  NoMoviesComponent.swift
+//  MainNoMoviesComponent.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 04/11/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NoMoviesComponent: View {
+struct MainNoMoviesComponent: View {
     var body: some View {
         VStack(spacing: 10) {
             Text("🤷‍♀️")
@@ -29,5 +29,5 @@ struct NoMoviesComponent: View {
 }
 
 #Preview {
-    NoMoviesComponent()
+    MainNoMoviesComponent()
 }
