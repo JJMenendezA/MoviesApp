@@ -12,7 +12,7 @@ import Kingfisher
 struct DetailsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var router: Router
-    @StateObject var detailsScreenViewModel: DetailsViewModel
+    @StateObject var detailsViewModel: DetailsViewModel
     @State private var hasToastBeenTriggered: Bool = false
     @State private var productionCompanyName: String = ""
     @State private var toastWorkItem: DispatchWorkItem?
@@ -21,15 +21,15 @@ struct DetailsView: View {
         let service = MoviesServiceImpl()
         let repository = MoviesRepositoryImpl(moviesService: service)
         let useCase = FetchMovieDetailsImpl(repository: repository)
-        self._detailsScreenViewModel = StateObject(wrappedValue: DetailsViewModel(fetchMovieDetailsUseCase: useCase))
+        self._detailsViewModel = StateObject(wrappedValue: DetailsViewModel(fetchMovieDetailsUseCase: useCase))
         self.movieId = movieId
     }
     var body: some View {
         ZStack(alignment: .bottom) {
-            if detailsScreenViewModel.isLoading {
+            if detailsViewModel.isLoading {
                 LoaderComponent()
             } else {
-                if let movie = detailsScreenViewModel.movieDetails {
+                if let movie = detailsViewModel.movieDetails {
                     VStack(spacing: 0) {
                         // MARK: - HEADER SECTION
                         DetailsScreenHeaderComponent(title: movie.title,
@@ -159,14 +159,14 @@ struct DetailsView: View {
             
         } // :ZStack
         .navigationBarBackButtonHidden(true)
-        .alert(isPresented: $detailsScreenViewModel.hasErrorTriggered) {
+        .alert(isPresented: $detailsViewModel.hasErrorTriggered) {
             Alert(title: Text("Error"),
-                  message: Text(detailsScreenViewModel.error?.localizedDescription ?? NSLocalizedString("Something went wrong.", comment: "")),
+                  message: Text(detailsViewModel.error?.localizedDescription ?? NSLocalizedString("Something went wrong.", comment: "")),
                   dismissButton: .default(Text("Accept"), action: { dismiss() }))
         }
         .onAppear {
             Task {
-                await detailsScreenViewModel.fetchMovieDetails(movieId: movieId)
+                await detailsViewModel.fetchMovieDetails(movieId: movieId)
             }
         }
         // MARK: - TOAST TIMER
