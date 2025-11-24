@@ -148,14 +148,8 @@ struct DetailsView: View {
             }
             
             // MARK: - TOAST COMPONENT
-            RoundedRectangle(cornerRadius: 10)
-                .fill(.black)
-                .overlay {
-                    Text(productionCompanyName)
-                }
-                .frame(height: 50)
-                .padding()
-                .opacity(hasToastBeenTriggered ? 1 : 0)
+            SharedToastComponent(text: productionCompanyName,
+                                 isToastActive: $hasToastBeenTriggered)
             
         } // :ZStack
         .navigationBarBackButtonHidden(true)
