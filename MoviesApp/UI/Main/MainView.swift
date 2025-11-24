@@ -15,7 +15,7 @@ struct MainView: View {
     @State private var isBottomSheetActive: Bool = false
     @State private var isUserDragging = false
     @State private var searchText: String = ""
-    @StateObject var mainScreenViewModel: MainScreenViewModel
+    @StateObject var mainScreenViewModel: MainViewModel
     // Computed properties
     private var refreshText: String {
         rotateArrow ? NSLocalizedString("Release to refresh", comment: "") : NSLocalizedString("Pull to refresh", comment: "")
@@ -39,7 +39,7 @@ struct MainView: View {
         let service: MoviesService = MoviesServiceImpl()
         let repository: MoviesRepository = MoviesRepositoryImpl(moviesService: service)
         let useCase: FetchMoviesUseCase = FetchMoviesUseCaseImpl(repository: repository)
-        self._mainScreenViewModel = StateObject(wrappedValue: MainScreenViewModel(fetchMoviesUseCase: useCase))
+        self._mainScreenViewModel = StateObject(wrappedValue: MainViewModel(fetchMoviesUseCase: useCase))
     }
     var body: some View {
         ZStack(alignment: .top) {

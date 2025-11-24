@@ -12,7 +12,7 @@ struct FiltersSheetView: View {
     @State var language: String = NSLocalizedString("All languages", comment: "")
     @State var startDate: Date = Date()
     @State var endDate: Date = Date()
-    @ObservedObject var mainScreenViewModel: MainScreenViewModel
+    @ObservedObject var mainScreenViewModel: MainViewModel
     var body: some View {
         ZStack {
             VStack {
@@ -153,5 +153,5 @@ struct FiltersSheetView: View {
 
 #Preview {
     FiltersSheetView(isSheetActive: .constant(true),
-                      mainScreenViewModel: MainScreenViewModel(fetchMoviesUseCase: MockFetchMoviesUseCase()))
+                      mainScreenViewModel: MainViewModel(fetchMoviesUseCase: MockFetchMoviesUseCase()))
 }

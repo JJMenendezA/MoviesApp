@@ -12,7 +12,7 @@ import Kingfisher
 struct DetailsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var router: Router
-    @StateObject var detailsScreenViewModel: DetailsScreenViewModel
+    @StateObject var detailsScreenViewModel: DetailsViewModel
     @State private var hasToastBeenTriggered: Bool = false
     @State private var productionCompanyName: String = ""
     @State private var toastWorkItem: DispatchWorkItem?
@@ -21,7 +21,7 @@ struct DetailsView: View {
         let service = MoviesServiceImpl()
         let repository = MoviesRepositoryImpl(moviesService: service)
         let useCase = FetchMovieDetailsImpl(repository: repository)
-        self._detailsScreenViewModel = StateObject(wrappedValue: DetailsScreenViewModel(fetchMovieDetailsUseCase: useCase))
+        self._detailsScreenViewModel = StateObject(wrappedValue: DetailsViewModel(fetchMovieDetailsUseCase: useCase))
         self.movieId = movieId
     }
     var body: some View {
