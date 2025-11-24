@@ -14,7 +14,7 @@ struct MoviesApp: App {
     var body: some Scene {
         WindowGroup {
             if showSplash {
-                SplashScreenView()
+                SplashView()
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             showSplash = false

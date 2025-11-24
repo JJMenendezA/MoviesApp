@@ -1,5 +1,5 @@
 //
-//  SplashScreenView.swift
+//  SplashView.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 02/12/24.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct SplashScreenView: View {
+struct SplashView: View {
     @State var isAnimated: Bool = false
     var body: some View {
         VStack {
@@ -36,5 +36,5 @@ struct SplashScreenView: View {
 }
 
 #Preview {
-    SplashScreenView()
+    SplashView()
 }
