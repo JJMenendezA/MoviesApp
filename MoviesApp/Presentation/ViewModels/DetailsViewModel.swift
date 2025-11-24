@@ -1,5 +1,5 @@
 //
-//  DetailsScreenViewModel.swift
+//  DetailsViewModel.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 08/12/24.
@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-class DetailsScreenViewModel: ObservableObject {
+class DetailsViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var hasErrorTriggered: Bool = false
     @Published var error: AppError?

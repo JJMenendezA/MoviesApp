@@ -22,7 +22,7 @@ final class DetailsScreenViewModelTests: XCTestCase {
     func test_fetchDetails_successfullyCompletes() async throws {
         // Arrange
         let useCase = MockFetchMovieDetailsUseCase()
-        let sut = DetailsScreenViewModel(fetchMovieDetailsUseCase: useCase)
+        let sut = DetailsViewModel(fetchMovieDetailsUseCase: useCase)
         // Act
         await sut.fetchMovieDetails(movieId: 0)
         XCTAssertFalse(sut.isLoading, "Loading state should be false")
@@ -32,7 +32,7 @@ final class DetailsScreenViewModelTests: XCTestCase {
     func test_fetchDetails_failsWithError() async throws {
         // Arrange
         let useCase = MockFetchMovieDetailsUseCase()
-        let sut = DetailsScreenViewModel(fetchMovieDetailsUseCase: useCase)
+        let sut = DetailsViewModel(fetchMovieDetailsUseCase: useCase)
         useCase.shouldFail = true
         // Act
         await sut.fetchMovieDetails(movieId: 0)
