@@ -22,7 +22,7 @@ final class MainScreenViewModelTests: XCTestCase {
     func test_fetchAllMovies_successfullyCompletes() async throws {
         // Arrange
         let useCase = MockFetchMoviesUseCase()
-        let sut = MainScreenViewModel(fetchMoviesUseCase: useCase)
+        let sut = MainViewModel(fetchMoviesUseCase: useCase)
         // Act
         await sut.fetchMovies()
         XCTAssertFalse(sut.moviesDictionary.isEmpty, "Dictionary shouldn't be empty after fetching")
@@ -31,7 +31,7 @@ final class MainScreenViewModelTests: XCTestCase {
     func test_fetchAllMovies_failsWithError() async throws {
         // Arrange
         let useCase = MockFetchMoviesUseCase()
-        let sut = MainScreenViewModel(fetchMoviesUseCase: useCase)
+        let sut = MainViewModel(fetchMoviesUseCase: useCase)
         useCase.shouldFail = true
         // Act
         XCTAssertTrue(sut.isInformationLoading, "Loading state should be true before fetch completes")
@@ -44,7 +44,7 @@ final class MainScreenViewModelTests: XCTestCase {
     func test_setDateArray_succcessfullyCompletes() async throws {
         // Arrange
         let useCase = MockFetchMoviesUseCase()
-        let sut = MainScreenViewModel(fetchMoviesUseCase: useCase)
+        let sut = MainViewModel(fetchMoviesUseCase: useCase)
         // Act
         await sut.fetchMovies()
         sut.setDateArray()
@@ -54,7 +54,7 @@ final class MainScreenViewModelTests: XCTestCase {
     func test_setDateArray_failsToConclude() async throws {
         // Arrange
         let useCase = MockFetchMoviesUseCase()
-        let sut = MainScreenViewModel(fetchMoviesUseCase: useCase)
+        let sut = MainViewModel(fetchMoviesUseCase: useCase)
         useCase.shouldFail = true
         // Act
         XCTAssertTrue(sut.isInformationLoading, "Loading state should be true before fetch completes")
@@ -66,7 +66,7 @@ final class MainScreenViewModelTests: XCTestCase {
     func test_setLanguageArray_successfullyCompletes() async throws {
         // Arrange
         let useCase = MockFetchMoviesUseCase()
-        let sut = MainScreenViewModel(fetchMoviesUseCase: useCase)
+        let sut = MainViewModel(fetchMoviesUseCase: useCase)
         // Act
         await sut.fetchMovies()
         sut.setLanguageArray()
@@ -76,7 +76,7 @@ final class MainScreenViewModelTests: XCTestCase {
     func test_setLanguageArray_failsToConclude() async throws {
         // Arrange
         let useCase = MockFetchMoviesUseCase()
-        let sut = MainScreenViewModel(fetchMoviesUseCase: useCase)
+        let sut = MainViewModel(fetchMoviesUseCase: useCase)
         useCase.shouldFail = true
         // Act
         await sut.fetchMovies()

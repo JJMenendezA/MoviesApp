@@ -1,5 +1,5 @@
 //
-//  MainScreenViewModel.swift
+//  MainViewModel.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 18/11/24.
@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-class MainScreenViewModel: ObservableObject {
+class MainViewModel: ObservableObject {
     var moviesDictionary: [String: MoviesResponse] = [:]
     @Published var mutableMoviesDictionary: [String: [MovieEntity]] = [:]
     var randomMovie: MovieEntity?
