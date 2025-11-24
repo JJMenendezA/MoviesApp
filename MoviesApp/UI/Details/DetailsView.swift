@@ -79,7 +79,7 @@ struct DetailsView: View {
                                         .padding(.bottom, 20)
                                 }
                                 
-                                // MARK: - PRODUCTION COMPANIES (TO FINISH)
+                                // MARK: - PRODUCTION COMPANIES
                                 if !movie.productionCompanies.isEmpty {
                                     SubtitleComponent(text: NSLocalizedString("Production companies", comment: ""))
                                     ScrollView(.horizontal) {
