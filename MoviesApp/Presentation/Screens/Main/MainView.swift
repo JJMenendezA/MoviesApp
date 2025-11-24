@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-struct MainScreenView: View {
+struct MainView: View {
     @State private var isSearchBarActive: Bool = false
     @State private var yOffset: Double = 0.0
     @State private var backgroundHeaderColor: Color = .black.opacity(0.0)
@@ -214,5 +214,5 @@ struct MainScreenView: View {
 }
 
 #Preview {
-    MainScreenView()
+    MainView()
 }

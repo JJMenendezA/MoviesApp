@@ -22,7 +22,7 @@ struct MoviesApp: App {
                     }
             } else {
                 NavigationStack(path: $router.path) {
-                    MainScreenView()
+                    MainView()
                         .statusBar(hidden: true)
                         .navigationDestination(for: Routes.self,
                                                destination: { route in
