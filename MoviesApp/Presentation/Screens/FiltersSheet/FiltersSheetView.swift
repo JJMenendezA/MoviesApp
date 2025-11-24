@@ -1,5 +1,5 @@
 //
-//  FiltersScreenView.swift
+//  FiltersSheetView.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 04/11/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FiltersScreenView: View {
+struct FiltersSheetView: View {
     @Binding var isSheetActive: Bool
     @State var language: String = NSLocalizedString("All languages", comment: "")
     @State var startDate: Date = Date()
@@ -152,6 +152,6 @@ struct FiltersScreenView: View {
 }
 
 #Preview {
-    FiltersScreenView(isSheetActive: .constant(true),
+    FiltersSheetView(isSheetActive: .constant(true),
                       mainScreenViewModel: MainScreenViewModel(fetchMoviesUseCase: MockFetchMoviesUseCase()))
 }
