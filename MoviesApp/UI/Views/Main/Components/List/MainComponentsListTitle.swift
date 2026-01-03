@@ -11,8 +11,8 @@ import SwiftUI
 struct MainComponentsListTitle: View {
     var title: String
     var body: some View {
-        SharedLeadAlignedComponent {
-            SharedSubtitleComponent(text: NSLocalizedString(title, comment: ""))
+        SharedComponentsLeadAligned {
+            SharedComponentsSubtitle(text: NSLocalizedString(title, comment: ""))
         } // :LeadAlignedView
     }
 }

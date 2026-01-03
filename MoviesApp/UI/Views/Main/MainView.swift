@@ -75,8 +75,8 @@ struct MainView: View {
                                 }
                                 
                                 // MARK: - ANNOUNCEMENTS SECTION
-                                SharedLeadAlignedComponent {
-                                    SharedSubtitleComponent(text: NSLocalizedString("Important announcements", comment: ""),
+                                SharedComponentsLeadAligned {
+                                    SharedComponentsSubtitle(text: NSLocalizedString("Important announcements", comment: ""),
                                                       maxWidth: 250)
                                     .padding(.vertical, 10)
                                 } // :LeadAlignedView
@@ -161,7 +161,7 @@ struct MainView: View {
             
             if mainViewModel.isInformationLoading {
                 // MARK: - LOADING SCREEN
-                SharedLoaderComponent()
+                SharedComponentsLoader()
                     .zIndex(1)
             }
         } // :ZStack

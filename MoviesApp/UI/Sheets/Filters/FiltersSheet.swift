@@ -36,7 +36,7 @@ struct FiltersSheet: View {
                 
                 ScrollView {
                     HStack {
-                        SharedLeadAlignedComponent {
+                        SharedComponentsLeadAligned {
                             Text("Language:")
                                 .fontWeight(.light)
                                 .font(.callout)
@@ -67,7 +67,7 @@ struct FiltersSheet: View {
                         
                         if firstElement <= endDate {
                             HStack {
-                                SharedLeadAlignedComponent {
+                                SharedComponentsLeadAligned {
                                     Text("Starting release date:")
                                         .fontWeight(.light)
                                         .font(.callout)
@@ -87,7 +87,7 @@ struct FiltersSheet: View {
                         
                         if startDate <= lastElement {
                             HStack {
-                                SharedLeadAlignedComponent {
+                                SharedComponentsLeadAligned {
                                     Text("End release date:")
                                         .fontWeight(.light)
                                         .font(.callout)
@@ -109,7 +109,7 @@ struct FiltersSheet: View {
                 
                 HStack {
                     if mainViewModel.filterParameters.areFiltersApplied {
-                        SharedButtonComponent(text: NSLocalizedString("Clean Filters", comment: ""),
+                        SharedComponentsButton(text: NSLocalizedString("Clean Filters", comment: ""),
                                         colorGradient: customLinearGradient(colors: [.pink700, .pink900]),
                                         shape: .capsule,
                                         fontWeight: .bold) {
@@ -122,7 +122,7 @@ struct FiltersSheet: View {
                         
                     }
                     
-                    SharedButtonComponent(text: NSLocalizedString("Ready", comment: ""),
+                    SharedComponentsButton(text: NSLocalizedString("Ready", comment: ""),
                                     colorGradient: customLinearGradient(colors: [.purple700, .purple900]),
                                     shape: .capsule,
                                     fontWeight: .bold) {

@@ -27,7 +27,7 @@ struct DetailsView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             if detailsViewModel.isLoading {
-                SharedLoaderComponent()
+                SharedComponentsLoader()
             } else {
                 if let movie = detailsViewModel.movieDetails {
                     VStack(spacing: 0) {
@@ -48,7 +48,7 @@ struct DetailsView: View {
                                                          NSLocalizedString("No date available.", comment: "") : movie.releaseDate)
                                     
                                     VStack {
-                                        SharedSubtitleComponent(text: NSLocalizedString("Vote average", comment: ""))
+                                        SharedComponentsSubtitle(text: NSLocalizedString("Vote average", comment: ""))
                                         // MARK: - STAR SECTION
                                         DetailsComponentsStars(stars: movie.stars, hasHalfStar: movie.hasHalfStar)
                                     } // :VStack
@@ -72,7 +72,7 @@ struct DetailsView: View {
                                 })
                                 
                                 if !movie.overview.isEmpty {
-                                    SharedSubtitleComponent(text: NSLocalizedString("Overview", comment: ""))
+                                    SharedComponentsSubtitle(text: NSLocalizedString("Overview", comment: ""))
                                     Text(movie.overview)
                                         .foregroundStyle(.white)
                                         .multilineTextAlignment(.center)
@@ -81,7 +81,7 @@ struct DetailsView: View {
                                 
                                 // MARK: - PRODUCTION COMPANIES
                                 if !movie.productionCompanies.isEmpty {
-                                    SharedSubtitleComponent(text: NSLocalizedString("Production companies", comment: ""))
+                                    SharedComponentsSubtitle(text: NSLocalizedString("Production companies", comment: ""))
                                     ScrollView(.horizontal) {
                                         LazyHStack {
                                             ForEach(movie.productionCompanies, id: \.self) { productionCompany in
@@ -131,7 +131,7 @@ struct DetailsView: View {
                                 }
                                 
                                 if !movie.similarMoviesList.isEmpty {
-                                    SharedSubtitleComponent(text: NSLocalizedString("Similar movies", comment: ""))
+                                    SharedComponentsSubtitle(text: NSLocalizedString("Similar movies", comment: ""))
                                     MainComponentsList(movies: movie.similarMoviesList)
                                 }
                                 
@@ -148,7 +148,7 @@ struct DetailsView: View {
             }
             
             // MARK: - TOAST COMPONENT
-            SharedToastComponent(text: productionCompanyName,
+            SharedComponentsToast(text: productionCompanyName,
                                  isToastActive: $hasToastBeenTriggered)
             
         } // :ZStack

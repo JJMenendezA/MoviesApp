@@ -1,5 +1,5 @@
 //
-//  SharedToastComponent.swift
+//  SharedComponentsToast.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 24/11/25.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct SharedToastComponent: View {
+struct SharedComponentsToast: View {
     var text: String
     @Binding var isToastActive: Bool
     init(text: String,
@@ -29,5 +29,5 @@ struct SharedToastComponent: View {
 }
 
 #Preview {
-    SharedToastComponent(text: "Test", isToastActive: .constant(true))
+    SharedComponentsToast(text: "Test", isToastActive: .constant(true))
 }
