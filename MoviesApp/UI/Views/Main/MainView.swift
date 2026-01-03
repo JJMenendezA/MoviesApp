@@ -93,8 +93,8 @@ struct MainView: View {
                             // MARK: - TOP RATED MOVIES SECTION
                             if let topRatedList = mainViewModel.mutableMoviesDictionary[MovieTypes.topRated.title] {
                                 if !topRatedList.isEmpty {
-                                    MainComponentsListTitle(title: "Top rated")
-                                    MainComponentsList(movies: topRatedList.sorted(by: { $0.voteAverage > $1.voteAverage }))
+                                    SharedComponentsListTitle(title: "Top rated")
+                                    SharedComponentsList(movies: topRatedList.sorted(by: { $0.voteAverage > $1.voteAverage }))
                                         .transition(.slide)
                                 }
                             }
@@ -102,8 +102,8 @@ struct MainView: View {
                             // MARK: - NOW PLAYING MOVIES SECTION
                             if let nowPlayingList = mainViewModel.mutableMoviesDictionary[MovieTypes.nowPlaying.title] {
                                 if !nowPlayingList.isEmpty {
-                                    MainComponentsListTitle(title: "Now playing")
-                                    MainComponentsList(movies: nowPlayingList)
+                                    SharedComponentsListTitle(title: "Now playing")
+                                    SharedComponentsList(movies: nowPlayingList)
                                         .transition(.slide)
                                 }
                             }
@@ -111,8 +111,8 @@ struct MainView: View {
                             // MARK: - POPULAR MOVIES SECTION
                             if let popularList = mainViewModel.mutableMoviesDictionary[MovieTypes.popular.title] {
                                 if !popularList.isEmpty {
-                                    MainComponentsListTitle(title: "Popular")
-                                    MainComponentsList(movies: popularList)
+                                    SharedComponentsListTitle(title: "Popular")
+                                    SharedComponentsList(movies: popularList)
                                         .transition(.slide)
                                 }
                             }
@@ -120,8 +120,8 @@ struct MainView: View {
                             // MARK: - UPCOMING MOVIES SECTION
                             if let upcomingList = mainViewModel.mutableMoviesDictionary[MovieTypes.upcoming.title] {
                                 if !upcomingList.isEmpty {
-                                    MainComponentsListTitle(title: "Upcoming")
-                                    MainComponentsList(movies: upcomingList, isUpcoming: true)
+                                    SharedComponentsListTitle(title: "Upcoming")
+                                    SharedComponentsList(movies: upcomingList, isUpcoming: true)
                                         .transition(.slide)
                                 }
                             }
