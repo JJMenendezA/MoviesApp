@@ -9,7 +9,7 @@
 import SwiftUI
 import Kingfisher
 
-struct DetailsImageAndTaglineComponent: View {
+struct DetailsComponentsImageAndTagline: View {
     var arrayImagePaths: [String?]
     var txtTagline: String
     @State private var imageXScale: CGFloat = 1
@@ -102,5 +102,5 @@ struct DetailsImageAndTaglineComponent: View {
 }
 
 #Preview {
-    DetailsImageAndTaglineComponent(arrayImagePaths: ["/63xYQj1BwRFielxsBDXvHIJyXVm.jpg", "/18TSJF1WLA4CkymvVUcKDBwUJ9F.jpg"], txtTagline: "Example")
+    DetailsComponentsImageAndTagline(arrayImagePaths: ["/63xYQj1BwRFielxsBDXvHIJyXVm.jpg", "/18TSJF1WLA4CkymvVUcKDBwUJ9F.jpg"], txtTagline: "Example")
 }

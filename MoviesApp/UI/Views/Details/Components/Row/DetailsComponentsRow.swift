@@ -1,5 +1,5 @@
 //
-//  DetailsRowComponent.swift
+//  DetailsComponentsRow.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 02/09/25.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct DetailsRowComponent<Content: View>: View {
+struct DetailsComponentsRow<Content: View>: View {
     @ViewBuilder let content: Content
     var body: some View {
         HStack(alignment: .center) {

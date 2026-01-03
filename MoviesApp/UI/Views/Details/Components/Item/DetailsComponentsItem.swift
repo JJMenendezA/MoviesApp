@@ -1,5 +1,5 @@
 //
-//  DetailsItemComponent.swift
+//  DetailsComponentsItem.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 02/09/25.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct DetailsItemComponent: View {
+struct DetailsComponentsItem: View {
     var title: String
     var caption: String
     var body: some View {
@@ -28,5 +28,5 @@ struct DetailsItemComponent: View {
 }
 
 #Preview {
-    DetailsItemComponent(title: "Genre", caption: "Horror")
+    DetailsComponentsItem(title: "Genre", caption: "Horror")
 }

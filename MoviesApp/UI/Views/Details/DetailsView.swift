@@ -32,40 +32,40 @@ struct DetailsView: View {
                 if let movie = detailsViewModel.movieDetails {
                     VStack(spacing: 0) {
                         // MARK: - HEADER SECTION
-                        DetailsHeaderComponent(title: movie.title,
+                        DetailsComponentsHeader(title: movie.title,
                                                      action: { dismiss() },
                                                      closeAction: router.path.count > 1 ? { router.navigateBackToRoot() } : nil)
                         
                         ScrollView {
                             LazyVStack {
                                 // MARK: - IMAGE AND TAGLINE SECTION
-                                DetailsImageAndTaglineComponent(arrayImagePaths: [movie.moviePoster, movie.alternativeImage],
+                                DetailsComponentsImageAndTagline(arrayImagePaths: [movie.moviePoster, movie.alternativeImage],
                                                                 txtTagline: movie.tagline)
                                 
-                                DetailsRowComponent(content: {
-                                    DetailsItemComponent(title: NSLocalizedString("Release date", comment: ""),
+                                DetailsComponentsRow(content: {
+                                    DetailsComponentsItem(title: NSLocalizedString("Release date", comment: ""),
                                                          caption: movie.releaseDate.isEmpty ?
                                                          NSLocalizedString("No date available.", comment: "") : movie.releaseDate)
                                     
                                     VStack {
                                         SharedSubtitleComponent(text: NSLocalizedString("Vote average", comment: ""))
                                         // MARK: - STAR SECTION
-                                        DetailsStarsComponent(stars: movie.stars, hasHalfStar: movie.hasHalfStar)
+                                        DetailsComponentsStars(stars: movie.stars, hasHalfStar: movie.hasHalfStar)
                                     } // :VStack
                                     .frame(width: 150)
                                 })
                                 
-                                DetailsRowComponent(content: {
-                                    DetailsItemComponent(title: NSLocalizedString("Language", comment: ""),
+                                DetailsComponentsRow(content: {
+                                    DetailsComponentsItem(title: NSLocalizedString("Language", comment: ""),
                                                          caption: movie.language.capitalized)
-                                    DetailsItemComponent(title: NSLocalizedString("Original title", comment: ""),
+                                    DetailsComponentsItem(title: NSLocalizedString("Original title", comment: ""),
                                                          caption: movie.title)
                                 })
                                 
-                                DetailsRowComponent(content: {
-                                    DetailsItemComponent(title: NSLocalizedString("Genres", comment: ""),
+                                DetailsComponentsRow(content: {
+                                    DetailsComponentsItem(title: NSLocalizedString("Genres", comment: ""),
                                                          caption: movie.genreList)
-                                    DetailsItemComponent(title: NSLocalizedString("Run time", comment: ""),
+                                    DetailsComponentsItem(title: NSLocalizedString("Run time", comment: ""),
                                                          caption: movie.runtime == 0 ?
                                                          NSLocalizedString("No run time available.", comment: "") :
                                                             String(movie.runtime) + " " + NSLocalizedString("minutes", comment: ""))

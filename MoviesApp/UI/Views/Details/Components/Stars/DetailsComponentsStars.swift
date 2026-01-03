@@ -1,5 +1,5 @@
 //
-//  DetailsStarsComponent.swift
+//  DetailsComponentsStars.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 02/09/25.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct DetailsStarsComponent: View {
+struct DetailsComponentsStars: View {
     var stars: Int
     var hasHalfStar: Bool
     var body: some View {
@@ -44,5 +44,5 @@ struct DetailsStarsComponent: View {
 }
 
 #Preview {
-    DetailsStarsComponent(stars: 2, hasHalfStar: true)
+    DetailsComponentsStars(stars: 2, hasHalfStar: true)
 }
