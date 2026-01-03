@@ -80,7 +80,7 @@ struct MainView: View {
                                                       maxWidth: 250)
                                     .padding(.vertical, 10)
                                 } // :LeadAlignedView
-                                MainAnnouncementsComponent()
+                                MainCarouselComponent()
                             }
                             
                             // MARK: - SEARCH BAR SECTION

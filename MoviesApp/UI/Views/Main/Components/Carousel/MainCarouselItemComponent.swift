@@ -1,5 +1,5 @@
 //
-//  MainAnnouncementItemComponent.swift
+//  MainCarouselItemComponent.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 31/10/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-struct MainAnnouncementItemComponent: View {
+struct MainCarouselItemComponent: View {
     var image: String
     var body: some View {
         KFImage(URL(string: image))
@@ -20,5 +20,5 @@ struct MainAnnouncementItemComponent: View {
 }
 
 #Preview {
-    MainAnnouncementItemComponent(image: "")
+    MainCarouselItemComponent(image: "")
 }
