@@ -1,5 +1,5 @@
 //
-//  MainMoviesListTitleComponent.swift
+//  MainComponentsListTitle.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 11/09/25.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MainMoviesListTitleComponent: View {
+struct MainComponentsListTitle: View {
     var title: String
     var body: some View {
         SharedLeadAlignedComponent {
@@ -18,5 +18,5 @@ struct MainMoviesListTitleComponent: View {
 }
 
 #Preview {
-    MainMoviesListTitleComponent(title: "Now playing")
+    MainComponentsListTitle(title: "Now playing")
 }

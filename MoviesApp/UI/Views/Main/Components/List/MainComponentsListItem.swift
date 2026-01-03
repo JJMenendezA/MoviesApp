@@ -1,5 +1,5 @@
 //
-//  MovieItem.swift
+//  MainComponentsListItem.swift
 //  Movies App
 //
 //  Created by Juan José Menéndez Alarcón on 27/10/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-struct MainMovieItemComponent: View {
+struct MainComponentsListItem: View {
     @EnvironmentObject var router: Router
     var movie: MovieEntity
     var isUpcoming: Bool = false
@@ -111,5 +111,5 @@ struct MainMovieItemComponent: View {
 }
 
 #Preview {
-    MainMovieItemComponent(movie: dummyMovieEntity)
+    MainComponentsListItem(movie: dummyMovieEntity)
 }

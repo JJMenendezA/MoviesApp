@@ -59,7 +59,7 @@ struct MainView: View {
                 }
                 
                 // MARK: - TOP SECTION
-                MainHeaderComponent(color: backgroundHeaderColor,
+                MainComponentsHeader(color: backgroundHeaderColor,
                                     filterAction: { isBottomSheetActive = true },
                                     switchAction: {},
                                     submenuAction: {},
@@ -71,7 +71,7 @@ struct MainView: View {
                             if !isSearchActive && !mainViewModel.filterParameters.areFiltersApplied {
                                 // MARK: - RANDOM PICK SECTION
                                 if let randomMovie = mainViewModel.randomMovie {
-                                    MainHighlightMovieComponent(movie: randomMovie)
+                                    MainComponentsHighlight(movie: randomMovie)
                                 }
                                 
                                 // MARK: - ANNOUNCEMENTS SECTION
@@ -80,12 +80,12 @@ struct MainView: View {
                                                       maxWidth: 250)
                                     .padding(.vertical, 10)
                                 } // :LeadAlignedView
-                                MainCarouselComponent()
+                                MainComponentsCarousel()
                             }
                             
                             // MARK: - SEARCH BAR SECTION
                             if !mainViewModel.filterParameters.areFiltersApplied {
-                                MainSearchBarComponent(textSearch: $searchText, isSearchBarFocused: $isSearchBarActive)
+                                MainComponentsSearchBar(textSearch: $searchText, isSearchBarFocused: $isSearchBarActive)
                                     .padding(.top, isSearchActive ? 75 : 0)
                                     .id("SearchView")
                             }
@@ -93,8 +93,8 @@ struct MainView: View {
                             // MARK: - TOP RATED MOVIES SECTION
                             if let topRatedList = mainViewModel.mutableMoviesDictionary[MovieTypes.topRated.title] {
                                 if !topRatedList.isEmpty {
-                                    MainMoviesListTitleComponent(title: "Top rated")
-                                    MainMoviesListComponent(movies: topRatedList.sorted(by: { $0.voteAverage > $1.voteAverage }))
+                                    MainComponentsListTitle(title: "Top rated")
+                                    MainComponentsList(movies: topRatedList.sorted(by: { $0.voteAverage > $1.voteAverage }))
                                         .transition(.slide)
                                 }
                             }
@@ -102,8 +102,8 @@ struct MainView: View {
                             // MARK: - NOW PLAYING MOVIES SECTION
                             if let nowPlayingList = mainViewModel.mutableMoviesDictionary[MovieTypes.nowPlaying.title] {
                                 if !nowPlayingList.isEmpty {
-                                    MainMoviesListTitleComponent(title: "Now playing")
-                                    MainMoviesListComponent(movies: nowPlayingList)
+                                    MainComponentsListTitle(title: "Now playing")
+                                    MainComponentsList(movies: nowPlayingList)
                                         .transition(.slide)
                                 }
                             }
@@ -111,8 +111,8 @@ struct MainView: View {
                             // MARK: - POPULAR MOVIES SECTION
                             if let popularList = mainViewModel.mutableMoviesDictionary[MovieTypes.popular.title] {
                                 if !popularList.isEmpty {
-                                    MainMoviesListTitleComponent(title: "Popular")
-                                    MainMoviesListComponent(movies: popularList)
+                                    MainComponentsListTitle(title: "Popular")
+                                    MainComponentsList(movies: popularList)
                                         .transition(.slide)
                                 }
                             }
@@ -120,15 +120,15 @@ struct MainView: View {
                             // MARK: - UPCOMING MOVIES SECTION
                             if let upcomingList = mainViewModel.mutableMoviesDictionary[MovieTypes.upcoming.title] {
                                 if !upcomingList.isEmpty {
-                                    MainMoviesListTitleComponent(title: "Upcoming")
-                                    MainMoviesListComponent(movies: upcomingList, isUpcoming: true)
+                                    MainComponentsListTitle(title: "Upcoming")
+                                    MainComponentsList(movies: upcomingList, isUpcoming: true)
                                         .transition(.slide)
                                 }
                             }
                             
                             // MARK: - EMPTY RESULTS MESSAGE
                             if mainViewModel.mutableMoviesDictionary.values.allSatisfy(\.isEmpty) {
-                                MainNoMoviesComponent()
+                                MainComponentsNoMovies()
                                     .padding(.vertical, 50)
                             }
                         } // :VStack

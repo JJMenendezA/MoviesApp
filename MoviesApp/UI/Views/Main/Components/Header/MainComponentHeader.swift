@@ -1,5 +1,5 @@
 //
-//  MainHeader.swift
+//  MainComponentsHeader.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 31/10/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MainHeaderComponent: View {
+struct MainComponentsHeader: View {
     var color: Color = .clear
     var filterAction: () -> Void
     var switchAction: () -> Void
@@ -58,6 +58,6 @@ struct MainHeaderComponent: View {
 }
 
 #Preview {
-    MainHeaderComponent(filterAction: {}, switchAction: {}, submenuAction: {}, areFiltersApplied: false)
+    MainComponentsHeader(filterAction: {}, switchAction: {}, submenuAction: {}, areFiltersApplied: false)
         .background(.black)
 }

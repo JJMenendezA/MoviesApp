@@ -1,5 +1,5 @@
 //
-//  MainHighlightMovieComponent.swift
+//  MainComponentsHighlight.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 31/10/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-struct MainHighlightMovieComponent: View {
+struct MainComponentsHighlight: View {
     @EnvironmentObject var router: Router
     var movie: MovieEntity
     var body: some View {
