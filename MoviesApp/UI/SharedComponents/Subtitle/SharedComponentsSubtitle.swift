@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SharedComponentsSubtitle: View {
-    var text: String
+    var text: LocalizedStringResource
     var maxWidth: CGFloat = 150
     var body: some View {
         Text(text)

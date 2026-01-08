@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FiltersSheet: View {
     @Binding var isSheetActive: Bool
-    @State var language: String = NSLocalizedString("All languages", comment: "")
+    @State var language: LocalizedStringResource = "All languages"
     @State var startDate: Date = Date()
     @State var endDate: Date = Date()
     @ObservedObject var mainViewModel: MainViewModel
@@ -46,10 +46,10 @@ struct FiltersSheet: View {
                         
                         Menu(language) {
                             ForEach(mainViewModel.languagesArray, id: \.self) { optionLanguage in
-                                Button(action: ({ language = optionLanguage })) {
+                                Button(action: ({ language = LocalizedStringResource(String.LocalizationValue(optionLanguage)) })) {
                                     HStack {
                                         Text(optionLanguage)
-                                        if language == optionLanguage {
+                                        if language == LocalizedStringResource(String.LocalizationValue(optionLanguage)) {
                                             Image(systemName: "checkmark")
                                         }
                                     } // :HStack
@@ -114,7 +114,7 @@ struct FiltersSheet: View {
                 
                 HStack {
                     if mainViewModel.filterParameters.areFiltersApplied {
-                        SharedComponentsButton(text: NSLocalizedString("Clean Filters", comment: ""),
+                        SharedComponentsButton(text: "Clean Filters",
                                         colorGradient: customLinearGradient(colors: [.pink700, .pink900]),
                                         shape: .capsule,
                                         fontWeight: .bold) {
@@ -127,7 +127,7 @@ struct FiltersSheet: View {
                         
                     }
                     
-                    SharedComponentsButton(text: NSLocalizedString("Ready", comment: ""),
+                    SharedComponentsButton(text: "Ready",
                                     colorGradient: customLinearGradient(colors: [.purple700, .purple900]),
                                     shape: .capsule,
                                     fontWeight: .bold) {

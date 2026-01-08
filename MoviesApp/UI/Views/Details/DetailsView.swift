@@ -43,12 +43,12 @@ struct DetailsView: View {
                                                                 txtTagline: movie.tagline)
                                 
                                 DetailsComponentsRow(content: {
-                                    DetailsComponentsItem(title: NSLocalizedString("Release date", comment: ""),
+                                    DetailsComponentsItem(title: "Release date",
                                                          caption: movie.releaseDate.isEmpty ?
-                                                         NSLocalizedString("No date available.", comment: "") : movie.releaseDate)
+                                                          "No date available." : LocalizedStringResource(stringLiteral: movie.releaseDate))
                                     
                                     VStack {
-                                        SharedComponentsSubtitle(text: NSLocalizedString("Vote average", comment: ""))
+                                        SharedComponentsSubtitle(text: "Vote average")
                                         // MARK: - STAR SECTION
                                         DetailsComponentsStars(stars: movie.stars, hasHalfStar: movie.hasHalfStar)
                                     } // :VStack
@@ -56,23 +56,23 @@ struct DetailsView: View {
                                 })
                                 
                                 DetailsComponentsRow(content: {
-                                    DetailsComponentsItem(title: NSLocalizedString("Language", comment: ""),
-                                                         caption: movie.language.capitalized)
-                                    DetailsComponentsItem(title: NSLocalizedString("Original title", comment: ""),
-                                                         caption: movie.title)
+                                    DetailsComponentsItem(title: "Language",
+                                                          caption: LocalizedStringResource(stringLiteral: movie.language.capitalized))
+                                    DetailsComponentsItem(title: "Original title",
+                                                          caption: LocalizedStringResource(stringLiteral: movie.title))
                                 })
                                 
                                 DetailsComponentsRow(content: {
-                                    DetailsComponentsItem(title: NSLocalizedString("Genres", comment: ""),
-                                                         caption: movie.genreList)
-                                    DetailsComponentsItem(title: NSLocalizedString("Run time", comment: ""),
+                                    DetailsComponentsItem(title: "Genres",
+                                                          caption: LocalizedStringResource(stringLiteral: movie.genreList))
+                                    DetailsComponentsItem(title: "Run time",
                                                          caption: movie.runtime == 0 ?
-                                                         NSLocalizedString("No run time available.", comment: "") :
-                                                            String(movie.runtime) + " " + NSLocalizedString("minutes", comment: ""))
+                                                         "No run time available." :
+                                                            "\(movie.runtime) minutes")
                                 })
                                 
                                 if !movie.overview.isEmpty {
-                                    SharedComponentsSubtitle(text: NSLocalizedString("Overview", comment: ""))
+                                    SharedComponentsSubtitle(text: "Overview")
                                     Text(movie.overview)
                                         .foregroundStyle(.white)
                                         .multilineTextAlignment(.center)
@@ -81,7 +81,7 @@ struct DetailsView: View {
                                 
                                 // MARK: - PRODUCTION COMPANIES
                                 if !movie.productionCompanies.isEmpty {
-                                    SharedComponentsSubtitle(text: NSLocalizedString("Production companies", comment: ""))
+                                    SharedComponentsSubtitle(text: "Production companies")
                                     ScrollView(.horizontal) {
                                         LazyHStack {
                                             ForEach(movie.productionCompanies, id: \.self) { productionCompany in
@@ -131,7 +131,7 @@ struct DetailsView: View {
                                 }
                                 
                                 if !movie.similarMoviesList.isEmpty {
-                                    SharedComponentsSubtitle(text: NSLocalizedString("Similar movies", comment: ""))
+                                    SharedComponentsSubtitle(text: "Similar movies")
                                     SharedComponentsList(movies: movie.similarMoviesList)
                                 }
                                 
@@ -155,7 +155,7 @@ struct DetailsView: View {
         .navigationBarBackButtonHidden(true)
         .alert(isPresented: $detailsViewModel.hasErrorTriggered) {
             Alert(title: Text("Error"),
-                  message: Text(detailsViewModel.error?.localizedDescription ?? NSLocalizedString("Something went wrong.", comment: "")),
+                  message: Text(detailsViewModel.error?.localizedDescription ?? "Something went wrong."),
                   dismissButton: .default(Text("Accept"), action: { dismiss() }))
         }
         .onAppear {

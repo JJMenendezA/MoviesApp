@@ -19,7 +19,7 @@ struct MainView: View {
     @EnvironmentObject var appSettings: AppSettings
     // Computed properties
     private var refreshText: String {
-        rotateArrow ? NSLocalizedString("Release to refresh", comment: "") : NSLocalizedString("Pull to refresh", comment: "")
+        rotateArrow ? "Release to refresh" : "Pull to refresh"
     }
     private var isSearchActive: Bool {
         isSearchBarActive || !searchText.isEmpty
@@ -77,7 +77,7 @@ struct MainView: View {
                                 
                                 // MARK: - ANNOUNCEMENTS SECTION
                                 SharedComponentsLeadAligned {
-                                    SharedComponentsSubtitle(text: NSLocalizedString("Important announcements", comment: ""),
+                                    SharedComponentsSubtitle(text: "Important announcements",
                                                              maxWidth: 250)
                                     .padding(.vertical, 10)
                                 } // :LeadAlignedView
@@ -172,7 +172,7 @@ struct MainView: View {
         }
         .alert(isPresented: $mainViewModel.hasErrorBeenTriggered) {
             Alert(title: Text("Error"),
-                  message: Text(mainViewModel.error?.localizedDescription ?? NSLocalizedString("Something went wrong.", comment: "")),
+                  message: Text(mainViewModel.error?.localizedDescription ?? "Something went wrong."),
                   dismissButton: .default(Text("Retry"),
                                           action: {
                 Task { await mainViewModel.fetchMovies() }

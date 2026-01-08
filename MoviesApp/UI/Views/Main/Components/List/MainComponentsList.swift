@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct MainComponentsList: View {
-    var title: String
+    var title: LocalizedStringResource
     var movies: [MovieEntity]
     var isUpcoming: Bool = false
     var body: some View {

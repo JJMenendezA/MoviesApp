@@ -9,10 +9,10 @@
 import SwiftUI
 
 struct MainComponentsSubtitle: View {
-    var title: String
+    var title: LocalizedStringResource
     var body: some View {
         SharedComponentsLeadAligned {
-            SharedComponentsSubtitle(text: NSLocalizedString(title, comment: ""))
+            SharedComponentsSubtitle(text: title)
         } // :LeadAlignedView
     }
 }

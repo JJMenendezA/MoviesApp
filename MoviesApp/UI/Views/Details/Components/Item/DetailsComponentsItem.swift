@@ -9,11 +9,11 @@
 import SwiftUI
 
 struct DetailsComponentsItem: View {
-    var title: String
-    var caption: String
+    var title: LocalizedStringResource
+    var caption: LocalizedStringResource
     var body: some View {
         VStack {
-            SharedComponentsSubtitle(text: NSLocalizedString(title, comment: ""))
+            SharedComponentsSubtitle(text: title)
             
             Text(caption)
                 .font(.body)

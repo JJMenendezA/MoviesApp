@@ -144,7 +144,7 @@ class MainViewModel: ObservableObject {
     private func filterMoviesByLanguage() {
         mutableMoviesDictionary.forEach({ movie in
             mutableMoviesDictionary[movie.key] = movie.value.filter({ movie in
-                Locale.current.localizedString(forLanguageCode: movie.originalLanguage) == filterParameters.language
+                Locale.current.localizedString(forLanguageCode: movie.originalLanguage) == String(localized: filterParameters.language)
             })
         })
     }
@@ -154,7 +154,7 @@ class MainViewModel: ObservableObject {
         
         guard filterParameters.areFiltersApplied else { return }
         
-        if filterParameters.language != NSLocalizedString("All languages", comment: "") {
+        if filterParameters.language != "All languages" {
             filterMoviesByLanguage()
         }
         

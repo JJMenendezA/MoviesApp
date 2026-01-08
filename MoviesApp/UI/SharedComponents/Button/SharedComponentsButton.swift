@@ -18,7 +18,7 @@ struct SharedComponentsButton<ShapeType: Shape>: View {
         Button(action: ({ action() })) {
             HStack {
                 Spacer()
-                Text(text)
+                Text(LocalizedStringResource(String.LocalizationValue(text)))
                     .foregroundStyle(.white)
                     .fontWeight(fontWeight)
                     .font(font)

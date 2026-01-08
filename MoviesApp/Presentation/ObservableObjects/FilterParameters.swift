@@ -9,11 +9,11 @@
 import SwiftUI
 
 class FilterParameters: ObservableObject {
-    private var defaultLanguage: String = NSLocalizedString("All languages", comment: "")
+    private var defaultLanguage: LocalizedStringResource = "All languages"
     private var defaultStartDate: Date = Date()
     private var defaultEndDate: Date = Date()
     
-    @Published var language: String = NSLocalizedString("All languages", comment: "")
+    @Published var language: LocalizedStringResource = "All languages"
     @Published var startDate: Date = Date()
     @Published var endDate: Date = Date()
     
