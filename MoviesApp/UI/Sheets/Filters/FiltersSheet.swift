@@ -47,7 +47,12 @@ struct FiltersSheet: View {
                         Menu(language) {
                             ForEach(mainViewModel.languagesArray, id: \.self) { optionLanguage in
                                 Button(action: ({ language = optionLanguage })) {
-                                    Text(optionLanguage)
+                                    HStack {
+                                        Text(optionLanguage)
+                                        if language == optionLanguage {
+                                            Image(systemName: "checkmark")
+                                        }
+                                    } // :HStack
                                 }
                             }
                         }
