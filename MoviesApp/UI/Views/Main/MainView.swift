@@ -63,7 +63,6 @@ struct MainView: View {
                 MainComponentsHeader(color: backgroundHeaderColor,
                                      filterAction: { isBottomSheetActive = true },
                                      showRatingAction: { appSettings.isShowingRating.toggle() },
-                                     submenuAction: {},
                                      areFiltersApplied: mainViewModel.filterParameters.areFiltersApplied,
                                      isShowingRating: appSettings.isShowingRating)
                 
