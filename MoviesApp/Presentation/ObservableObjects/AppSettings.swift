@@ -10,4 +10,9 @@ import SwiftUI
 
 class AppSettings: ObservableObject {
     @Published var isShowingRating: Bool = true
+    @Published var selectedLanguage: String = "en"
+    
+    var locale: Locale {
+        Locale(identifier: selectedLanguage)
+    }
 }
