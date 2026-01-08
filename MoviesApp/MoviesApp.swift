@@ -32,6 +32,7 @@ struct MoviesApp: App {
                 } // :NavigationStack
                 .environmentObject(router)
                 .environmentObject(appSettings)
+                .environment(\.locale, appSettings.locale) 
             }
         }
     }
