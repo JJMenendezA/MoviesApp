@@ -99,6 +99,22 @@
         }
       }
     },
+    "English" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "English"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inglés"
+          }
+        }
+      }
+    },
     "Error" : {
       "localizations" : {
         "en" : {
@@ -218,6 +234,12 @@
     },
     "Language:" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Language:"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -410,6 +432,12 @@
     },
     "Production companies" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Production companies"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -601,6 +629,22 @@
         }
       }
     },
+    "Spanish" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spanish"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Español"
+          }
+        }
+      }
+    },
     "Starting release date:" : {
       "localizations" : {
         "en" : {
@@ -619,6 +663,12 @@
     },
     "Tap the poster to \nswitch the image" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the poster to switch the image"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
