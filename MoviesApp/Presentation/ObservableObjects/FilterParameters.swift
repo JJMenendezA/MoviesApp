@@ -1,0 +1,9 @@
+//
+//  FilterParameters.swift
+//  MoviesApp
+//
+//  Created by Juan José Menéndez Alarcón on 08/01/26.
+//  Copyright © 2026 Juan José Menéndez Alarcón. All rights reserved.
+//
+
+import Foundation
