@@ -15,7 +15,8 @@ struct MainView: View {
     @State private var isBottomSheetActive: Bool = false
     @State private var isUserDragging = false
     @State private var searchText: String = ""
-    @StateObject var mainViewModel: MainViewModel
+    @StateObject private var mainViewModel: MainViewModel
+    @EnvironmentObject var appSettings: AppSettings
     // Computed properties
     private var refreshText: String {
         rotateArrow ? NSLocalizedString("Release to refresh", comment: "") : NSLocalizedString("Pull to refresh", comment: "")
@@ -60,10 +61,11 @@ struct MainView: View {
                 
                 // MARK: - TOP SECTION
                 MainComponentsHeader(color: backgroundHeaderColor,
-                                    filterAction: { isBottomSheetActive = true },
-                                    switchAction: {},
-                                    submenuAction: {},
-                                    areFiltersApplied: mainViewModel.filterParameters.areFiltersApplied)
+                                     filterAction: { isBottomSheetActive = true },
+                                     showRatingAction: { appSettings.isShowingRating.toggle() },
+                                     submenuAction: {},
+                                     areFiltersApplied: mainViewModel.filterParameters.areFiltersApplied,
+                                     isShowingRating: appSettings.isShowingRating)
                 
                 ScrollViewReader { reader in
                     ScrollView {
@@ -77,7 +79,7 @@ struct MainView: View {
                                 // MARK: - ANNOUNCEMENTS SECTION
                                 SharedComponentsLeadAligned {
                                     SharedComponentsSubtitle(text: NSLocalizedString("Important announcements", comment: ""),
-                                                      maxWidth: 250)
+                                                             maxWidth: 250)
                                     .padding(.vertical, 10)
                                 } // :LeadAlignedView
                                 MainComponentsCarousel()
@@ -164,6 +166,7 @@ struct MainView: View {
         } // :ZStack
         .background(.gray900)
         .ignoresSafeArea()
+        .environmentObject(appSettings)
         .sheet(isPresented: $isBottomSheetActive) {
             FiltersSheet(isSheetActive: $isBottomSheetActive, mainViewModel: mainViewModel)
                 .presentationDetents([.height(400)])
