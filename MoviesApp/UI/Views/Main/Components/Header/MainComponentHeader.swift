@@ -44,8 +44,24 @@ struct MainComponentsHeader: View {
             .padding(.horizontal)
             
             Menu {
-                Button("English", action: { appSettings.selectedLanguage = "en" })
-                Button("Spanish", action: { appSettings.selectedLanguage = "es" })
+                Button(action: { appSettings.selectedLanguage = "en" },
+                       label: {
+                    HStack {
+                       Text("English")
+                        if appSettings.selectedLanguage == "en" {
+                            Image(systemName: "checkmark")
+                        }
+                    } // :HStack
+                })
+                Button(action: { appSettings.selectedLanguage = "es" },
+                       label: {
+                    HStack {
+                       Text("Spanish")
+                        if appSettings.selectedLanguage == "es" {
+                            Image(systemName: "checkmark")
+                        }
+                    } // :HStack
+                })
             } label: {
                 Label(title: { EmptyView() }, icon: {
                     Image(systemName: "globe")
