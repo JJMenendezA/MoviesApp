@@ -10,6 +10,7 @@ import Kingfisher
 
 struct SharedComponentsListItem: View {
     @EnvironmentObject var router: Router
+    @EnvironmentObject var appSettings: AppSettings
     var movie: MovieEntity
     var isUpcoming: Bool = false
     var body: some View {
@@ -56,7 +57,7 @@ struct SharedComponentsListItem: View {
                         .frame(height: 40)
                         .padding(.horizontal, 5)
                     
-                    if !isUpcoming {
+                    if !isUpcoming && appSettings.isShowingRating {
                         HStack {
                             ForEach(0..<movie.stars, id: \.self) { _ in
                                 Image(systemName: "star.fill")
