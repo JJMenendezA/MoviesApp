@@ -11,6 +11,7 @@ import SwiftUI
 struct MoviesApp: App {
     @State private var showSplash = true
     @StateObject private var router: Router = Router()
+    @StateObject private var appSettings: AppSettings = AppSettings()
     var body: some Scene {
         WindowGroup {
             if showSplash {
@@ -30,6 +31,7 @@ struct MoviesApp: App {
                         })
                 } // :NavigationStack
                 .environmentObject(router)
+                .environmentObject(appSettings)
             }
         }
     }
