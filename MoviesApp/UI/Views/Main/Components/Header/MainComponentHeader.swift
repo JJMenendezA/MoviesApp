@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct MainComponentsHeader: View {
+    @EnvironmentObject var appSettings: AppSettings
     var color: Color = .clear
     var filterAction: () -> Void
     var showRatingAction: () -> Void
-    var submenuAction: () -> Void
     var areFiltersApplied: Bool
     var isShowingRating: Bool
     // Computed Properties
@@ -43,13 +43,16 @@ struct MainComponentsHeader: View {
             } // :Button
             .padding(.horizontal)
             
-            Button(action: ({ submenuAction() })) {
-                Image(systemName: "info.bubble")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-            } // :Button
-            .hidden()
-           
+            Menu {
+                Button("English", action: { appSettings.selectedLanguage = "en" })
+                Button("Spanish", action: { appSettings.selectedLanguage = "es" })
+            } label: {
+                Label(title: { EmptyView() }, icon: {
+                    Image(systemName: "globe")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                })
+            }
         } // :HStack
         .padding(.horizontal)
         .foregroundStyle(.white)
@@ -61,6 +64,6 @@ struct MainComponentsHeader: View {
 }
 
 #Preview {
-    MainComponentsHeader(filterAction: {}, showRatingAction: {}, submenuAction: {}, areFiltersApplied: false, isShowingRating: false)
+    MainComponentsHeader(filterAction: {}, showRatingAction: {}, areFiltersApplied: false, isShowingRating: false)
         .background(.black)
 }
