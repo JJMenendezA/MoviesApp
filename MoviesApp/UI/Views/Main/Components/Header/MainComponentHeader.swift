@@ -10,9 +10,10 @@ import SwiftUI
 struct MainComponentsHeader: View {
     var color: Color = .clear
     var filterAction: () -> Void
-    var switchAction: () -> Void
+    var showRatingAction: () -> Void
     var submenuAction: () -> Void
     var areFiltersApplied: Bool
+    var isShowingRating: Bool
     // Computed Properties
     var titleFilter: String {
         areFiltersApplied ? NSLocalizedString("Filters Applied", comment: "") : NSLocalizedString("Filters", comment: "")
@@ -23,6 +24,9 @@ struct MainComponentsHeader: View {
     var filterIcon: String {
         areFiltersApplied ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle"
     }
+    var ratingIcon: String {
+        isShowingRating ? "star.fill" : "star.slash.fill"
+    }
     var body: some View {
         HStack {
             Button(action: ({ filterAction() })) {
@@ -32,13 +36,12 @@ struct MainComponentsHeader: View {
             } // :Button
             
             Spacer()
-            Button(action: ({ switchAction() })) {
-                Image(systemName: "tv")
+            Button(action: ({ showRatingAction() })) {
+                Image(systemName: ratingIcon)
                     .resizable()
                     .frame(width: 20, height: 20)
             } // :Button
             .padding(.horizontal)
-            .hidden()
             
             Button(action: ({ submenuAction() })) {
                 Image(systemName: "info.bubble")
@@ -58,6 +61,6 @@ struct MainComponentsHeader: View {
 }
 
 #Preview {
-    MainComponentsHeader(filterAction: {}, switchAction: {}, submenuAction: {}, areFiltersApplied: false)
+    MainComponentsHeader(filterAction: {}, showRatingAction: {}, submenuAction: {}, areFiltersApplied: false, isShowingRating: false)
         .background(.black)
 }
