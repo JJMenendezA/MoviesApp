@@ -64,9 +64,18 @@ struct MainComponentsHeader: View {
                 })
             } label: {
                 Label(title: { EmptyView() }, icon: {
-                    Image(systemName: "globe")
-                        .resizable()
-                        .frame(width: 20, height: 20)
+                    ZStack {
+                        Image(systemName: "globe")
+                            .resizable()
+                            .foregroundStyle(.white)
+                            .frame(width: 20, height: 20)
+
+                        Text(appSettings.selectedLanguage.uppercased())
+                            .font(.system(size: 9, weight: .bold))
+                            .foregroundStyle(.white)
+                            .background(.black.opacity(0.5))
+                            .offset(x: -10, y: 8)
+                    } // :ZStack
                 })
             }
         } // :HStack
