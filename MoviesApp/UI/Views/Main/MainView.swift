@@ -36,8 +36,7 @@ struct MainView: View {
     private var rotateArrow: Bool {
         hasScreenDragLimitBeenPassed && !mainViewModel.isInformationLoading && haveMoviesNotBeenFiltered
     }
-    init() {
-        let service: MoviesService = MoviesServiceImpl()
+    init(service: MoviesService) {
         let repository: MoviesRepository = MoviesRepositoryImpl(moviesService: service)
         let useCase: FetchMoviesUseCase = FetchMoviesUseCaseImpl(repository: repository)
         self._mainViewModel = StateObject(wrappedValue: MainViewModel(fetchMoviesUseCase: useCase))
@@ -213,5 +212,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView()
+    MainView(service: MoviesServiceImpl(language: "en"))
 }

@@ -9,9 +9,9 @@
 import SwiftUI
 
 @ViewBuilder
-func destinationViewBuilder(for route: Routes) -> some View {
+func destinationViewBuilder(for route: Routes, language: String) -> some View {
     switch route {
     case .details(let id):
-        DetailsView(movieId: id)
+        DetailsView(movieId: id, service: MoviesServiceImpl(language: language))
     }
 }

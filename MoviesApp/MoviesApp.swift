@@ -23,11 +23,11 @@ struct MoviesApp: App {
                     }
             } else {
                 NavigationStack(path: $router.path) {
-                    MainView()
+                    MainView(service: MoviesServiceImpl(language: appSettings.selectedLanguage))
                         .statusBar(hidden: true)
                         .navigationDestination(for: Routes.self,
                                                destination: { route in
-                            destinationViewBuilder(for: route)
+                            destinationViewBuilder(for: route, language: appSettings.selectedLanguage)
                         })
                 } // :NavigationStack
                 .environmentObject(router)

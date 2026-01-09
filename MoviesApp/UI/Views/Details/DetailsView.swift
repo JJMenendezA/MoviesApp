@@ -17,8 +17,8 @@ struct DetailsView: View {
     @State private var productionCompanyName: String = ""
     @State private var toastWorkItem: DispatchWorkItem?
     var movieId: Int
-    init(movieId: Int) {
-        let service = MoviesServiceImpl()
+    init(movieId: Int,
+         service: MoviesService) {
         let repository = MoviesRepositoryImpl(moviesService: service)
         let useCase = FetchMovieDetailsImpl(repository: repository)
         self._detailsViewModel = StateObject(wrappedValue: DetailsViewModel(fetchMovieDetailsUseCase: useCase))
@@ -181,5 +181,5 @@ struct DetailsView: View {
 }
 
 #Preview {
-    DetailsView(movieId: 11)
+    DetailsView(movieId: 11, service: MoviesServiceImpl(language: "en"))
 }

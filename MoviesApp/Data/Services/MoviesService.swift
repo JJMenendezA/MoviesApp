@@ -16,10 +16,12 @@ protocol MoviesService {
 
 class MoviesServiceImpl: MoviesService {
     private let networkManager: NetworkManager
-    private let language: String = NSLocale.current.language.languageCode?.identifier ?? "en-US"
+    private let language: String
     
-    init(networkManager: NetworkManager = NetworkManager.shared) {
+    init(networkManager: NetworkManager = NetworkManager.shared,
+         language: String) {
         self.networkManager = networkManager
+        self.language = language
     }
     
     func fetchAllMovies() async throws -> [String: MoviesResponse] {
