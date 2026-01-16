@@ -44,6 +44,7 @@ class MainViewModel: ObservableObject {
             } else {
                 if let movie = randomMovie {
                     let movieTranslated = try await fetchMovieUseCase.fetch(endPoint: MoviePathTypes.details(movieId: movie.id).endpoint)
+                    randomMovie = MovieEntity(from: movieTranslated)
                 }
             }
             setMutableMovieDictionary()
