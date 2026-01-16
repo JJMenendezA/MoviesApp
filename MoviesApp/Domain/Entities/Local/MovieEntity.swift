@@ -25,6 +25,15 @@ public struct MovieEntity: Decodable {
         self.voteAverage = movie.vote_average
     }
     
+    public init (from movie: MovieDetailsResponse) {
+        self.id = movie.id
+        self.posterPath = movie.poster_path
+        self.releaseDate = movie.releaseDateFormatted
+        self.title = movie.title
+        self.originalLanguage = movie.original_language
+        self.voteAverage = movie.vote_average
+    }
+    
     // Computed properties
     var stars: Int {
         Int(voteAverage.rounded(.down))/2
