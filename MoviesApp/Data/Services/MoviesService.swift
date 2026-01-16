@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 protocol MoviesService {
     func fetchAllMovies() async throws -> [String: MoviesResponse]
@@ -16,12 +17,12 @@ protocol MoviesService {
 
 class MoviesServiceImpl: MoviesService {
     private let networkManager: NetworkManager
-    private let language: String
+    @Binding private var language: String
     
     init(networkManager: NetworkManager = NetworkManager.shared,
-         language: String) {
+         language: Binding<String>) {
         self.networkManager = networkManager
-        self.language = language
+        self._language = language
     }
     
     func fetchAllMovies() async throws -> [String: MoviesResponse] {
