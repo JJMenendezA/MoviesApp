@@ -24,18 +24,27 @@ class MainViewModel: ObservableObject {
     @Published var filterParameters: FilterParameters = FilterParameters()
     
     private let fetchMoviesUseCase: FetchMoviesUseCase
-    init(fetchMoviesUseCase: FetchMoviesUseCase) {
+    private let fetchMovieUseCase: FetchMovieDetailsUseCase
+    init(fetchMoviesUseCase: FetchMoviesUseCase,
+         fetchMovieUseCase: FetchMovieDetailsUseCase) {
         self.fetchMoviesUseCase = fetchMoviesUseCase
+        self.fetchMovieUseCase = fetchMovieUseCase
     }
     
     @MainActor
-    func fetchMovies() async {
+    func fetchMovies(hasLanguageChanged: Bool = false) async {
         isInformationLoading = true
         do {
             moviesDictionary = try await fetchMoviesUseCase.fetch()
-            if  let randomList = self.moviesDictionary.values.randomElement(),
-                let randomMovie = randomList.results.randomElement() {
-                self.randomMovie = MovieEntity(from: randomMovie)
+            if !hasLanguageChanged {
+                if  let randomList = self.moviesDictionary.values.randomElement(),
+                    let randomMovie = randomList.results.randomElement() {
+                    self.randomMovie = MovieEntity(from: randomMovie)
+                }
+            } else {
+                if let movie = randomMovie {
+                    let movieTranslated = try await fetchMovieUseCase.fetch(endPoint: MoviePathTypes.details(movieId: movie.id).endpoint)
+                }
             }
             setMutableMovieDictionary()
             setDateArray()
