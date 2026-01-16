@@ -181,5 +181,5 @@ struct DetailsView: View {
 }
 
 #Preview {
-    DetailsView(movieId: 11, service: MoviesServiceImpl(language: .constant("en")))
+    DetailsView(movieId: 11, service: MoviesServiceImpl(languageProvider: { "en" }))
 }

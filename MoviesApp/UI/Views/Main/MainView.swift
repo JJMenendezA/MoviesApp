@@ -220,5 +220,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView(service: MoviesServiceImpl(language: .constant("en")))
+    MainView(service: MoviesServiceImpl(languageProvider: { "en" }))
 }
