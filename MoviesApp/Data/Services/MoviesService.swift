@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 protocol MoviesService {
     func fetchAllMovies() async throws -> [String: MoviesResponse]
@@ -17,12 +16,12 @@ protocol MoviesService {
 
 class MoviesServiceImpl: MoviesService {
     private let networkManager: NetworkManager
-    @Binding private var language: String
+    private let languageProvider: @MainActor () -> String
     
     init(networkManager: NetworkManager = NetworkManager.shared,
-         language: Binding<String>) {
+         languageProvider: @escaping @MainActor () -> String) {
         self.networkManager = networkManager
-        self._language = language
+        self.languageProvider = languageProvider
     }
     
     func fetchAllMovies() async throws -> [String: MoviesResponse] {
@@ -35,20 +34,22 @@ class MoviesServiceImpl: MoviesService {
     }
     
     func fetchMovies(endpoint: String)  async throws -> MoviesResponse {
-        try await networkManager.getMoviesRequest(endpoint: endpoint,
+        let currentLanguage = await MainActor.run { languageProvider() }
+        return try await networkManager.getMoviesRequest(endpoint: endpoint,
         queryItems: [URLQueryItem(name: "language",
-                                  value: language),
+                                  value: currentLanguage),
                      URLQueryItem(name: "page",
                                   value: "1")],
         response: MoviesResponse.self)
     }
     
     func fecthMovieDetails(endPoint: String) async throws -> MovieDetailsResponse {
-        try await networkManager.getMoviesRequest(endpoint: endPoint,
+        let currentLanguage = await MainActor.run { languageProvider() }
+        return try await networkManager.getMoviesRequest(endpoint: endPoint,
                                                   queryItems: [URLQueryItem(name: "append_to_response",
                                                                             value: "videos,similar"),
                                                                URLQueryItem(name: "language",
-                                                                            value: language)],
+                                                                            value: currentLanguage)],
                                                   response: MovieDetailsResponse.self)
     }
 }
