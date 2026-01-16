@@ -37,14 +37,10 @@ class MainViewModel: ObservableObject {
         do {
             moviesDictionary = try await fetchMoviesUseCase.fetch()
             if !hasLanguageChanged {
-                if  let randomList = self.moviesDictionary.values.randomElement(),
-                    let randomMovie = randomList.results.randomElement() {
-                    self.randomMovie = MovieEntity(from: randomMovie)
-                }
+                setRandomMovie()
             } else {
                 if let movie = randomMovie {
-                    let movieTranslated = try await fetchMovieUseCase.fetch(endPoint: MoviePathTypes.details(movieId: movie.id).endpoint)
-                    randomMovie = MovieEntity(from: movieTranslated)
+                    await getRandomMovieTranslated(movieId: movie.id)
                 }
             }
             setMutableMovieDictionary()
@@ -54,6 +50,25 @@ class MainViewModel: ObservableObject {
             isInformationLoading = false
             hasInformationLoaded = true
         } catch let error as AppError {
+            triggerErrorAlert(appError: error)
+        } catch {
+            triggerErrorAlert(appError:
+                                AppError.unknown(localizedDesciption: error.localizedDescription))
+        }
+    }
+    
+    private func setRandomMovie() {
+        if  let randomList = self.moviesDictionary.values.randomElement(),
+            let randomMovie = randomList.results.randomElement() {
+            self.randomMovie = MovieEntity(from: randomMovie)
+        }
+    }
+    
+    private func getRandomMovieTranslated(movieId: Int) async {
+        do {
+            let movieTranslated = try await fetchMovieUseCase.fetch(endPoint: MoviePathTypes.details(movieId: movieId).endpoint)
+            randomMovie = MovieEntity(from: movieTranslated)
+        }  catch let error as AppError {
             triggerErrorAlert(appError: error)
         } catch {
             triggerErrorAlert(appError:
