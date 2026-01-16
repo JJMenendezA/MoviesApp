@@ -38,8 +38,9 @@ struct MainView: View {
     }
     init(service: MoviesService) {
         let repository: MoviesRepository = MoviesRepositoryImpl(moviesService: service)
-        let useCase: FetchMoviesUseCase = FetchMoviesUseCaseImpl(repository: repository)
-        self._mainViewModel = StateObject(wrappedValue: MainViewModel(fetchMoviesUseCase: useCase))
+        let fetchMoviesUseCase: FetchMoviesUseCase = FetchMoviesUseCaseImpl(repository: repository)
+        let fetchMovieUseCase: FetchMovieDetailsUseCase = FetchMovieDetailsImpl(repository: repository)
+        self._mainViewModel = StateObject(wrappedValue: MainViewModel(fetchMoviesUseCase: fetchMoviesUseCase, fetchMovieUseCase: fetchMovieUseCase))
     }
     var body: some View {
         ZStack(alignment: .top) {
@@ -208,9 +209,16 @@ struct MainView: View {
                 }
             }
         }
+        .onChange(of: appSettings.selectedLanguage) {
+            mainViewModel.isInformationLoading = true
+            Task {
+                try? await Task.sleep(for: .seconds(1.5))
+                await mainViewModel.fetchMovies(hasLanguageChanged: true)
+            }
+        }
     }
 }
 
 #Preview {
-    MainView(service: MoviesServiceImpl(language: "en"))
+    MainView(service: MoviesServiceImpl(language: .constant("en")))
 }
