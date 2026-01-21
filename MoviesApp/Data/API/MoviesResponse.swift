@@ -17,9 +17,7 @@ public struct MoviesResponse: Decodable, Hashable {
     
     // Computed Properties
     var originalLanguagesSet: Set<String> {
-        Set(results.map({
-            Locale.current.localizedString(forLanguageCode: $0.original_language) ?? $0.original_language
-        }))
+        Set(results.map({ $0.original_language }))
     }
     
     var releaseDatesSet: Set<Date> {

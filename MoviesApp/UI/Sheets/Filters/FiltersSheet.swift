@@ -9,10 +9,11 @@ import SwiftUI
 
 struct FiltersSheet: View {
     @Binding var isSheetActive: Bool
-    @State var language: LocalizedStringResource = "All languages"
+    @State var language: String = "All languages"
     @State var startDate: Date = Date()
     @State var endDate: Date = Date()
     @ObservedObject var mainViewModel: MainViewModel
+    @EnvironmentObject var appSettings: AppSettings
     var body: some View {
         ZStack {
             VStack {
@@ -44,17 +45,19 @@ struct FiltersSheet: View {
                         
                         Spacer()
                         
-                        Menu(language) {
+                        Menu {
                             ForEach(mainViewModel.languagesArray, id: \.self) { optionLanguage in
-                                Button(action: ({ language = LocalizedStringResource(String.LocalizationValue(optionLanguage)) })) {
+                                Button(action: ({ language = optionLanguage })) {
                                     HStack {
-                                        Text(optionLanguage)
-                                        if language == LocalizedStringResource(String.LocalizationValue(optionLanguage)) {
+                                      createLanguageText(code: optionLanguage)
+                                        if language == optionLanguage {
                                             Image(systemName: "checkmark")
                                         }
                                     } // :HStack
                                 }
                             }
+                        } label: {
+                            createLanguageText(code: language)
                         }
                         .padding()
                         .foregroundStyle(.white)
@@ -153,6 +156,13 @@ struct FiltersSheet: View {
             endDate = mainViewModel.filterParameters.endDate
             startDate = mainViewModel.filterParameters.startDate
         }
+    }
+
+    private func createLanguageText(code: String) -> some View {
+        if code == "All languages" || code == "Todos los idiomas" {
+            return Text("All languages")
+        }
+        return Text((appSettings.locale.localizedString(forLanguageCode: code) ?? code).capitalized)
     }
 }
 

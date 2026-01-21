@@ -169,7 +169,7 @@ class MainViewModel: ObservableObject {
     private func filterMoviesByLanguage() {
         mutableMoviesDictionary.forEach({ movie in
             mutableMoviesDictionary[movie.key] = movie.value.filter({ movie in
-                Locale.current.localizedString(forLanguageCode: movie.originalLanguage) == String(localized: filterParameters.language)
+               movie.originalLanguage == filterParameters.language
             })
         })
     }
