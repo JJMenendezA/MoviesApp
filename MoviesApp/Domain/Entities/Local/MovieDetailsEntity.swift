@@ -31,7 +31,7 @@ public struct MovieDetailsEntity: Decodable {
         self.releaseDate = movie.releaseDateFormatted
         self.stars = Int(movie.vote_average.rounded(.down))/2
         self.hasHalfStar = movie.vote_average.truncatingRemainder(dividingBy: 1) >= 0.5
-        self.language = Locale.current.localizedString(forLanguageCode: movie.original_language) ?? movie.original_language
+        self.language = movie.original_language
         self.genreList = movie.genres.map(\.name).joined(separator: ", ")
         self.runtime = movie.runtime
         self.overview = movie.overview

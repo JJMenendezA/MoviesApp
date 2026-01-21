@@ -12,6 +12,7 @@ import Kingfisher
 struct DetailsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var router: Router
+    @EnvironmentObject var appSettings: AppSettings
     @StateObject var detailsViewModel: DetailsViewModel
     @State private var hasToastBeenTriggered: Bool = false
     @State private var productionCompanyName: String = ""
@@ -57,7 +58,11 @@ struct DetailsView: View {
                                 
                                 DetailsComponentsRow(content: {
                                     DetailsComponentsItem(title: "Language",
-                                                          caption: LocalizedStringResource(stringLiteral: movie.language.capitalized))
+                                                          caption: LocalizedStringResource(stringLiteral:
+                                                                                            (appSettings.locale.localizedString(
+                                                                                                forLanguageCode: movie.language)
+                                                                                             ?? movie.language)
+                                                                                                .capitalized))
                                     DetailsComponentsItem(title: "Original title",
                                                           caption: LocalizedStringResource(stringLiteral: movie.title))
                                 })
