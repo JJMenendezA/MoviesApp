@@ -9,14 +9,15 @@ import SwiftUI
 import Kingfisher
 
 struct MainView: View {
+    @EnvironmentObject var appSettings: AppSettings
+    @StateObject private var mainViewModel: MainViewModel
+    @State private var toastWorkItem: DispatchWorkItem?
     @State private var isSearchBarActive: Bool = false
     @State private var yOffset: Double = 0.0
     @State private var backgroundHeaderColor: Color = .black.opacity(0.0)
     @State private var isBottomSheetActive: Bool = false
     @State private var isUserDragging = false
     @State private var searchText: String = ""
-    @StateObject private var mainViewModel: MainViewModel
-    @EnvironmentObject var appSettings: AppSettings
     // Computed properties
     private var refreshText: String {
         rotateArrow ? "Release to refresh" : "Pull to refresh"
@@ -35,6 +36,10 @@ struct MainView: View {
     }
     private var rotateArrow: Bool {
         hasScreenDragLimitBeenPassed && !mainViewModel.isInformationLoading && haveMoviesNotBeenFiltered
+    }
+    private var languageDescription: String {
+        appSettings.locale.localizedString(forLanguageCode: appSettings.selectedLanguage)
+                                   ?? appSettings.selectedLanguage
     }
     init(service: MoviesService) {
         let repository: MoviesRepository = MoviesRepositoryImpl(moviesService: service)
@@ -156,6 +161,14 @@ struct MainView: View {
                 } // :ScrollViewReader
             }
             
+            // MARK: - TOAST COMPONENT
+            VStack {
+                Spacer()
+                SharedComponentsToast(textLocalized: "The language has changed to \(languageDescription)",
+                                      isToastActive: $mainViewModel.hasToastBeenTriggered)
+            } // :VStack
+            .padding(.bottom)
+                
             if mainViewModel.isInformationLoading {
                 // MARK: - LOADING SCREEN
                 SharedComponentsLoader()
@@ -215,6 +228,20 @@ struct MainView: View {
                 await mainViewModel.fetchMovies(hasLanguageChanged: true)
             }
         }
+        // MARK: - TOAST TIMER
+        .onChange(of: mainViewModel.hasToastBeenTriggered) {
+            if mainViewModel.hasToastBeenTriggered {
+                scheduleToastDismissal()
+            }
+        }
+    }
+    func scheduleToastDismissal() {
+        toastWorkItem?.cancel()
+        let work = DispatchWorkItem {
+            withAnimation { mainViewModel.hasToastBeenTriggered = false }
+        }
+        toastWorkItem = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: work)
     }
 }
 
