@@ -16,6 +16,7 @@ class MainViewModel: ObservableObject {
     
     @Published var error: AppError?
     @Published var hasErrorBeenTriggered: Bool = false
+    @Published var hasToastBeenTriggered: Bool = false
     
     @Published var isInformationLoading: Bool = true
     @Published var hasInformationLoaded: Bool = false
@@ -49,6 +50,9 @@ class MainViewModel: ObservableObject {
             setDefaultDateVariables()
             isInformationLoading = false
             hasInformationLoaded = true
+            if hasLanguageChanged {
+                hasToastBeenTriggered = true
+            }
         } catch let error as AppError {
             triggerErrorAlert(appError: error)
         } catch {
