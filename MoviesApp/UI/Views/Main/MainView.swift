@@ -63,8 +63,7 @@ struct MainView: View {
                 MainComponentsHeader(color: backgroundHeaderColor,
                                      filterAction: { isBottomSheetActive = true },
                                      showRatingAction: { appSettings.isShowingRating.toggle() },
-                                     areFiltersApplied: mainViewModel.filterParameters.areFiltersApplied,
-                                     isShowingRating: appSettings.isShowingRating)
+                                     areFiltersApplied: mainViewModel.filterParameters.areFiltersApplied)
                 
                 ScrollViewReader { reader in
                     ScrollView {
