@@ -13,7 +13,6 @@ struct MainComponentsHeader: View {
     var filterAction: () -> Void
     var showRatingAction: () -> Void
     var areFiltersApplied: Bool
-    var isShowingRating: Bool
     // Computed Properties
     var titleFilter: LocalizedStringResource {
         areFiltersApplied ? "Filters Applied" : "Filters"
@@ -25,7 +24,7 @@ struct MainComponentsHeader: View {
         areFiltersApplied ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle"
     }
     var ratingIcon: String {
-        isShowingRating ? "star.fill" : "star.slash.fill"
+        appSettings.isShowingRating ? "star.fill" : "star.slash.fill"
     }
     var body: some View {
         HStack {
@@ -89,6 +88,6 @@ struct MainComponentsHeader: View {
 }
 
 #Preview {
-    MainComponentsHeader(filterAction: {}, showRatingAction: {}, areFiltersApplied: false, isShowingRating: false)
+    MainComponentsHeader(filterAction: {}, showRatingAction: {}, areFiltersApplied: false)
         .background(.black)
 }
