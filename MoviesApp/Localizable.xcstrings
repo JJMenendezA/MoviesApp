@@ -677,6 +677,23 @@
         }
       }
     },
+    "The language has changed to %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The language has changed to %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El idioma ha cambiado a %@"
+          }
+        }
+      }
+    },
     "Top rated" : {
       "extractionState" : "manual",
       "localizations" : {
