@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct MovieDetailsEntity: Decodable {
+public struct MovieDetailsEntity {
     let title: String
     let moviePoster: String?
     var alternativeImage: String?
@@ -46,7 +46,7 @@ public struct MovieDetailsEntity: Decodable {
     }
 }
 
-public struct ProductionCompanyEntity: Decodable, Hashable {
+public struct ProductionCompanyEntity: Hashable {
     let name: String
     let logoPath: String?
     let country: String
