@@ -10,8 +10,8 @@ import Foundation
 import SwiftUI
 
 class MainViewModel: ObservableObject {
-    var moviesDictionary: [String: MoviesResponse] = [:]
-    @Published var mutableMoviesDictionary: [String: [MovieEntity]] = [:]
+    private var moviesDictionary: [String: MoviesEntity] = [:]
+    @Published var mutableMoviesDictionary: [String: MoviesEntity] = [:]
     var randomMovie: MovieEntity?
     
     @Published var error: AppError?
@@ -44,7 +44,7 @@ class MainViewModel: ObservableObject {
                     await getRandomMovieTranslated(movieId: movie.id)
                 }
             }
-            setMutableMovieDictionary()
+            setMutableMoviesDictionaryToDefaultValues()
             setDateArray()
             setLanguageArray()
             setDefaultDateVariables()
@@ -63,8 +63,8 @@ class MainViewModel: ObservableObject {
     
     private func setRandomMovie() {
         if  let randomList = self.moviesDictionary.values.randomElement(),
-            let randomMovie = randomList.results.randomElement() {
-            self.randomMovie = MovieEntity(from: randomMovie)
+            let randomMovie = randomList.moviesArray.randomElement() {
+            self.randomMovie = randomMovie
         }
     }
     
@@ -80,31 +80,8 @@ class MainViewModel: ObservableObject {
         }
     }
     
-    func setMutableMovieDictionary() {
-        moviesDictionary.forEach({ movie in
-            switch movie.key {
-            case MovieTypes.popular.title, MovieTypes.topRated.title:
-                mutableMoviesDictionary[movie.key] = movie.value.results
-                    .map({ movie in
-                        MovieEntity(from: movie)
-                    })
-            case MovieTypes.nowPlaying.title:
-                mutableMoviesDictionary[movie.key] = movie.value.results
-                    .sorted(by: { $0.release_date < $1.release_date })
-                    .map({ movie in
-                        MovieEntity(from: movie)
-                    })
-            case MovieTypes.upcoming.title:
-                mutableMoviesDictionary[movie.key] = movie.value.results
-                    .filter({ $0.release_date > getTwoWeeksAgoDate()})
-                    .sorted(by: { $0.release_date < $1.release_date })
-                    .map({ movie in
-                        MovieEntity(from: movie)
-                    })
-            default:
-                break
-            }
-        })
+    func setMutableMoviesDictionaryToDefaultValues() {
+       mutableMoviesDictionary = moviesDictionary
     }
     
     func setLanguageArray() {
@@ -146,15 +123,13 @@ class MainViewModel: ObservableObject {
     
     func searchMoviesByTitle(title: String) {
         guard !title.isEmpty else {
-            setMutableMovieDictionary()
+            setMutableMoviesDictionaryToDefaultValues()
             return
         }
         
         moviesDictionary.forEach({ movie in
-            mutableMoviesDictionary[movie.key] = movie.value.results.filter({ movie in
+            mutableMoviesDictionary[movie.key]?.moviesArray = movie.value.moviesArray.filter({ movie in
                 movie.title.localizedCaseInsensitiveContains(title)
-            }).map({ movie in
-                MovieEntity(from: movie)
             })
         })
     }
@@ -163,7 +138,7 @@ class MainViewModel: ObservableObject {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         mutableMoviesDictionary.forEach({ movie in
-            mutableMoviesDictionary[movie.key] = movie.value.filter({ movie in
+            mutableMoviesDictionary[movie.key]?.moviesArray = movie.value.moviesArray.filter({ movie in
                 dateFormatter.date(from: movie.releaseDate) ?? Date() >= filterParameters.startDate &&
                 dateFormatter.date(from: movie.releaseDate) ?? Date() <= filterParameters.endDate
             })
@@ -172,14 +147,14 @@ class MainViewModel: ObservableObject {
     
     private func filterMoviesByLanguage() {
         mutableMoviesDictionary.forEach({ movie in
-            mutableMoviesDictionary[movie.key] = movie.value.filter({ movie in
+            mutableMoviesDictionary[movie.key]?.moviesArray = movie.value.moviesArray.filter({ movie in
                movie.originalLanguage == filterParameters.language
             })
         })
     }
     
     func filterMovies() {
-        setMutableMovieDictionary()
+        setMutableMoviesDictionaryToDefaultValues()
         
         guard filterParameters.areFiltersApplied else { return }
         
