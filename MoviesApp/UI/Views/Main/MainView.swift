@@ -97,39 +97,39 @@ struct MainView: View {
                             
                             // MARK: - TOP RATED MOVIES SECTION
                             if let topRatedList = mainViewModel.mutableMoviesDictionary[MovieTypes.topRated.title] {
-                                if !topRatedList.isEmpty {
+                                if !topRatedList.moviesArray.isEmpty {
                                     MainComponentsList(title: "Top rated",
-                                                       movies: topRatedList.sorted(by: { $0.voteAverage > $1.voteAverage }))
+                                                       movies: topRatedList.moviesArray.sorted(by: { $0.voteAverage > $1.voteAverage }))
                                 }
                             }
                             
                             // MARK: - NOW PLAYING MOVIES SECTION
                             if let nowPlayingList = mainViewModel.mutableMoviesDictionary[MovieTypes.nowPlaying.title] {
-                                if !nowPlayingList.isEmpty {
+                                if !nowPlayingList.moviesArray.isEmpty {
                                     MainComponentsList(title: "Now playing",
-                                                       movies: nowPlayingList)
+                                                       movies: nowPlayingList.moviesArray)
                                 }
                             }
                             
                             // MARK: - POPULAR MOVIES SECTION
                             if let popularList = mainViewModel.mutableMoviesDictionary[MovieTypes.popular.title] {
-                                if !popularList.isEmpty {
+                                if !popularList.moviesArray.isEmpty {
                                     MainComponentsList(title: "Popular",
-                                                       movies: popularList)
+                                                       movies: popularList.moviesArray)
                                 }
                             }
                             
                             // MARK: - UPCOMING MOVIES SECTION
                             if let upcomingList = mainViewModel.mutableMoviesDictionary[MovieTypes.upcoming.title] {
-                                if !upcomingList.isEmpty {
+                                if !upcomingList.moviesArray.isEmpty {
                                     MainComponentsList(title: "Upcoming",
-                                                       movies: upcomingList,
+                                                       movies: upcomingList.moviesArray,
                                                        isUpcoming: true)
                                 }
                             }
                             
                             // MARK: - EMPTY RESULTS MESSAGE
-                            if mainViewModel.mutableMoviesDictionary.values.allSatisfy(\.isEmpty) {
+                            if mainViewModel.mutableMoviesDictionary.values.filter({ !$0.moviesArray.isEmpty }).isEmpty {
                                 MainComponentsNoMovies()
                                     .padding(.vertical, 50)
                             }
