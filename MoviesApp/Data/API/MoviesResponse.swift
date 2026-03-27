@@ -14,21 +14,6 @@ public struct MoviesResponse: Decodable, Hashable {
     let results: [Movie]
     let total_pages: Int
     let total_results: Int
-    
-    // Computed Properties
-    var originalLanguagesSet: Set<String> {
-        Set(results.map({ $0.original_language }))
-    }
-    
-    var releaseDatesSet: Set<Date> {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        return Set(results.map({
-            dateFormatter.date(from: $0.release_date) ?? Date()
-        })
-        )
-    }
 }
 
 public struct Movie: Decodable, Hashable {
@@ -46,35 +31,6 @@ public struct Movie: Decodable, Hashable {
     let video: Bool
     let vote_average: CGFloat
     let vote_count: Int
-    
-    // Computed Properties
-    var stars: Int {
-        Int(vote_average.rounded(.down))/2
-    }
-    
-    var hasHalfStar: Bool {
-        vote_average.truncatingRemainder(dividingBy: 1) >= 0.5
-    }
-    
-    var releaseDateFormatted: String {
-        if release_date.isEmpty {
-            return release_date
-        } else {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            
-            let dateFormatted = dateFormatter.date(from: release_date)
-            
-            let outputDate = DateFormatter()
-            outputDate.dateFormat = "dd MMM yyyy"
-            
-            return outputDate.string(from: dateFormatted ?? Date())
-        }
-    }
-    
-    var originalLanguageComplete: String {
-        Locale.current.localizedString(forLanguageCode: original_language) ?? original_language
-    }
 }
 
 struct Dates: Decodable, Hashable {
