@@ -8,6 +8,29 @@
 
 import Foundation
 
+public struct MoviesEntity: Decodable {
+    init(movies: [Movie]) {
+        self.moviesArray = movies.map({ movie in
+            MovieEntity(from: movie)
+        })
+    }
+    var moviesArray: [MovieEntity]
+    
+    // Computed properties
+    var originalLanguagesSet: Set<String> {
+        Set(moviesArray.map({ $0.originalLanguage }))
+    }
+    
+    var releaseDatesSet: Set<Date> {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        return Set(moviesArray.map({
+            dateFormatter.date(from: $0.releaseDate) ?? Date()
+        }))
+    }
+}
+
 public struct MovieEntity: Decodable {
     let id: Int
     let posterPath: String?
@@ -19,7 +42,7 @@ public struct MovieEntity: Decodable {
     public init (from movie: Movie) {
         self.id = movie.id
         self.posterPath = movie.poster_path
-        self.releaseDate = movie.releaseDateFormatted
+        self.releaseDate = movie.release_date
         self.title = movie.title
         self.originalLanguage = movie.original_language
         self.voteAverage = movie.vote_average
@@ -41,5 +64,25 @@ public struct MovieEntity: Decodable {
     
     var hasHalfStar: Bool {
         voteAverage.truncatingRemainder(dividingBy: 1) >= 0.5
+    }
+    
+    var releaseDateFormatted: String {
+        if releaseDate.isEmpty {
+            return releaseDate
+        } else {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            let dateFormatted = dateFormatter.date(from: releaseDate)
+            
+            let outputDate = DateFormatter()
+            outputDate.dateFormat = "dd MMM yyyy"
+            
+            return outputDate.string(from: dateFormatted ?? Date())
+        }
+    }
+    
+    var originalLanguageComplete: String {
+        Locale.current.localizedString(forLanguageCode: originalLanguage) ?? originalLanguage
     }
 }
