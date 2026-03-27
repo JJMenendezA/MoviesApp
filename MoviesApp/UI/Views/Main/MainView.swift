@@ -39,13 +39,20 @@ struct MainView: View {
     }
     private var languageDescription: String {
         appSettings.locale.localizedString(forLanguageCode: appSettings.selectedLanguage)
-                                   ?? appSettings.selectedLanguage
+        ?? appSettings.selectedLanguage
     }
     init(service: MoviesService) {
         let repository: MoviesRepository = MoviesRepositoryImpl(moviesService: service)
         let fetchMoviesUseCase: FetchMoviesUseCase = FetchMoviesUseCaseImpl(repository: repository)
         let fetchMovieUseCase: FetchMovieDetailsUseCase = FetchMovieDetailsImpl(repository: repository)
-        self._mainViewModel = StateObject(wrappedValue: MainViewModel(fetchMoviesUseCase: fetchMoviesUseCase, fetchMovieUseCase: fetchMovieUseCase))
+        let createLanguageArrayUseCase: CreateLanguageArrayUseCase = CreateLanguageArrayUseCaseImpl()
+        let createDateArrayUseCase: CreateDateArrayUseCase = CreateDateArrayUseCaseImpl()
+        let filterMoviesByDateUseCase: FilterMoviesByDateUseCase = FilterMoviesByDateUseCaseImpl()
+        self._mainViewModel = StateObject(wrappedValue: MainViewModel(fetchMoviesUseCase: fetchMoviesUseCase,
+                                                                      fetchMovieUseCase: fetchMovieUseCase,
+                                                                      createLanguageArrayUseCase: createLanguageArrayUseCase,
+                                                                      createDateArrayUseCase: createDateArrayUseCase,
+                                                                      filterMoviesByDateUseCase: filterMoviesByDateUseCase))
     }
     var body: some View {
         ZStack(alignment: .top) {
@@ -168,7 +175,7 @@ struct MainView: View {
                                       isToastActive: $mainViewModel.hasToastBeenTriggered)
             } // :VStack
             .padding(.bottom)
-                
+            
             if mainViewModel.isInformationLoading {
                 // MARK: - LOADING SCREEN
                 SharedComponentsLoader()

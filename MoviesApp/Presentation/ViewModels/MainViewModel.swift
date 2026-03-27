@@ -26,10 +26,19 @@ class MainViewModel: ObservableObject {
     
     private let fetchMoviesUseCase: FetchMoviesUseCase
     private let fetchMovieUseCase: FetchMovieDetailsUseCase
+    private let createLanguageArrayUseCase: CreateLanguageArrayUseCase
+    private let createDateArrayUseCase: CreateDateArrayUseCase
+    private let filterMoviesByDateUseCase: FilterMoviesByDateUseCase
     init(fetchMoviesUseCase: FetchMoviesUseCase,
-         fetchMovieUseCase: FetchMovieDetailsUseCase) {
+         fetchMovieUseCase: FetchMovieDetailsUseCase,
+         createLanguageArrayUseCase: CreateLanguageArrayUseCase,
+         createDateArrayUseCase: CreateDateArrayUseCase,
+         filterMoviesByDateUseCase: FilterMoviesByDateUseCase) {
         self.fetchMoviesUseCase = fetchMoviesUseCase
         self.fetchMovieUseCase = fetchMovieUseCase
+        self.createLanguageArrayUseCase = createLanguageArrayUseCase
+        self.createDateArrayUseCase = createDateArrayUseCase
+        self.filterMoviesByDateUseCase = filterMoviesByDateUseCase
     }
     
     @MainActor
@@ -81,37 +90,15 @@ class MainViewModel: ObservableObject {
     }
     
     func setMutableMoviesDictionaryToDefaultValues() {
-       mutableMoviesDictionary = moviesDictionary
+        mutableMoviesDictionary = moviesDictionary
     }
     
     func setLanguageArray() {
-        languagesArray = createLanguageList()
-    }
-    
-    private func createLanguageList() -> [String] {
-        var languageSet: Set<String> = []
-        moviesDictionary.forEach({ movie in
-            languageSet.formUnion(movie.value.originalLanguagesSet)
-        })
-        
-        var sortedLanguageList = Array(languageSet).sorted()
-        
-        sortedLanguageList.insert("All languages", at: 0)
-        
-        return sortedLanguageList
+        languagesArray = createLanguageArrayUseCase.create(moviesDictionary: moviesDictionary)
     }
     
     func setDateArray() {
-        releaseDatesArray = createDatesList()
-    }
-    
-    private func createDatesList() -> [Date] {
-        var dateSet: Set<Date> = []
-        moviesDictionary.forEach({ movie in
-            dateSet.formUnion(movie.value.releaseDatesSet)
-        })
-        
-        return Array(dateSet).sorted()
+        releaseDatesArray = createDateArrayUseCase.create(moviesDictionary: moviesDictionary)
     }
     
     func setDefaultDateVariables() {
@@ -134,21 +121,10 @@ class MainViewModel: ObservableObject {
         })
     }
     
-    private func filterMoviesByDate() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        mutableMoviesDictionary.forEach({ movie in
-            mutableMoviesDictionary[movie.key]?.moviesArray = movie.value.moviesArray.filter({ movie in
-                dateFormatter.date(from: movie.releaseDate) ?? Date() >= filterParameters.startDate &&
-                dateFormatter.date(from: movie.releaseDate) ?? Date() <= filterParameters.endDate
-            })
-        })
-    }
-    
     private func filterMoviesByLanguage() {
         mutableMoviesDictionary.forEach({ movie in
             mutableMoviesDictionary[movie.key]?.moviesArray = movie.value.moviesArray.filter({ movie in
-               movie.originalLanguage == filterParameters.language
+                movie.originalLanguage == filterParameters.language
             })
         })
     }
@@ -165,7 +141,11 @@ class MainViewModel: ObservableObject {
         if let firstDate = releaseDatesArray.first,
            let lastDate = releaseDatesArray.last {
             if filterParameters.startDate != firstDate ||
-                filterParameters.endDate != lastDate { filterMoviesByDate() }
+                filterParameters.endDate != lastDate {
+                mutableMoviesDictionary = filterMoviesByDateUseCase.filter(moviesDictionary: mutableMoviesDictionary,
+                                                                           startDate: filterParameters.startDate,
+                                                                           endDate: filterParameters.endDate)
+            }
         }
     }
     
