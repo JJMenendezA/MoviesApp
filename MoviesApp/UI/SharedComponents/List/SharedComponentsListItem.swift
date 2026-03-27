@@ -87,7 +87,7 @@ struct SharedComponentsListItem: View {
                 } // :VStack
                 
                 if isUpcoming {
-                    Text(movie.releaseDate)
+                    Text(movie.releaseDateFormatted)
                         .foregroundStyle(.white)
                         .minimumScaleFactor(0.5)
                         .frame(width: 75, height: 10)
