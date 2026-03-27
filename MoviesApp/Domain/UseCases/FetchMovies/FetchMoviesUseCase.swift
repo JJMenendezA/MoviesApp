@@ -23,14 +23,14 @@ class FetchMoviesUseCaseImpl: FetchMoviesUseCase {
         rawData.forEach({ movie in
             switch movie.key {
             case MovieTypes.popular.title, MovieTypes.topRated.title:
-                mutableMoviesDictionary[movie.key] = MoviesEntity(movies: movie.value.results)
+                mutableMoviesDictionary[movie.key] = MoviesEntity(movieEntities: movie.value.results.map({ MovieEntity(from: $0) }))
             case MovieTypes.nowPlaying.title:
-                mutableMoviesDictionary[movie.key] = MoviesEntity(movies: movie.value.results
-                    .sorted(by: { $0.release_date < $1.release_date }))
+                mutableMoviesDictionary[movie.key] = MoviesEntity(movieEntities: movie.value.results.map({ MovieEntity(from: $0) })
+                    .sorted(by: { $0.releaseDate < $1.releaseDate }))
             case MovieTypes.upcoming.title:
-                mutableMoviesDictionary[movie.key] = MoviesEntity(movies: movie.value.results
-                    .filter({ $0.release_date > getTwoWeeksAgoDate()})
-                    .sorted(by: { $0.release_date < $1.release_date }))
+                mutableMoviesDictionary[movie.key] = MoviesEntity(movieEntities: movie.value.results.map({ MovieEntity(from: $0) })
+                    .filter({ $0.releaseDate > getTwoWeeksAgoDate()})
+                    .sorted(by: { $0.releaseDate < $1.releaseDate }))
                 
             default:
                 break
