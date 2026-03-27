@@ -8,11 +8,9 @@
 
 import Foundation
 
-public struct MoviesEntity: Decodable {
-    init(movies: [Movie]) {
-        self.moviesArray = movies.map({ movie in
-            MovieEntity(from: movie)
-        })
+public struct MoviesEntity {
+    init(movieEntities: [MovieEntity]) {
+        self.moviesArray = movieEntities
     }
     var moviesArray: [MovieEntity]
     
@@ -31,7 +29,7 @@ public struct MoviesEntity: Decodable {
     }
 }
 
-public struct MovieEntity: Decodable {
+public struct MovieEntity {
     let id: Int
     let posterPath: String?
     let releaseDate: String
