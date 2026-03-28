@@ -36,7 +36,12 @@ public struct MovieDetailsEntity {
         self.runtime = movie.runtime
         self.overview = movie.overview
         self.similarMoviesList = movie.similar.results.map({ movie in
-            MovieEntity(from: movie)
+            MovieEntity(id: movie.id,
+                        posterPath: movie.poster_path,
+                        releaseDate: movie.release_date,
+                        title: movie.title,
+                        originalLanguage: movie.original_language,
+                        voteAverage: movie.vote_average)
         })
         self.productionCompanies = movie.production_companies.map({ productionCompany in
             ProductionCompanyEntity(name: productionCompany.name,

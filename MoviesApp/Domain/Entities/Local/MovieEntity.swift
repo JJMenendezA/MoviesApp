@@ -9,10 +9,11 @@
 import Foundation
 
 public struct MoviesEntity {
-    init(movieEntities: [MovieEntity]) {
+    var moviesArray: [MovieEntity]
+    
+    public init(movieEntities: [MovieEntity]) {
         self.moviesArray = movieEntities
     }
-    var moviesArray: [MovieEntity]
     
     // Computed properties
     var originalLanguagesSet: Set<String> {
@@ -37,22 +38,18 @@ public struct MovieEntity {
     let originalLanguage: String
     let voteAverage: Double
     
-    public init (from movie: Movie) {
-        self.id = movie.id
-        self.posterPath = movie.poster_path
-        self.releaseDate = movie.release_date
-        self.title = movie.title
-        self.originalLanguage = movie.original_language
-        self.voteAverage = movie.vote_average
-    }
-    
-    public init (from movie: MovieDetailsResponse) {
-        self.id = movie.id
-        self.posterPath = movie.poster_path
-        self.releaseDate = movie.releaseDateFormatted
-        self.title = movie.title
-        self.originalLanguage = movie.original_language
-        self.voteAverage = movie.vote_average
+    public init(id: Int,
+                posterPath: String?,
+                releaseDate: String,
+                title: String,
+                originalLanguage: String,
+                voteAverage: Double) {
+        self.id = id
+        self.posterPath = posterPath
+        self.releaseDate = releaseDate
+        self.title = title
+        self.originalLanguage = originalLanguage
+        self.voteAverage = voteAverage
     }
     
     // Computed properties
