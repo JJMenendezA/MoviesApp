@@ -13,7 +13,12 @@ class MockFetchMoviesUseCase: FetchMoviesUseCase {
         if shouldFail {
             throw AppError.noData
         } else {
-            return ["popular": MoviesEntity(movies: [dummyMovieResponse])]
+            return ["popular": MoviesEntity(movieEntities: [MovieEntity(id: dummyMovieResponse.id,
+                                                                        posterPath: dummyMovieResponse.poster_path,
+                                                                        releaseDate: dummyMovieResponse.release_date,
+                                                                        title: dummyMovieResponse.title,
+                                                                        originalLanguage: dummyMovieResponse.original_language,
+                                                                        voteAverage: dummyMovieResponse.vote_average)])]
         }
     }
 }

@@ -23,12 +23,33 @@ class FetchMoviesUseCaseImpl: FetchMoviesUseCase {
         rawData.forEach({ movie in
             switch movie.key {
             case MovieTypes.popular.title, MovieTypes.topRated.title:
-                mutableMoviesDictionary[movie.key] = MoviesEntity(movieEntities: movie.value.results.map({ MovieEntity(from: $0) }))
+                mutableMoviesDictionary[movie.key] = MoviesEntity(movieEntities: movie.value.results.map({ movie in
+                    MovieEntity(id: movie.id,
+                                posterPath: movie.poster_path,
+                                releaseDate: movie.release_date,
+                                title: movie.title,
+                                originalLanguage: movie.original_language,
+                                voteAverage: movie.vote_average)
+                }))
             case MovieTypes.nowPlaying.title:
-                mutableMoviesDictionary[movie.key] = MoviesEntity(movieEntities: movie.value.results.map({ MovieEntity(from: $0) })
+                mutableMoviesDictionary[movie.key] = MoviesEntity(movieEntities: movie.value.results.map({ movie in
+                    MovieEntity(id: movie.id,
+                                posterPath: movie.poster_path,
+                                releaseDate: movie.release_date,
+                                title: movie.title,
+                                originalLanguage: movie.original_language,
+                                voteAverage: movie.vote_average)
+                })
                     .sorted(by: { $0.releaseDate < $1.releaseDate }))
             case MovieTypes.upcoming.title:
-                mutableMoviesDictionary[movie.key] = MoviesEntity(movieEntities: movie.value.results.map({ MovieEntity(from: $0) })
+                mutableMoviesDictionary[movie.key] = MoviesEntity(movieEntities: movie.value.results.map({ movie in
+                    MovieEntity(id: movie.id,
+                                posterPath: movie.poster_path,
+                                releaseDate: movie.release_date,
+                                title: movie.title,
+                                originalLanguage: movie.original_language,
+                                voteAverage: movie.vote_average)
+                })
                     .filter({ $0.releaseDate > getTwoWeeksAgoDate()})
                     .sorted(by: { $0.releaseDate < $1.releaseDate }))
                 
