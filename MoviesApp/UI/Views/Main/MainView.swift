@@ -47,15 +47,13 @@ struct MainView: View {
         let fetchMovieUseCase: FetchMovieDetailsUseCase = FetchMovieDetailsImpl(repository: repository)
         let createLanguageArrayUseCase: CreateLanguageArrayUseCase = CreateLanguageArrayUseCaseImpl()
         let createDateArrayUseCase: CreateDateArrayUseCase = CreateDateArrayUseCaseImpl()
-        let filterMoviesByDateUseCase: FilterMoviesByDateUseCase = FilterMoviesByDateUseCaseImpl()
-        let filterMoviesByLanguageUseCase: FilterMoviesByLanguageUseCase = FilterMoviesByLanguageUseCaseImpl()
+        let filterMoviesUseCase: FilterMoviesUseCase = FilterMoviesUseCaseImpl()
         let searchMoviesByTitleUseCase: SearchMoviesByTitleUseCase = SearchMoviesByTitleUseCaseImpl()
         self._mainViewModel = StateObject(wrappedValue: MainViewModel(fetchMoviesUseCase: fetchMoviesUseCase,
                                                                       fetchMovieUseCase: fetchMovieUseCase,
                                                                       createLanguageArrayUseCase: createLanguageArrayUseCase,
                                                                       createDateArrayUseCase: createDateArrayUseCase,
-                                                                      filterMoviesByDateUseCase: filterMoviesByDateUseCase,
-                                                                      filterMoviesByLanguageUseCase: filterMoviesByLanguageUseCase,
+                                                                      filterMoviesUseCase: filterMoviesUseCase,
                                                                       searchMoviesByTitleUseCase: searchMoviesByTitleUseCase))
     }
     var body: some View {

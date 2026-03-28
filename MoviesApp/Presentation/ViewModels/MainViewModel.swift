@@ -28,22 +28,19 @@ class MainViewModel: ObservableObject {
     private let fetchMovieUseCase: FetchMovieDetailsUseCase
     private let createLanguageArrayUseCase: CreateLanguageArrayUseCase
     private let createDateArrayUseCase: CreateDateArrayUseCase
-    private let filterMoviesByDateUseCase: FilterMoviesByDateUseCase
-    private let filterMoviesByLanguageUseCase: FilterMoviesByLanguageUseCase
+    private let filterMoviesUseCase: FilterMoviesUseCase
     private let searchMoviesByTitleUseCase: SearchMoviesByTitleUseCase
     init(fetchMoviesUseCase: FetchMoviesUseCase,
          fetchMovieUseCase: FetchMovieDetailsUseCase,
          createLanguageArrayUseCase: CreateLanguageArrayUseCase,
          createDateArrayUseCase: CreateDateArrayUseCase,
-         filterMoviesByDateUseCase: FilterMoviesByDateUseCase,
-         filterMoviesByLanguageUseCase: FilterMoviesByLanguageUseCase,
+         filterMoviesUseCase: FilterMoviesUseCase,
          searchMoviesByTitleUseCase: SearchMoviesByTitleUseCase) {
         self.fetchMoviesUseCase = fetchMoviesUseCase
         self.fetchMovieUseCase = fetchMovieUseCase
         self.createLanguageArrayUseCase = createLanguageArrayUseCase
         self.createDateArrayUseCase = createDateArrayUseCase
-        self.filterMoviesByDateUseCase = filterMoviesByDateUseCase
-        self.filterMoviesByLanguageUseCase = filterMoviesByLanguageUseCase
+        self.filterMoviesUseCase = filterMoviesUseCase
         self.searchMoviesByTitleUseCase = searchMoviesByTitleUseCase
     }
     
@@ -86,7 +83,12 @@ class MainViewModel: ObservableObject {
     private func getRandomMovieTranslated(movieId: Int) async {
         do {
             let movieTranslated = try await fetchMovieUseCase.fetch(endPoint: MoviePathTypes.details(movieId: movieId).endpoint)
-            randomMovie = MovieEntity(from: movieTranslated)
+            randomMovie = MovieEntity(id: movieTranslated.id,
+                                      posterPath: movieTranslated.poster_path,
+                                      releaseDate: movieTranslated.release_date,
+                                      title: movieTranslated.title,
+                                      originalLanguage: movieTranslated.original_language,
+                                      voteAverage: movieTranslated.vote_average)
         } catch let error as AppError {
             triggerErrorAlert(appError: error)
         } catch {
@@ -101,6 +103,7 @@ class MainViewModel: ObservableObject {
     
     func setLanguageArray() {
         languagesArray = createLanguageArrayUseCase.create(moviesDictionary: moviesDictionary)
+        languagesArray.insert("All languages", at: 0)
     }
     
     func setDateArray() {
@@ -129,20 +132,12 @@ class MainViewModel: ObservableObject {
         
         guard filterParameters.areFiltersApplied else { return }
         
-        if filterParameters.language != "All languages" {
-            mutableMoviesDictionary = filterMoviesByLanguageUseCase.filter(moviesDictionary: mutableMoviesDictionary,
-                                                 language: filterParameters.language)
-        }
+        mutableMoviesDictionary =
+        filterMoviesUseCase.filter(moviesDictionary: mutableMoviesDictionary,
+                                   filterParameters: filterParameters,
+                                   startDate: releaseDatesArray.first,
+                                   endDate: releaseDatesArray.last)
         
-        if let firstDate = releaseDatesArray.first,
-           let lastDate = releaseDatesArray.last {
-            if filterParameters.startDate != firstDate ||
-                filterParameters.endDate != lastDate {
-                mutableMoviesDictionary = filterMoviesByDateUseCase.filter(moviesDictionary: mutableMoviesDictionary,
-                                                                           startDate: filterParameters.startDate,
-                                                                           endDate: filterParameters.endDate)
-            }
-        }
     }
     
     private func triggerErrorAlert(appError: AppError) {
