@@ -29,16 +29,19 @@ class MainViewModel: ObservableObject {
     private let createLanguageArrayUseCase: CreateLanguageArrayUseCase
     private let createDateArrayUseCase: CreateDateArrayUseCase
     private let filterMoviesByDateUseCase: FilterMoviesByDateUseCase
+    private let filterMoviesByLanguageUseCase: FilterMoviesByLanguageUseCase
     init(fetchMoviesUseCase: FetchMoviesUseCase,
          fetchMovieUseCase: FetchMovieDetailsUseCase,
          createLanguageArrayUseCase: CreateLanguageArrayUseCase,
          createDateArrayUseCase: CreateDateArrayUseCase,
-         filterMoviesByDateUseCase: FilterMoviesByDateUseCase) {
+         filterMoviesByDateUseCase: FilterMoviesByDateUseCase,
+         filterMoviesByLanguageUseCase: FilterMoviesByLanguageUseCase) {
         self.fetchMoviesUseCase = fetchMoviesUseCase
         self.fetchMovieUseCase = fetchMovieUseCase
         self.createLanguageArrayUseCase = createLanguageArrayUseCase
         self.createDateArrayUseCase = createDateArrayUseCase
         self.filterMoviesByDateUseCase = filterMoviesByDateUseCase
+        self.filterMoviesByLanguageUseCase = filterMoviesByLanguageUseCase
     }
     
     @MainActor
@@ -121,21 +124,14 @@ class MainViewModel: ObservableObject {
         })
     }
     
-    private func filterMoviesByLanguage() {
-        mutableMoviesDictionary.forEach({ movie in
-            mutableMoviesDictionary[movie.key]?.moviesArray = movie.value.moviesArray.filter({ movie in
-                movie.originalLanguage == filterParameters.language
-            })
-        })
-    }
-    
     func filterMovies() {
         setMutableMoviesDictionaryToDefaultValues()
         
         guard filterParameters.areFiltersApplied else { return }
         
         if filterParameters.language != "All languages" {
-            filterMoviesByLanguage()
+            mutableMoviesDictionary = filterMoviesByLanguageUseCase.filter(moviesDictionary: mutableMoviesDictionary,
+                                                 language: filterParameters.language)
         }
         
         if let firstDate = releaseDatesArray.first,
