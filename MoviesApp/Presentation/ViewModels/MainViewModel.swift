@@ -30,18 +30,21 @@ class MainViewModel: ObservableObject {
     private let createDateArrayUseCase: CreateDateArrayUseCase
     private let filterMoviesByDateUseCase: FilterMoviesByDateUseCase
     private let filterMoviesByLanguageUseCase: FilterMoviesByLanguageUseCase
+    private let searchMoviesByTitleUseCase: SearchMoviesByTitleUseCase
     init(fetchMoviesUseCase: FetchMoviesUseCase,
          fetchMovieUseCase: FetchMovieDetailsUseCase,
          createLanguageArrayUseCase: CreateLanguageArrayUseCase,
          createDateArrayUseCase: CreateDateArrayUseCase,
          filterMoviesByDateUseCase: FilterMoviesByDateUseCase,
-         filterMoviesByLanguageUseCase: FilterMoviesByLanguageUseCase) {
+         filterMoviesByLanguageUseCase: FilterMoviesByLanguageUseCase,
+         searchMoviesByTitleUseCase: SearchMoviesByTitleUseCase) {
         self.fetchMoviesUseCase = fetchMoviesUseCase
         self.fetchMovieUseCase = fetchMovieUseCase
         self.createLanguageArrayUseCase = createLanguageArrayUseCase
         self.createDateArrayUseCase = createDateArrayUseCase
         self.filterMoviesByDateUseCase = filterMoviesByDateUseCase
         self.filterMoviesByLanguageUseCase = filterMoviesByLanguageUseCase
+        self.searchMoviesByTitleUseCase = searchMoviesByTitleUseCase
     }
     
     @MainActor
@@ -117,11 +120,8 @@ class MainViewModel: ObservableObject {
             return
         }
         
-        moviesDictionary.forEach({ movie in
-            mutableMoviesDictionary[movie.key]?.moviesArray = movie.value.moviesArray.filter({ movie in
-                movie.title.localizedCaseInsensitiveContains(title)
-            })
-        })
+        mutableMoviesDictionary = searchMoviesByTitleUseCase.search(moviesDictionary: mutableMoviesDictionary,
+                                                                    title: title)
     }
     
     func filterMovies() {

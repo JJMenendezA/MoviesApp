@@ -49,12 +49,14 @@ struct MainView: View {
         let createDateArrayUseCase: CreateDateArrayUseCase = CreateDateArrayUseCaseImpl()
         let filterMoviesByDateUseCase: FilterMoviesByDateUseCase = FilterMoviesByDateUseCaseImpl()
         let filterMoviesByLanguageUseCase: FilterMoviesByLanguageUseCase = FilterMoviesByLanguageUseCaseImpl()
+        let searchMoviesByTitleUseCase: SearchMoviesByTitleUseCase = SearchMoviesByTitleUseCaseImpl()
         self._mainViewModel = StateObject(wrappedValue: MainViewModel(fetchMoviesUseCase: fetchMoviesUseCase,
                                                                       fetchMovieUseCase: fetchMovieUseCase,
                                                                       createLanguageArrayUseCase: createLanguageArrayUseCase,
                                                                       createDateArrayUseCase: createDateArrayUseCase,
                                                                       filterMoviesByDateUseCase: filterMoviesByDateUseCase,
-                                                                      filterMoviesByLanguageUseCase: filterMoviesByLanguageUseCase))
+                                                                      filterMoviesByLanguageUseCase: filterMoviesByLanguageUseCase,
+                                                                      searchMoviesByTitleUseCase: searchMoviesByTitleUseCase))
     }
     var body: some View {
         ZStack(alignment: .top) {
