@@ -13,7 +13,7 @@ protocol SearchMoviesByTitleUseCase {
 }
 
 class SearchMoviesByTitleUseCaseImpl: SearchMoviesByTitleUseCase {
-    func search(moviesDictionary: [String : MoviesEntity], title: String) -> [String: MoviesEntity] {
+    func search(moviesDictionary: [String: MoviesEntity], title: String) -> [String: MoviesEntity] {
         var mutableMoviesDictionary: [String: MoviesEntity] = moviesDictionary
         mutableMoviesDictionary.forEach({ movie in
             mutableMoviesDictionary[movie.key]?.moviesArray = movie.value.moviesArray.filter({ movie in
