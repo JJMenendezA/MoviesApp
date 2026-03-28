@@ -19,10 +19,6 @@ class CreateLanguageArrayUseCaseImpl: CreateLanguageArrayUseCase {
             languageSet.formUnion(movie.value.originalLanguagesSet)
         })
         
-        var sortedLanguageList = Array(languageSet).sorted()
-        
-        sortedLanguageList.insert("All languages", at: 0)
-        
-        return sortedLanguageList
+        return Array(languageSet).sorted()
     }
 }
