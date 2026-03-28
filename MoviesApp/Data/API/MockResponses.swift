@@ -28,7 +28,12 @@ let dummyMovieResponse: Movie = Movie(adult: false,
                                           vote_average: 6.863,
                                           vote_count: 1183)
 
-let dummyMovieEntity: MovieEntity = MovieEntity(from: dummyMovieResponse)
+let dummyMovieEntity: MovieEntity = MovieEntity(id: dummyMovieResponse.id,
+                                                posterPath: dummyMovieResponse.poster_path,
+                                                releaseDate: dummyMovieResponse.release_date,
+                                                title: dummyMovieResponse.title,
+                                                originalLanguage: dummyMovieResponse.original_language,
+                                                voteAverage: dummyMovieResponse.vote_average)
 
 let dummyDetailsMovieInfo: MovieDetailsResponse = MovieDetailsResponse(adult: Optional(false),
                                                        backdrop_path: Optional("/b3mdmjYTEL70j7nuXATUAD9qgu4.jpg"),
