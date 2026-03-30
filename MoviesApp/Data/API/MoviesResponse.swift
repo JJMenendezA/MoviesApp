@@ -9,14 +9,14 @@
 import Foundation
 
 public struct MoviesResponse: Decodable, Hashable {
-    let dates: Dates?
+    let dates: DatesResponse?
     let page: Int
-    let results: [Movie]
+    let results: [MovieResponse]
     let total_pages: Int
     let total_results: Int
 }
 
-public struct Movie: Decodable, Hashable {
+public struct MovieResponse: Decodable, Hashable {
     let adult: Bool
     let backdrop_path: String?
     let genre_ids: [Int]
@@ -33,7 +33,7 @@ public struct Movie: Decodable, Hashable {
     let vote_count: Int
 }
 
-struct Dates: Decodable, Hashable {
+struct DatesResponse: Decodable, Hashable {
     let maximum: String
     let minimum: String
 }
