@@ -9,7 +9,7 @@
 import SwiftUI
 
 class FilterParameters: ObservableObject {
-    private var defaultLanguage: String = "All languages"
+    let defaultLanguage: String = "All languages"
     private var defaultStartDate: Date = Date()
     private var defaultEndDate: Date = Date()
     
