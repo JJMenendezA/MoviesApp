@@ -13,8 +13,8 @@ struct MainComponentsCarousel: View {
     let timer = Timer.publish(every: 10.0, on: .main, in: .common).autoconnect()
     var body: some View {
         TabView(selection: $selectedIndex) {
-            ForEach(0..<announcementsList.count, id: \.self) { index in
-                MainComponentsCarouselItem(image: announcementsList[index])
+            ForEach(0..<announcementsArray.count, id: \.self) { index in
+                MainComponentsCarouselItem(image: announcementsArray[index])
                     .padding(.bottom, 40)
             }
         } // :TabView
@@ -29,7 +29,7 @@ struct MainComponentsCarousel: View {
         // Autoscrolling logic
         .onReceive(timer) { _ in
             withAnimation(.default) {
-                selectedIndex = (selectedIndex + 1) % announcementsList.count
+                selectedIndex = (selectedIndex + 1) % announcementsArray.count
             }
         }
     }
