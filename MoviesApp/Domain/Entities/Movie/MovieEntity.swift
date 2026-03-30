@@ -51,33 +51,4 @@ public struct MovieEntity: Movie {
         self.originalLanguage = originalLanguage
         self.voteAverage = voteAverage
     }
-    
-    // Computed properties
-    var stars: Int {
-        Int(voteAverage.rounded(.down))/2
-    }
-    
-    var hasHalfStar: Bool {
-        voteAverage.truncatingRemainder(dividingBy: 1) >= 0.5
-    }
-    
-    var releaseDateFormatted: String {
-        if releaseDate.isEmpty {
-            return releaseDate
-        } else {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            
-            let dateFormatted = dateFormatter.date(from: releaseDate)
-            
-            let outputDate = DateFormatter()
-            outputDate.dateFormat = "dd MMM yyyy"
-            
-            return outputDate.string(from: dateFormatted ?? Date())
-        }
-    }
-    
-    var originalLanguageComplete: String {
-        Locale.current.localizedString(forLanguageCode: originalLanguage) ?? originalLanguage
-    }
 }
