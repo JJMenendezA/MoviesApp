@@ -11,18 +11,16 @@ import Foundation
 protocol FilterMoviesUseCase {
     func filter(moviesDictionary: [String: MoviesEntity],
                 filterParameters: FilterParameters,
-                startDate: Date?,
-                endDate: Date?) -> [String: MoviesEntity]
+                releaseDateArray: [Date]) -> [String: MoviesEntity]
 }
 
 class FilterMoviesUseCaseImpl: FilterMoviesUseCase {
     func filter(moviesDictionary: [String: MoviesEntity],
                 filterParameters: FilterParameters,
-                startDate: Date?,
-                endDate: Date?) -> [String: MoviesEntity] {
+                releaseDateArray: [Date]) -> [String: MoviesEntity] {
         var mutableMoviesDictionary: [String: MoviesEntity] = moviesDictionary
         
-        if filterParameters.language != "All languages" {
+        if filterParameters.language != filterParameters.defaultLanguage {
             mutableMoviesDictionary.forEach({ movie in
                 mutableMoviesDictionary[movie.key]?.moviesArray = movie.value.moviesArray.filter({ movie in
                     movie.originalLanguage == filterParameters.language
@@ -30,8 +28,8 @@ class FilterMoviesUseCaseImpl: FilterMoviesUseCase {
             })
         }
         
-        if let firstDate = startDate,
-           let lastDate = endDate {
+        if let firstDate = releaseDateArray.first,
+           let lastDate = releaseDateArray.last {
             if filterParameters.startDate != firstDate ||
                 filterParameters.endDate != lastDate {
                 let dateFormatter = DateFormatter()
