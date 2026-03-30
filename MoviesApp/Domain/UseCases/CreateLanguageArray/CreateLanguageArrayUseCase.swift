@@ -9,16 +9,19 @@
 import Foundation
 
 protocol CreateLanguageArrayUseCase {
-    func create(moviesDictionary: [String: MoviesEntity]) -> [String]
+    func create(moviesDictionary: [String: MoviesEntity], defaultLanguageValue: String) -> [String]
 }
 
 class CreateLanguageArrayUseCaseImpl: CreateLanguageArrayUseCase {
-    func create(moviesDictionary: [String: MoviesEntity]) -> [String] {
+    func create(moviesDictionary: [String: MoviesEntity], defaultLanguageValue: String) -> [String] {
         var languageSet: Set<String> = []
         moviesDictionary.forEach({ movie in
             languageSet.formUnion(movie.value.originalLanguagesSet)
         })
         
-        return Array(languageSet).sorted()
+        var languageArray = Array(languageSet).sorted()
+        languageArray.insert(defaultLanguageValue, at: 0)
+        
+        return languageArray
     }
 }
