@@ -11,7 +11,7 @@ import Foundation
 protocol MoviesService {
     func fetchAllMovies() async throws -> [String: MoviesResponse]
     func fetchMovies(endpoint: String) async throws -> MoviesResponse
-    func fecthMovieDetails(endPoint: String) async throws -> MovieDetailsResponse
+    func fetchMovieDetails(endPoint: String) async throws -> MovieDetailsResponse
 }
 
 class MoviesServiceImpl: MoviesService {
@@ -43,7 +43,7 @@ class MoviesServiceImpl: MoviesService {
         response: MoviesResponse.self)
     }
     
-    func fecthMovieDetails(endPoint: String) async throws -> MovieDetailsResponse {
+    func fetchMovieDetails(endPoint: String) async throws -> MovieDetailsResponse {
         let currentLanguage = await MainActor.run { languageProvider() }
         return try await networkManager.getMoviesRequest(endpoint: endPoint,
                                                   queryItems: [URLQueryItem(name: "append_to_response",
