@@ -41,4 +41,8 @@ extension Movie {
     var hasHalfStar: Bool {
         voteAverage.truncatingRemainder(dividingBy: 1) >= 0.5
     }
+    
+    var originalLanguageComplete: String {
+        Locale.current.localizedString(forLanguageCode: originalLanguage) ?? originalLanguage
+    }
 }
