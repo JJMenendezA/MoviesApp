@@ -26,9 +26,7 @@ class DetailsViewModel: ObservableObject {
     func fetchMovieDetails(movieId: Int) async {
         isLoading = true
         do {
-            movieDetails = try await MovieDetailsEntity(from:
-                                                            fetchMovieDetailsUseCase.fetch(endPoint:
-                                                                                            MoviePathTypes.details(movieId: movieId).endpoint))
+            movieDetails = try await fetchMovieDetailsUseCase.fetch(endPoint: MoviePathTypes.details(movieId: movieId).endpoint)
             isLoading = false
         } catch let error as AppError {
             self.error = error
