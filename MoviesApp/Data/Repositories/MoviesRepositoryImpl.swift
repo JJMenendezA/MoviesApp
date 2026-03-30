@@ -1,15 +1,10 @@
 //
-//  MoviesRepository.swift
+//  MoviesRepositoryImpl.swift
 //  MoviesApp
 //
 //  Created by Juan José Menéndez Alarcón on 25/05/25.
 //  Copyright © 2025 Juan José Menéndez Alarcón. All rights reserved.
 //
-
-protocol MoviesRepository {
-    func fetchMovies() async throws -> [String: MoviesEntity]
-    func fetchDetails(endPoint: String) async throws -> MovieDetailsEntity
-}
 
 class MoviesRepositoryImpl: MoviesRepository {
     private let moviesService: MoviesService
