@@ -19,40 +19,20 @@ class FetchMoviesUseCaseImpl: FetchMoviesUseCase {
     
     func fetch() async throws -> [String: MoviesEntity] {
         let rawData = try await repository.fetchMovies()
-        var mutableMoviesDictionary: [String: MoviesEntity] = [:]
+        var mutableMoviesDictionary: [String: MoviesEntity] = rawData
         rawData.forEach({ movie in
             switch movie.key {
-            case MovieTypes.popular.title, MovieTypes.topRated.title:
-                mutableMoviesDictionary[movie.key] = MoviesEntity(movieEntities: movie.value.results.map({ movie in
-                    MovieEntity(id: movie.id,
-                                posterPath: movie.poster_path,
-                                releaseDate: movie.release_date,
-                                title: movie.title,
-                                originalLanguage: movie.original_language,
-                                voteAverage: movie.vote_average)
-                }))
             case MovieTypes.nowPlaying.title:
-                mutableMoviesDictionary[movie.key] = MoviesEntity(movieEntities: movie.value.results.map({ movie in
-                    MovieEntity(id: movie.id,
-                                posterPath: movie.poster_path,
-                                releaseDate: movie.release_date,
-                                title: movie.title,
-                                originalLanguage: movie.original_language,
-                                voteAverage: movie.vote_average)
-                })
-                    .sorted(by: { $0.releaseDate < $1.releaseDate }))
+                if let moviesArray = mutableMoviesDictionary[movie.key]?.moviesArray {
+                    mutableMoviesDictionary[movie.key]?.moviesArray = moviesArray
+                        .sorted(by: { $0.releaseDate < $1.releaseDate })
+                }
             case MovieTypes.upcoming.title:
-                mutableMoviesDictionary[movie.key] = MoviesEntity(movieEntities: movie.value.results.map({ movie in
-                    MovieEntity(id: movie.id,
-                                posterPath: movie.poster_path,
-                                releaseDate: movie.release_date,
-                                title: movie.title,
-                                originalLanguage: movie.original_language,
-                                voteAverage: movie.vote_average)
-                })
-                    .filter({ $0.releaseDate > getTwoWeeksAgoDate()})
-                    .sorted(by: { $0.releaseDate < $1.releaseDate }))
-                
+                if let moviesArray = mutableMoviesDictionary[movie.key]?.moviesArray {
+                    mutableMoviesDictionary[movie.key]?.moviesArray = moviesArray
+                        .filter({ $0.releaseDate > getTwoWeeksAgoDate()})
+                        .sorted(by: { $0.releaseDate < $1.releaseDate })
+                }
             default:
                 break
             }
