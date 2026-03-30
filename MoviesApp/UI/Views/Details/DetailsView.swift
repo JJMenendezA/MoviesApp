@@ -40,7 +40,7 @@ struct DetailsView: View {
                         ScrollView {
                             LazyVStack {
                                 // MARK: - IMAGE AND TAGLINE SECTION
-                                DetailsComponentsImageAndTagline(arrayImagePaths: [movie.moviePoster, movie.alternativeImage],
+                                DetailsComponentsImageAndTagline(arrayImagePaths: [movie.posterPath, movie.alternativeImage],
                                                                 txtTagline: movie.tagline)
                                 
                                 DetailsComponentsRow(content: {
@@ -60,8 +60,8 @@ struct DetailsView: View {
                                     DetailsComponentsItem(title: "Language",
                                                           caption: LocalizedStringResource(stringLiteral:
                                                                                             (appSettings.locale.localizedString(
-                                                                                                forLanguageCode: movie.language)
-                                                                                             ?? movie.language)
+                                                                                                forLanguageCode: movie.originalLanguage)
+                                                                                             ?? movie.originalLanguage)
                                                                                                 .capitalized))
                                     DetailsComponentsItem(title: "Original title",
                                                           caption: LocalizedStringResource(stringLiteral: movie.title))
