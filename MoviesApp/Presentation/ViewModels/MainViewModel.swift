@@ -12,7 +12,7 @@ import SwiftUI
 class MainViewModel: ObservableObject {
     private var moviesDictionary: [String: MoviesEntity] = [:]
     @Published var mutableMoviesDictionary: [String: MoviesEntity] = [:]
-    var randomMovie: MovieEntity?
+    var randomMovie: Movie?
     
     @Published var error: AppError?
     @Published var hasErrorBeenTriggered: Bool = false
@@ -82,13 +82,7 @@ class MainViewModel: ObservableObject {
     
     private func getRandomMovieTranslated(movieId: Int) async {
         do {
-            let movieTranslated = try await fetchMovieUseCase.fetch(endPoint: MoviePathTypes.details(movieId: movieId).endpoint)
-            randomMovie = MovieEntity(id: movieTranslated.id,
-                                      posterPath: movieTranslated.poster_path,
-                                      releaseDate: movieTranslated.release_date,
-                                      title: movieTranslated.title,
-                                      originalLanguage: movieTranslated.original_language,
-                                      voteAverage: movieTranslated.vote_average)
+            randomMovie = try await fetchMovieUseCase.fetch(endPoint: MoviePathTypes.details(movieId: movieId).endpoint)
         } catch let error as AppError {
             triggerErrorAlert(appError: error)
         } catch {
@@ -103,7 +97,7 @@ class MainViewModel: ObservableObject {
     
     func setLanguageArray() {
         languagesArray = createLanguageArrayUseCase.create(moviesDictionary: moviesDictionary)
-        languagesArray.insert("All languages", at: 0)
+        languagesArray.insert(filterParameters.defaultLanguage, at: 0)
     }
     
     func setDateArray() {
@@ -135,8 +129,7 @@ class MainViewModel: ObservableObject {
         mutableMoviesDictionary =
         filterMoviesUseCase.filter(moviesDictionary: mutableMoviesDictionary,
                                    filterParameters: filterParameters,
-                                   startDate: releaseDatesArray.first,
-                                   endDate: releaseDatesArray.last)
+                                   releaseDateArray: releaseDatesArray)
         
     }
     
