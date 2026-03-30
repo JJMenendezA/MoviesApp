@@ -10,15 +10,17 @@ import Foundation
 
 protocol FilterMoviesUseCase {
     func filter(moviesDictionary: [String: MoviesEntity],
-                filterParameters: FilterParameters,
-                releaseDateArray: [Date]) -> [String: MoviesEntity]
+                filterParameters: FilterParameters) -> [String: MoviesEntity]
 }
 
 class FilterMoviesUseCaseImpl: FilterMoviesUseCase {
     func filter(moviesDictionary: [String: MoviesEntity],
-                filterParameters: FilterParameters,
-                releaseDateArray: [Date]) -> [String: MoviesEntity] {
+                filterParameters: FilterParameters) -> [String: MoviesEntity] {
         var mutableMoviesDictionary: [String: MoviesEntity] = moviesDictionary
+        
+        let releaseDateArray: [Date] = moviesDictionary.values
+            .flatMap({ $0.releaseDatesSet })
+            .sorted()
         
         if filterParameters.language != filterParameters.defaultLanguage {
             mutableMoviesDictionary.forEach({ movie in

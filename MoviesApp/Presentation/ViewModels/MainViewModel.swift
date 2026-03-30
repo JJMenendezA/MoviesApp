@@ -128,8 +128,7 @@ class MainViewModel: ObservableObject {
         
         mutableMoviesDictionary =
         filterMoviesUseCase.filter(moviesDictionary: mutableMoviesDictionary,
-                                   filterParameters: filterParameters,
-                                   releaseDateArray: releaseDatesArray)
+                                   filterParameters: filterParameters)
         
     }
     
