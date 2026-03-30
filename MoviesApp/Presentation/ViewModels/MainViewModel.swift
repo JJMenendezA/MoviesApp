@@ -96,8 +96,7 @@ class MainViewModel: ObservableObject {
     }
     
     func setLanguageArray() {
-        languagesArray = createLanguageArrayUseCase.create(moviesDictionary: moviesDictionary)
-        languagesArray.insert(filterParameters.defaultLanguage, at: 0)
+        languagesArray = createLanguageArrayUseCase.create(moviesDictionary: moviesDictionary, defaultLanguageValue: filterParameters.defaultLanguage)
     }
     
     func setDateArray() {
@@ -105,8 +104,8 @@ class MainViewModel: ObservableObject {
     }
     
     func setDefaultDateVariables() {
-        if let startDate = releaseDatesArray.sorted().first,
-           let endDate = releaseDatesArray.sorted().last {
+        if let startDate = releaseDatesArray.first,
+           let endDate = releaseDatesArray.last {
             filterParameters.setDefaultValues(startDate: startDate, endDate: endDate)
         }
     }
