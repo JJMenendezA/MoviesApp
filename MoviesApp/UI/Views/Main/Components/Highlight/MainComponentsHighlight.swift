@@ -10,7 +10,7 @@ import Kingfisher
 
 struct MainComponentsHighlight: View {
     @EnvironmentObject var router: Router
-    var movie: MovieEntity
+    var movie: Movie
     var body: some View {
         ZStack {
             if let moviePosterPath = movie.posterPath,
