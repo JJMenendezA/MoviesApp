@@ -30,7 +30,7 @@ public struct MoviesEntity {
     }
 }
 
-public struct MovieEntity {
+public struct MovieEntity: Movie {
     let id: Int
     let posterPath: String?
     let releaseDate: String
