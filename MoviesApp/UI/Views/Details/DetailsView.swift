@@ -46,7 +46,7 @@ struct DetailsView: View {
                                 DetailsComponentsRow(content: {
                                     DetailsComponentsItem(title: "Release date",
                                                          caption: movie.releaseDate.isEmpty ?
-                                                          "No date available." : LocalizedStringResource(stringLiteral: movie.releaseDate))
+                                                          "No date available." : LocalizedStringResource(stringLiteral: movie.releaseDateFormatted))
                                     
                                     VStack {
                                         SharedComponentsSubtitle(text: "Vote average")
