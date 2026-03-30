@@ -82,7 +82,7 @@ class MainViewModel: ObservableObject {
     
     private func getRandomMovieTranslated(movieId: Int) async {
         do {
-            randomMovie = try await fetchMovieUseCase.fetch(endPoint: MoviePathTypes.details(movieId: movieId).endpoint)
+            randomMovie = try await fetchMovieUseCase.fetch(endPoint: MoviePaths.details(movieId: movieId).endpoint)
         } catch let error as AppError {
             triggerErrorAlert(appError: error)
         } catch {
