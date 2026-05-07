@@ -90,45 +90,10 @@ struct DetailsView: View {
                                     ScrollView(.horizontal) {
                                         LazyHStack {
                                             ForEach(movie.productionCompanies, id: \.self) { productionCompany in
-                                                if let logoPath = productionCompany.logoPath,
-                                                   let movieImageURL = URL(string: "https://image.tmdb.org/t/p/w500") {
-                                                    Button(action: {
-                                                        if !hasToastBeenTriggered {
-                                                            productionCompanyName = productionCompany.name
-                                                            withAnimation {
-                                                                hasToastBeenTriggered = true
-                                                            }
-                                                        } else {
-                                                            if productionCompanyName != productionCompany.name {
-                                                                productionCompanyName = productionCompany.name
-                                                                scheduleToastDismissal()
-                                                            }
-                                                        }
-                                                    }, label: {
-                                                        KFImage(movieImageURL.appendingPathComponent(logoPath))
-                                                            .resizable()
-                                                            .frame(width: 100, height: 50)
-                                                            .padding()
-                                                            .background {
-                                                                RoundedRectangle(cornerRadius: 10)
-                                                                    .fill(customLinearGradient(colors: [.black, .white]).opacity(0.5))
-                                                            }
-                                                    })
-                                                } else {
-                                                    VStack {
-                                                        Text(productionCompany.name)
-                                                            .minimumScaleFactor(0.2)
-                                                            .multilineTextAlignment(.center)
-                                                            .foregroundStyle(.white)
-                                                    } // :VStack
-                                                    .frame(width: 100, height: 50)
-                                                    .foregroundStyle(.black)
-                                                    .padding()
-                                                    .background {
-                                                        RoundedRectangle(cornerRadius: 10)
-                                                            .fill(customLinearGradient(colors: [.black, .white]).opacity(0.5))
-                                                    }
-                                                }
+                                                DetailsComponentProductionCompany(productionCompanyName: $productionCompanyName,
+                                                                                  hasToastBeenTriggered: $hasToastBeenTriggered,
+                                                                                  productionCompany: productionCompany,
+                                                                                  action: { scheduleToastDismissal() })
                                             }
                                         } // :HStack
                                     } // :ScrollView
