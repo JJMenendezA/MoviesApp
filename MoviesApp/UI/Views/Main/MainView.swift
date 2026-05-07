@@ -108,7 +108,7 @@ struct MainView: View {
                             if let topRatedList = mainViewModel.mutableMoviesDictionary[MovieTypes.topRated.title] {
                                 if !topRatedList.moviesArray.isEmpty {
                                     MainComponentsList(title: "Top rated",
-                                                       movies: topRatedList.moviesArray.sorted(by: { $0.voteAverage > $1.voteAverage }))
+                                                       movies: topRatedList.moviesArray)
                                 }
                             }
                             

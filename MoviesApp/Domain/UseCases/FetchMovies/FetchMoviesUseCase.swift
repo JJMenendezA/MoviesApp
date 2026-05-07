@@ -33,6 +33,11 @@ class FetchMoviesUseCaseImpl: FetchMoviesUseCase {
                         .filter({ $0.releaseDate > getTwoWeeksAgoDate()})
                         .sorted(by: { $0.releaseDate < $1.releaseDate })
                 }
+            case MovieTypes.topRated.title:
+                if let moviesArray = mutableMoviesDictionary[movie.key]?.moviesArray {
+                    mutableMoviesDictionary[movie.key]?.moviesArray = moviesArray
+                        .sorted(by: { $0.voteAverage > $1.voteAverage })
+                }
             default:
                 break
             }

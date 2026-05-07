@@ -169,5 +169,9 @@ struct FiltersSheet: View {
 #Preview {
     FiltersSheet(isSheetActive: .constant(true),
                       mainViewModel: MainViewModel(fetchMoviesUseCase: MockFetchMoviesUseCase(),
-                                                   fetchMovieUseCase: MockFetchMovieDetailsUseCase()))
+                                                   fetchMovieUseCase: MockFetchMovieDetailsUseCase(),
+                                                   createLanguageArrayUseCase: CreateLanguageArrayUseCaseImpl(),
+                                                   createDateArrayUseCase: CreateDateArrayUseCaseImpl(),
+                                                   filterMoviesUseCase: FilterMoviesUseCaseImpl(),
+                                                   searchMoviesByTitleUseCase: SearchMoviesByTitleUseCaseImpl()))
 }
