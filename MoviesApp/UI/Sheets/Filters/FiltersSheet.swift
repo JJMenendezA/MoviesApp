@@ -12,7 +12,9 @@ struct FiltersSheet: View {
     @State var language: String = "All languages"
     @State var startDate: Date = Date()
     @State var endDate: Date = Date()
-    @ObservedObject var mainViewModel: MainViewModel
+    var languagesArray: [String]
+    var releaseDatesArray: [Date]
+    @Binding var filterParameters: FilterParameters
     @EnvironmentObject var appSettings: AppSettings
     var body: some View {
         ZStack {
@@ -46,10 +48,10 @@ struct FiltersSheet: View {
                         Spacer()
                         
                         Menu {
-                            ForEach(mainViewModel.languagesArray, id: \.self) { optionLanguage in
+                            ForEach(languagesArray, id: \.self) { optionLanguage in
                                 Button(action: ({ language = optionLanguage })) {
                                     HStack {
-                                      createLanguageText(code: optionLanguage)
+                                        createLanguageText(code: optionLanguage)
                                         if language == optionLanguage {
                                             Image(systemName: "checkmark")
                                         }
@@ -70,8 +72,8 @@ struct FiltersSheet: View {
                     } // :HStack
                     .padding(.vertical)
                     
-                    if let firstElement = mainViewModel.releaseDatesArray.first,
-                       let lastElement = mainViewModel.releaseDatesArray.last {
+                    if let firstElement = releaseDatesArray.first,
+                       let lastElement = releaseDatesArray.last {
                         
                         if firstElement <= endDate {
                             HStack {
@@ -104,10 +106,10 @@ struct FiltersSheet: View {
                                            selection: $endDate,
                                            in: startDate...lastElement,
                                            displayedComponents: .date)
-                                    .labelsHidden()
-                                    .tint(.purple700)
-                                    .padding(.trailing)
-                                    .colorScheme(.dark)
+                                .labelsHidden()
+                                .tint(.purple700)
+                                .padding(.trailing)
+                                .colorScheme(.dark)
                             } // :HStack
                             .padding(.vertical)
                         }
@@ -116,32 +118,32 @@ struct FiltersSheet: View {
                 } // :ScrollView
                 
                 HStack {
-                    if mainViewModel.filterParameters.areFiltersApplied {
+                    if filterParameters.areFiltersApplied {
                         SharedComponentsButton(text: "Clean Filters",
-                                        colorGradient: customLinearGradient(colors: [.pink700, .pink900]),
-                                        shape: .capsule,
-                                        fontWeight: .bold) {
+                                               colorGradient: customLinearGradient(colors: [.pink700, .pink900]),
+                                               shape: .capsule,
+                                               fontWeight: .bold) {
                             withAnimation {
                                 isSheetActive = false
-                                mainViewModel.filterParameters.cleanFilters()
+                                filterParameters.cleanFilters()
                             }
                         }
-                        .padding(.horizontal, 5)
+                                               .padding(.horizontal, 5)
                         
                     }
                     
                     SharedComponentsButton(text: "Ready",
-                                    colorGradient: customLinearGradient(colors: [.purple700, .purple900]),
-                                    shape: .capsule,
-                                    fontWeight: .bold) {
+                                           colorGradient: customLinearGradient(colors: [.purple700, .purple900]),
+                                           shape: .capsule,
+                                           fontWeight: .bold) {
                         withAnimation {
-                            mainViewModel.filterParameters.language = self.language
-                            mainViewModel.filterParameters.startDate = self.startDate
-                            mainViewModel.filterParameters.endDate = self.endDate
+                            filterParameters.language = self.language
+                            filterParameters.startDate = self.startDate
+                            filterParameters.endDate = self.endDate
                             isSheetActive = false
                         }
                     }
-                    .padding(.horizontal, 5)
+                                           .padding(.horizontal, 5)
                     
                 } // :HStack
                 .padding(.horizontal)
@@ -152,15 +154,15 @@ struct FiltersSheet: View {
             .background(.gray900)
         } // :ZStack
         .onAppear {
-            language = mainViewModel.filterParameters.language
-            endDate = mainViewModel.filterParameters.endDate
-            startDate = mainViewModel.filterParameters.startDate
+            language = filterParameters.language
+            endDate = filterParameters.endDate
+            startDate = filterParameters.startDate
         }
     }
-
+    
     private func createLanguageText(code: String) -> some View {
-        if code == mainViewModel.filterParameters.defaultLanguage {
-            return Text(mainViewModel.filterParameters.defaultLanguage)
+        if code == filterParameters.defaultLanguage {
+            return Text(filterParameters.defaultLanguage)
         }
         return Text((appSettings.locale.localizedString(forLanguageCode: code) ?? code).capitalized)
     }
@@ -168,10 +170,7 @@ struct FiltersSheet: View {
 
 #Preview {
     FiltersSheet(isSheetActive: .constant(true),
-                      mainViewModel: MainViewModel(fetchMoviesUseCase: MockFetchMoviesUseCase(),
-                                                   fetchMovieUseCase: MockFetchMovieDetailsUseCase(),
-                                                   createLanguageArrayUseCase: CreateLanguageArrayUseCaseImpl(),
-                                                   createDateArrayUseCase: CreateDateArrayUseCaseImpl(),
-                                                   filterMoviesUseCase: FilterMoviesUseCaseImpl(),
-                                                   searchMoviesByTitleUseCase: SearchMoviesByTitleUseCaseImpl()))
+                 languagesArray: [],
+                 releaseDatesArray: [],
+                 filterParameters: .constant(FilterParameters()))
 }

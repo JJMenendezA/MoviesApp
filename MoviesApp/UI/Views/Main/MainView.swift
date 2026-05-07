@@ -189,8 +189,11 @@ struct MainView: View {
         .ignoresSafeArea()
         .environmentObject(appSettings)
         .sheet(isPresented: $isBottomSheetActive) {
-            FiltersSheet(isSheetActive: $isBottomSheetActive, mainViewModel: mainViewModel)
-                .presentationDetents([.height(400)])
+            FiltersSheet(isSheetActive: $isBottomSheetActive,
+                         languagesArray: mainViewModel.languagesArray,
+                         releaseDatesArray: mainViewModel.releaseDatesArray,
+                         filterParameters: $mainViewModel.filterParameters)
+            .presentationDetents([.height(400)])
         }
         .alert(isPresented: $mainViewModel.hasErrorBeenTriggered) {
             Alert(title: Text("Error"),
