@@ -104,38 +104,8 @@ struct MainView: View {
                                     .id("SearchView")
                             }
                             
-                            // MARK: - TOP RATED MOVIES SECTION
-                            if let topRatedList = mainViewModel.mutableMoviesDictionary[MovieTypes.topRated.title] {
-                                if !topRatedList.moviesArray.isEmpty {
-                                    MainComponentsList(title: "Top rated",
-                                                       movies: topRatedList.moviesArray)
-                                }
-                            }
-                            
-                            // MARK: - NOW PLAYING MOVIES SECTION
-                            if let nowPlayingList = mainViewModel.mutableMoviesDictionary[MovieTypes.nowPlaying.title] {
-                                if !nowPlayingList.moviesArray.isEmpty {
-                                    MainComponentsList(title: "Now playing",
-                                                       movies: nowPlayingList.moviesArray)
-                                }
-                            }
-                            
-                            // MARK: - POPULAR MOVIES SECTION
-                            if let popularList = mainViewModel.mutableMoviesDictionary[MovieTypes.popular.title] {
-                                if !popularList.moviesArray.isEmpty {
-                                    MainComponentsList(title: "Popular",
-                                                       movies: popularList.moviesArray)
-                                }
-                            }
-                            
-                            // MARK: - UPCOMING MOVIES SECTION
-                            if let upcomingList = mainViewModel.mutableMoviesDictionary[MovieTypes.upcoming.title] {
-                                if !upcomingList.moviesArray.isEmpty {
-                                    MainComponentsList(title: "Upcoming",
-                                                       movies: upcomingList.moviesArray,
-                                                       isUpcoming: true)
-                                }
-                            }
+                            // MARK: - MOVIES LISTS COMPONENT
+                            MainComponentsMoviesLists(mutableMoviesDictionary: mainViewModel.mutableMoviesDictionary)
                             
                             // MARK: - EMPTY RESULTS MESSAGE
                             if mainViewModel.mutableMoviesDictionary.values.filter({ !$0.moviesArray.isEmpty }).isEmpty {
