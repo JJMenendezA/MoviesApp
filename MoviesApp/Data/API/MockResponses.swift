@@ -6,7 +6,7 @@
 //  Copyright © 2025 Juan José Menéndez Alarcón. All rights reserved.
 //
 
-let dummyMovieResponse: Movie = Movie(adult: false,
+let dummyMovieResponse: MovieResponse = MovieResponse(adult: false,
                                           backdrop_path: Optional("/18TSJF1WLA4CkymvVUcKDBwUJ9F.jpg"),
                                           genre_ids: [27, 53],
                                           id: 1034541,
@@ -28,7 +28,12 @@ let dummyMovieResponse: Movie = Movie(adult: false,
                                           vote_average: 6.863,
                                           vote_count: 1183)
 
-let dummyMovieEntity: MovieEntity = MovieEntity(from: dummyMovieResponse)
+let dummyMovieEntity: MovieEntity = MovieEntity(id: dummyMovieResponse.id,
+                                                posterPath: dummyMovieResponse.poster_path,
+                                                releaseDate: dummyMovieResponse.release_date,
+                                                title: dummyMovieResponse.title,
+                                                originalLanguage: dummyMovieResponse.original_language,
+                                                voteAverage: dummyMovieResponse.vote_average)
 
 let dummyDetailsMovieInfo: MovieDetailsResponse = MovieDetailsResponse(adult: Optional(false),
                                                        backdrop_path: Optional("/b3mdmjYTEL70j7nuXATUAD9qgu4.jpg"),
@@ -180,7 +185,7 @@ let dummyDetailsMovieInfo: MovieDetailsResponse = MovieDetailsResponse(adult: Op
                                                        similar:
                                                         MoviesResponse(dates: nil,
                                                                page: 1, results: [
-                                                                Movie(adult: false,
+                                                                MovieResponse(adult: false,
                                                                           backdrop_path: nil,
                                                                           genre_ids: [16, 10751],
                                                                           id: 251996,

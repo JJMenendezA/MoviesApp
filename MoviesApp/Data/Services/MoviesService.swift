@@ -11,15 +11,17 @@ import Foundation
 protocol MoviesService {
     func fetchAllMovies() async throws -> [String: MoviesResponse]
     func fetchMovies(endpoint: String) async throws -> MoviesResponse
-    func fecthMovieDetails(endPoint: String) async throws -> MovieDetailsResponse
+    func fetchMovieDetails(endPoint: String) async throws -> MovieDetailsResponse
 }
 
 class MoviesServiceImpl: MoviesService {
     private let networkManager: NetworkManager
-    private let language: String = NSLocale.current.language.languageCode?.identifier ?? "en-US"
+    private let languageProvider: @MainActor () -> String
     
-    init(networkManager: NetworkManager = NetworkManager.shared) {
+    init(networkManager: NetworkManager = NetworkManager.shared,
+         languageProvider: @escaping @MainActor () -> String) {
         self.networkManager = networkManager
+        self.languageProvider = languageProvider
     }
     
     func fetchAllMovies() async throws -> [String: MoviesResponse] {
@@ -32,20 +34,22 @@ class MoviesServiceImpl: MoviesService {
     }
     
     func fetchMovies(endpoint: String)  async throws -> MoviesResponse {
-        try await networkManager.getMoviesRequest(endpoint: endpoint,
+        let currentLanguage = await MainActor.run { languageProvider() }
+        return try await networkManager.getMoviesRequest(endpoint: endpoint,
         queryItems: [URLQueryItem(name: "language",
-                                  value: language),
+                                  value: currentLanguage),
                      URLQueryItem(name: "page",
                                   value: "1")],
         response: MoviesResponse.self)
     }
     
-    func fecthMovieDetails(endPoint: String) async throws -> MovieDetailsResponse {
-        try await networkManager.getMoviesRequest(endpoint: endPoint,
+    func fetchMovieDetails(endPoint: String) async throws -> MovieDetailsResponse {
+        let currentLanguage = await MainActor.run { languageProvider() }
+        return try await networkManager.getMoviesRequest(endpoint: endPoint,
                                                   queryItems: [URLQueryItem(name: "append_to_response",
                                                                             value: "videos,similar"),
                                                                URLQueryItem(name: "language",
-                                                                            value: language)],
+                                                                            value: currentLanguage)],
                                                   response: MovieDetailsResponse.self)
     }
 }

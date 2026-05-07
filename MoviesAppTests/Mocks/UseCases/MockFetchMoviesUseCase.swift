@@ -9,15 +9,16 @@
 class MockFetchMoviesUseCase: FetchMoviesUseCase {
     var shouldFail: Bool = false
     
-    func fetch() async throws -> [String: MoviesResponse] {
+    func fetch() async throws -> [String: MoviesEntity] {
         if shouldFail {
             throw AppError.noData
         } else {
-            return ["popular": MoviesResponse(dates: nil,
-                                              page: 1,
-                                              results: [dummyMovieResponse],
-                                              total_pages: 5,
-                                              total_results: 100)]
+            return ["popular": MoviesEntity(movieEntities: [MovieEntity(id: dummyMovieResponse.id,
+                                                                        posterPath: dummyMovieResponse.poster_path,
+                                                                        releaseDate: dummyMovieResponse.release_date,
+                                                                        title: dummyMovieResponse.title,
+                                                                        originalLanguage: dummyMovieResponse.original_language,
+                                                                        voteAverage: dummyMovieResponse.vote_average)])]
         }
     }
 }

@@ -35,7 +35,7 @@ class MockMoviesService: MoviesService {
         }
     }
     
-    func fecthMovieDetails(endPoint: String) async throws -> MovieDetailsResponse {
+    func fetchMovieDetails(endPoint: String) async throws -> MovieDetailsResponse {
         if shouldFail {
             throw AppError.noData
         } else {

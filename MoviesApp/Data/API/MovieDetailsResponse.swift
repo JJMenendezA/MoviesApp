@@ -37,23 +37,6 @@ public struct MovieDetailsResponse: Decodable, Hashable {
     let vote_count: Int
     let videos: Videos
     let similar: MoviesResponse
-    
-    // Computed Properties
-    var releaseDateFormatted: String {
-        if release_date.isEmpty {
-            return release_date
-        } else {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            
-            let dateFormatted = dateFormatter.date(from: release_date)
-            
-            let outputDate = DateFormatter()
-            outputDate.dateFormat = "dd MMM yyyy"
-            
-            return outputDate.string(from: dateFormatted ?? Date())
-        }
-    }
 }
 
 struct Genre: Decodable, Hashable, Identifiable {

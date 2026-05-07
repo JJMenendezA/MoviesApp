@@ -11,10 +11,11 @@ import SwiftUI
 struct MoviesApp: App {
     @State private var showSplash = true
     @StateObject private var router: Router = Router()
+    @StateObject private var appSettings: AppSettings = AppSettings()
     var body: some Scene {
         WindowGroup {
             if showSplash {
-                SplashScreenView()
+                SplashView()
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             showSplash = false
@@ -22,14 +23,16 @@ struct MoviesApp: App {
                     }
             } else {
                 NavigationStack(path: $router.path) {
-                    MainScreenView()
+                    MainView(service: MoviesServiceImpl(languageProvider: { appSettings.selectedLanguage }))
                         .statusBar(hidden: true)
                         .navigationDestination(for: Routes.self,
                                                destination: { route in
-                            destinationViewBuilder(for: route)
+                            destinationViewBuilder(for: route, language: appSettings.selectedLanguage)
                         })
                 } // :NavigationStack
                 .environmentObject(router)
+                .environmentObject(appSettings)
+                .environment(\.locale, appSettings.locale) 
             }
         }
     }

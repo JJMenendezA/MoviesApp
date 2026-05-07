@@ -1,0 +1,54 @@
+//
+//  MovieEntity.swift
+//  MoviesApp
+//
+//  Created by Juan José Menéndez Alarcón on 23/03/25.
+//  Copyright © 2025 Juan José Menéndez Alarcón. All rights reserved.
+//
+
+import Foundation
+
+public struct MoviesEntity {
+    var moviesArray: [MovieEntity]
+    
+    public init(movieEntities: [MovieEntity]) {
+        self.moviesArray = movieEntities
+    }
+    
+    // Computed properties
+    var originalLanguagesSet: Set<String> {
+        Set(moviesArray.map({ $0.originalLanguage }))
+    }
+    
+    var releaseDatesSet: Set<Date> {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        return Set(moviesArray.map({
+            dateFormatter.date(from: $0.releaseDate) ?? Date()
+        }))
+    }
+}
+
+public struct MovieEntity: Movie {
+    let id: Int
+    let posterPath: String?
+    let releaseDate: String
+    let title: String
+    let originalLanguage: String
+    let voteAverage: Double
+    
+    public init(id: Int,
+                posterPath: String?,
+                releaseDate: String,
+                title: String,
+                originalLanguage: String,
+                voteAverage: Double) {
+        self.id = id
+        self.posterPath = posterPath
+        self.releaseDate = releaseDate
+        self.title = title
+        self.originalLanguage = originalLanguage
+        self.voteAverage = voteAverage
+    }
+}

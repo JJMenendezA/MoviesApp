@@ -1,6 +1,22 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%lld minutes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutes"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutos"
+          }
+        }
+      }
+    },
     "🤷‍♀️" : {
       "localizations" : {
         "en" : {
@@ -95,6 +111,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Última fecha de estreno:"
+          }
+        }
+      }
+    },
+    "English" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "English"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inglés"
           }
         }
       }
@@ -218,26 +250,16 @@
     },
     "Language:" : {
       "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Idioma:"
-          }
-        }
-      }
-    },
-    "minutes" : {
-      "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "minutes"
+            "value" : "Language:"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "minutos"
+            "value" : "Idioma:"
           }
         }
       }
@@ -410,6 +432,12 @@
     },
     "Production companies" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Production companies"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -601,6 +629,22 @@
         }
       }
     },
+    "Spanish" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spanish"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Español"
+          }
+        }
+      }
+    },
     "Starting release date:" : {
       "localizations" : {
         "en" : {
@@ -619,10 +663,33 @@
     },
     "Tap the poster to \nswitch the image" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the poster to switch the image"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Presiona el póster \npara cambiar la imagen"
+          }
+        }
+      }
+    },
+    "The language has changed to %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The language has changed to %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El idioma ha cambiado a %@"
           }
         }
       }
