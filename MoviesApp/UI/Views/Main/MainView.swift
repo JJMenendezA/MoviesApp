@@ -161,6 +161,7 @@ struct MainView: View {
                         geo.contentOffset.y
                     } action: { _, newValue in
                         yOffset = newValue
+                        backgroundHeaderColor = .black.opacity(newValue / 750)
                     }
                     .onChange(of: isSearchBarActive) {
                         if isSearchBarActive {
@@ -216,10 +217,6 @@ struct MainView: View {
             withAnimation {
                 mainViewModel.searchMoviesByTitle(title: searchText)
             }
-        }
-        .onChange(of: yOffset) {
-            // Header background color opacity changes depending on the y offset
-            backgroundHeaderColor = .black.opacity(yOffset/750)
         }
         .onChange(of: isUserDragging) {
             if isUserRefreshingMovies {
