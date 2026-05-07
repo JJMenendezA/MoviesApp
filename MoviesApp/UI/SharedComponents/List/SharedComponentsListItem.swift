@@ -16,6 +16,7 @@ struct SharedComponentsListItem: View {
     var body: some View {
         // MARK: - Movie Item
         Button(action: {
+            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
             router.navigateTo(.details(id: movie.id))
         }, label: {
             ZStack {
@@ -101,12 +102,6 @@ struct SharedComponentsListItem: View {
                 
             } // :ZStack
             .frame(width: 115, height: 165)
-            .simultaneousGesture(
-                TapGesture().onEnded {
-                    let generator = UIImpactFeedbackGenerator(style: .heavy)
-                    generator.impactOccurred()
-                }
-            )
         })
     }
 }
