@@ -159,8 +159,8 @@ struct FiltersSheet: View {
     }
 
     private func createLanguageText(code: String) -> some View {
-        if code == "All languages" || code == "Todos los idiomas" {
-            return Text("All languages")
+        if code == mainViewModel.filterParameters.defaultLanguage {
+            return Text(mainViewModel.filterParameters.defaultLanguage)
         }
         return Text((appSettings.locale.localizedString(forLanguageCode: code) ?? code).capitalized)
     }
